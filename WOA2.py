@@ -157,6 +157,7 @@ def seleccionarClan(personaje):
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
     print("-- Modo de selección --")
+    print("-- Selecciona tu objetivo --")
     print("1. Por clan.")
     print("2. Listar todos los personajes.")
     print("3. Atacar por titulo.")
@@ -221,6 +222,7 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
 
 def organizarTurno(lst_pjs):
     input("Se seleccionará al azar el turno de los personajes\n<ENTER PARA CONTINUAR> ")
+    limpiar_consola()
     turnos_ordenados = lst_pjs[:]
     random.shuffle(turnos_ordenados)
     
@@ -264,11 +266,13 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 #INICIO CÓDIGO PRINCIPAL
 
 cantidadJugadores = int(input("Cantidad de jugadores: "))
+limpiar_consola()
 for i in range(cantidadJugadores):
     if i == 0:
         mago = crearMago("Fundador")
         fundador = crearFundador(mago)
         crearClan(fundador)
+        limpiar_consola()
     else:
         print()
         print(f"Eligiendo la clase del jugador {i+1}/{cantidadJugadores}: ")
@@ -277,17 +281,20 @@ for i in range(cantidadJugadores):
         if opcionPersonaje == 1:
             guerrero = crearGuerrero("Guerrero")
             seleccionarClan(guerrero)
+            limpiar_consola()
         elif opcionPersonaje == 2:
             mago = crearMago("Mago")
             opcionCrearClan = int(input("Desea crear su propio clan?\n1. SI\n2. NO\nOpción: "))
             if opcionCrearClan == 1:
                 fundador = crearFundador(mago)
                 crearClan(fundador)
+                limpiar_consola()
             else:
                 seleccionarClan(mago)
         elif opcionPersonaje == 3:
             arquero = crearArquero("Arquero")
             seleccionarClan(arquero)
+            limpiar_consola()
 
 
 listarTodoElStaff()
@@ -306,25 +313,29 @@ for pj in turnos_ordenados:
     print("-- Elige una opción --")
     if pj.titulo == "Fundador":
         print("1. Atacar.")
-        print("2. Curar.")
+        print("2. Crear pociones. (NO IMPLEMENTADO)")
+        print("3. Entregar pociones. (NO IMPLEMENTADO)")
         opc = int(input("Opción: "))
         if opc == 1:
             pj.realizar_ataque(objetivo)
     elif pj.titulo == "Guerrero":
         print("1. Atacar.")
-        print("2. Defender.")
+        print("2. Defender. (NO IMPLEMENTADO)")
+        print("3. Danza espada. (NO IMPLEMENTADO)")
         opc = int(input("Opción: "))
         if opc == 1:
             pj.realizar_ataque(objetivo)
     elif pj.titulo == "Mago":
         print("1. Atacar.")
-        print("2. Crear potis.")
+        print("2. Curar. (NO IMPLEMENTADO)")
+        print("3. Meteorite storm ☄")
         opc = int(input("Opción: "))
         if opc == 1:
             pj.realizar_ataque(objetivo)
     elif pj.titulo == "Arquero":
         print("1. Atacar.")
-        print("2. Flechazo certero.")
+        print("2. Flechazo certero. (NO IMPLEMENTADO)")
+        print("3. arrow storm. (NO IMPLEMENTADO)")
         if opc == 1:
             pj.realizar_ataque(objetivo)
         opc = int(input("Opción: "))
