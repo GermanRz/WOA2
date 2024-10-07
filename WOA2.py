@@ -78,6 +78,13 @@ class Mago(Personaje):
         self.ataque = 90
         self.vida_original = self.puntos_vida
 
+    def dano_de_llamas(self, objetivo):
+        print(f"{self.nombre} lanza Daño de Llamas a {objetivo.nombre}!")
+        damage = self.ataque * 0.0005  # 0.05% del ataque
+        damage_redondeado = round(damage, 0)  # Redondeamos a 0 decimales para mejor visualización
+        objetivo.recibir_ataque(damage_redondeado)
+        print(f"{objetivo.nombre} recibe un daño extra de {damage_redondeado} por las llamas!")
+
 #***********************************************************************
 
 class Arquero(Personaje):
@@ -192,32 +199,40 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
                 return miembro
         return None
 
-    if opcion == 3:
+    elif opcion == 3:
         print("Titulo a listar")
         print("1. Fundadores")
         print("2. Magos")
         print("3. Guerreros")
         print("4. Arqueros")
-        tipo = int(input("Digite su opción: "))
-        if tipo == 1:
-            listaObjetivos = fundadores
-        elif tipo == 2:
-            listaObjetivos = magos
-        elif tipo == 3:
-            listaObjetivos = guerreros
-        elif tipo == 4:
-            listaObjetivos = arqueros
-        print("Personajes:")
-        for personaje in listaObjetivos:
-            print(personaje)
-        nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
-        for miembro in listaObjetivos:
-            if nombreObjetivo == miembro.nombre:
-                return miembro
-        return None
+        opcion_titulo = int(input("Digite su opción: "))
+        
+        if opcion_titulo == 1:
+            personajes = fundadores
+        elif opcion_titulo == 2:
+            personajes = magos
+        elif opcion_titulo == 3:
+            personajes = guerreros
+        elif opcion_titulo == 4:
+            personajes = arqueros
+        else:
+            print("Opción no válida")
+            return None
 
-    print("Opción no válida")
-    return None
+        print("Personajes:")
+        for personaje in personajes:
+            print(personaje.nombre)
+        
+        nombre_objetivo = input("Escriba el nombre de su objetivo: ").upper()
+        for personaje in personajes:
+            if personaje.nombre == nombre_objetivo:
+                return personaje
+        
+        print("Personaje no encontrado")
+        return None
+    else:
+        print("Opción no válida")
+        return None
 
 
 def organizarTurno(lst_pjs):
@@ -328,15 +343,17 @@ for pj in turnos_ordenados:
     elif pj.titulo == "Mago":
         print("1. Atacar.")
         print("2. Curar. (NO IMPLEMENTADO)")
-        print("3. Meteorite storm ☄")
+        print("3. Daño de Llamas")
         opc = int(input("Opción: "))
         if opc == 1:
             pj.realizar_ataque(objetivo)
+        elif opc == 3:
+            pj.dano_de_llamas(objetivo)
     elif pj.titulo == "Arquero":
         print("1. Atacar.")
         print("2. Flechazo certero. (NO IMPLEMENTADO)")
         print("3. arrow storm. (NO IMPLEMENTADO)")
+        opc = int(input("Opción: "))
         if opc == 1:
             pj.realizar_ataque(objetivo)
-        opc = int(input("Opción: "))
     print(objetivo)
