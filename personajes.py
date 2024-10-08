@@ -1,9 +1,10 @@
+import random
+from WOA2 import text_speed
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
         self.nombre = nombre
         self.titulo = titulo
-        #self.slot_pocion = slot_pocion = []
         self.clan = clan
 
     def asignar_clan(self, clan):
@@ -76,7 +77,18 @@ class Fundador(Mago):
         self.defensa = 110
         self.ataque = 110
         self.vida_original = self.puntos_vida
+        self.slot_pociones = {}
         print(f"{self.nombre} ha fundado un clan.")
+        
+    def crear_pociones(self):
+        cont_pociones = 0
+        cura_aleatoria = random.randint(5, 30)
+        if len(self.slot_pociones.keys) <= 3:
+            cont_pociones += 1
+            self.slot_pociones[cont_pociones] = cura_aleatoria
+            text_speed(f"{self.nombre} 🧙‍♂️ has created a new potion! Potion: ({self.slot_pociones.keys} 🥤| Healing: {self.slot_pociones.values} 💗)")
+        else:
+            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {self.slot_pociones.keys}")
         
 #***********************************************************************
 
