@@ -246,7 +246,7 @@ if __name__=="__main__":
         elif pj.titulo == "Mago":
             text_speed("1. Atacar.")
             text_speed("2. Curar. (NO IMPLEMENTADO)")
-            text_speed("3. Meteorite storm ☄")
+            text_speed("3. Ataque Doble")
             opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
