@@ -55,6 +55,11 @@ class Mago(Personaje):
         self.ataque = 90
         self.vida_original = self.puntos_vida
 
+def ataque_doble(self, objetivo):
+        print(f"{self.nombre} lanza Ataque Doble a {objetivo.nombre}!")
+        damage = self.ataque * 2  # Duplicamos el daño del ataque
+        objetivo.recibir_ataque(damage)
+        print(f"{objetivo.nombre} recibe un daño de {damage}!")
 #***********************************************************************
 
 class Arquero(Personaje):
