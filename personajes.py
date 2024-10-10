@@ -1,5 +1,6 @@
 import random
 from WOA2 import text_speed
+from WOA2 import lista_personajes
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -78,17 +79,36 @@ class Fundador(Mago):
         self.ataque = 110
         self.vida_original = self.puntos_vida
         self.slot_pociones = {}
-        print(f"{self.nombre} ha fundado un clan.")
+        text_speed(f"{self.nombre} ha fundado un clan.")
+        text_speed(f"Pociones: {dict(self.slot_pociones.items())}")
         
     def crear_pociones(self):
-        cont_pociones = 0
-        cura_aleatoria = random.randint(5, 30)
-        if len(self.slot_pociones.keys) <= 3:
-            cont_pociones += 1
+        cura_aleatoria = random.randint(10, 25)
+        if len(self.slot_pociones.keys()) < 3:
+            cont_pociones = len(self.slot_pociones.keys()) + 1
             self.slot_pociones[cont_pociones] = cura_aleatoria
-            text_speed(f"{self.nombre} 🧙‍♂️ has created a new potion! Potion: ({self.slot_pociones.keys} 🥤| Healing: {self.slot_pociones.values} 💗)")
+            text_speed(f"{self.nombre} 🧙‍♂️ has created a new potion! Potions: ({list(self.slot_pociones.keys())} 🥤| Healing: {list(self.slot_pociones.values())} 💗)")
         else:
-            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {self.slot_pociones.keys}")
+            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {dict(self.slot_pociones.keys())}")
+
+    def conceder_curacion(self, pocion, pj_elegido):
+        global dicta_personajes
+        if pocion in self.slot_pociones.keys():
+            for index, pj in enumerate(lista_personajes):
+                print(f"{index+1} | {pj.nombre}")
+            opc = int(input(f"Select number of the character that you wanna heal with the pocion")) - 1
+            if 0 <= opc < len(lista_personajes):
+                pj_elegido = lista_personajes[opc]
+                self.pj_elegido = pj_elegido
+                curacion = self.slot_pociones.pop(pocion)
+                text_speed(f"{self.nombre} has using a healing potion 🥤! in {self.pj_elegido.nombre}")
+                pj_elegido.fuerza += curacion
+                pj_elegido.puntos_vida += curacion
+                pj_elegido.defensa += curacion
+                pj_elegido.ataque += curacion
+            else:
+                text_speed(f"You don´t any potions to use!")
+            return pj_elegido
         
 #***********************************************************************
 

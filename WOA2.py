@@ -230,10 +230,12 @@ if __name__=="__main__":
         if pj.titulo == "Fundador":
             text_speed("1. Atacar.")
             text_speed("2. Crear pociones. (NO IMPLEMENTADO)")
-            
             opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
+            if opc == 2:
+                pj.crear_pociones()
+                pj.conceder_curacion()
         elif pj.titulo == "Guerrero":
             print()
             text_speed("1. Atacar.")
