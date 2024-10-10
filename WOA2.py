@@ -228,7 +228,7 @@ if __name__=="__main__":
         elif pj.titulo == "Mago":
             print("1. Atacar.")
             print("2. Curar. (NO IMPLEMENTADO)")
-            print("3. Meteorite storm ☄")
+            print("3. Ataque doble")
             opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
