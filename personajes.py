@@ -78,37 +78,36 @@ class Fundador(Mago):
         self.defensa = 110
         self.ataque = 110
         self.vida_original = self.puntos_vida
-        self.slot_pociones = {}
+        self.slot_pociones = []
         text_speed(f"{self.nombre} ha fundado un clan.")
-        text_speed(f"Pociones: {dict(self.slot_pociones.items())}")
+        text_speed(f"Pociones: {self.slot_pociones}")
+        
         
     def crear_pociones(self):
         cura_aleatoria = random.randint(10, 25)
-        if len(self.slot_pociones.keys()) < 3:
-            cont_pociones = len(self.slot_pociones.keys()) + 1
-            self.slot_pociones[cont_pociones] = cura_aleatoria
-            text_speed(f"{self.nombre} 🧙‍♂️ has created a new potion! Potions: ({list(self.slot_pociones.keys())} 🥤| Healing: {list(self.slot_pociones.values())} 💗)")
+        if len(self.slot_pociones) < 3:
+            self.slot_pociones.append(cura_aleatoria)
+            for pocion in self.slot_pociones:
+                text_speed(f"{self.nombre} 🧙‍♂️ Potions: ({list(self.slot_pociones)} 🥤| Healing: {pocion} 💗)")
         else:
-            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {dict(self.slot_pociones.keys())}")
+            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.slot_pociones)}")
 
-    def conceder_curacion(self, pocion, pj_elegido):
-        global dicta_personajes
-        if pocion in self.slot_pociones.keys():
-            for index, pj in enumerate(lista_personajes):
-                print(f"{index+1} | {pj.nombre}")
-            opc = int(input(f"Select number of the character that you wanna heal with the pocion")) - 1
-            if 0 <= opc < len(lista_personajes):
-                pj_elegido = lista_personajes[opc]
-                self.pj_elegido = pj_elegido
-                curacion = self.slot_pociones.pop(pocion)
-                text_speed(f"{self.nombre} has using a healing potion 🥤! in {self.pj_elegido.nombre}")
-                pj_elegido.fuerza += curacion
-                pj_elegido.puntos_vida += curacion
-                pj_elegido.defensa += curacion
-                pj_elegido.ataque += curacion
-            else:
-                text_speed(f"You don´t any potions to use!")
-            return pj_elegido
+    def conceder_curacion(self, lst_pjs, pj_receptor):
+        for index, pj in enumerate(lst_pjs):
+            print(f"{index+1} | {pj.titulo} {pj.nombre}")
+        opc = int(input(f"Select number of the character that you wanna heal with the pocion: ")) - 1
+        if 0 <= opc < len(lst_pjs):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
+            pj_receptor = lst_pjs[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
+            self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
+            curacion = self.slot_pociones.pop()#SACA LA POCIÓN DEL BOLSILLO
+            text_speed(f"{self.nombre} has using a healing potion 🥤! in {self.pj_receptor.nombre}")
+            pj_receptor.fuerza += curacion
+            pj_receptor.puntos_vida += curacion
+            pj_receptor.defensa += curacion
+            pj_receptor.ataque += curacion
+        else:
+            text_speed(f"That character does´nt even exist!")
+        return pj_receptor
         
 #***********************************************************************
 
