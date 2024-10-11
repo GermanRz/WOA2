@@ -151,7 +151,7 @@ def listarTodoElStaff():
     global lista_personajes
     #Agregar a lista_personajes todos las clases según se vayan creando
     lista_personajes = fundadores + magos + guerreros + arqueros
-    text_speed("Lista de todos los peronajes presentes en la partida: ")
+    text_speed("Lista de todos los personajes presentes en la partida: ")
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         text_speed(pj.nombre)

@@ -71,6 +71,7 @@ class Arquero(Personaje):
 #***********************************************************************
 
 class Fundador(Mago):
+    cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Fundador")
         self.fuerza = 100
@@ -80,15 +81,16 @@ class Fundador(Mago):
         self.vida_original = self.puntos_vida
         self.slot_pociones = []
         text_speed(f"{self.nombre} ha fundado un clan.")
-        text_speed(f"Pociones: {self.slot_pociones}")
+        text_speed(f"Pociones: {self.cont_pociones}")
         
         
     def crear_pociones(self):
         cura_aleatoria = random.randint(10, 25)
         if len(self.slot_pociones) < 3:
             self.slot_pociones.append(cura_aleatoria)
+            self.cont_pociones += 1#Se aumenta el contador de las pociones
             for pocion in self.slot_pociones:
-                text_speed(f"{self.nombre} 🧙‍♂️ Potions: ({list(self.slot_pociones)} 🥤| Healing: {pocion} 💗)")
+                text_speed(f"{self.nombre} 🧙‍♂️ Potions: ({self.cont_pociones} 🥤| Healing: {pocion} 💗)")
         else:
             text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.slot_pociones)}")
 
@@ -100,6 +102,7 @@ class Fundador(Mago):
             pj_receptor = lst_pjs[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
             self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
             curacion = self.slot_pociones.pop()#SACA LA POCIÓN DEL BOLSILLO
+            self.cont_pociones -= 1
             text_speed(f"{self.nombre} has using a healing potion 🥤! in {self.pj_receptor.nombre}")
             pj_receptor.fuerza += curacion
             pj_receptor.puntos_vida += curacion
