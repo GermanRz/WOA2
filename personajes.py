@@ -88,7 +88,7 @@ class Fundador(Mago):
             self.slot_pociones.append(cura_aleatoria)
             self.cont_pociones += 1#Se aumenta el contador de las pociones
             for pocion in self.slot_pociones:
-                text_speed(f"{self.nombre} 🧙‍♂️ Potions: ({self.cont_pociones} 🥤| Healing: {pocion} 💗)")
+                text_speed(f"{self.nombre} 🧙‍♂️🧙‍♀️ Potions: ({self.cont_pociones} 🥤| Healing: {pocion} 💗)")
         else:
             text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.slot_pociones)}")
 
@@ -101,11 +101,12 @@ class Fundador(Mago):
             self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
             curacion = self.slot_pociones.pop()#SACA LA POCIÓN DEL BOLSILLO
             self.cont_pociones -= 1
-            text_speed(f"{self.nombre} has using a healing potion 🥤! in {self.pj_receptor.nombre}")
+            text_speed(f"{self.nombre} has using a healing potion 🥤 in {self.pj_receptor.nombre}")
             pj_receptor.fuerza += curacion
             pj_receptor.puntos_vida += curacion
             pj_receptor.defensa += curacion
             pj_receptor.ataque += curacion
+            input("Press ENTER to continue! ")
         else:
             text_speed(f"That character does´nt even exist!")
         return pj_receptor
