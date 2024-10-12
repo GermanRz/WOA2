@@ -5,6 +5,7 @@ import random, os, sys, time
 from personajes import *
 from clanes import *
 
+
 #--INICIO FUNCIONES--
 
 '''Función para mostrar el texto de manera incremental.
@@ -19,32 +20,32 @@ def text_speed(text, velocity = 0.05):
     print()
 
 def crearGuerrero(titulo):
-    nombre = input(f"Name of the {titulo}: ").upper()
+    nombre = input(f"Nombre del {titulo}: ").upper()
     guerrero = Guerrero(nombre)
     guerreros.append(guerrero)
     return guerrero
 
 def crearMago(titulo):
-    nombre = input(f"Name of the {titulo}: ").upper()
+    nombre = input(f"Nombre del {titulo}: ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
 
 def crearArquero(titulo):
-    nombre = input(f"Name of the {titulo}: ").upper()
+    nombre = input(f"Nombre del {titulo}: ").upper()
     arquero = Arquero(nombre)
     arqueros.append(arquero)
     return arquero
 
 def crearFundador(mago):
-    text_speed("Your destiny is to be a founder in these wastelands of Pythonias...")
+    text_speed("Tu destino es ser fundador en estas baldías tierras Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
     magos.remove(mago)
     return fundador
 
 def crearClan(fundador):
-    nombreClan = input("clan's name: ").upper()
+    nombreClan = input("Nombre del clan: ").upper()
     clan = Clan(nombreClan, fundador)
     clanes.append(clan)
     fundador.asignar_clan(nombreClan)
@@ -55,62 +56,62 @@ def seleccionarClan(personaje):
         for index, clan in enumerate(clanes):
             text_speed(f"{index+1} : {clan.nombre}")
         print()
-        nombreClan = input("Enter the name of the clan -> ").upper()
+        nombreClan = input("Digite el nombre del clan -> ").upper()
         for clan in clanes:
             if clan.nombre == nombreClan:
                 personaje.asignar_clan(nombreClan)
                 clan.agregar_miembro(personaje)
-                input(f"{personaje.nombre} has been added to the clan {clan.nombre} <ENTER TO CONTINUE>")
+                input(f"{personaje.nombre} ha sido agregado al clan {clan.nombre} <ENTER PARA CONTINUAR>")
                 asignado = True
         if asignado == False:
-            text_speed(f"The clan {nombreClan} does not exist...")
+            text_speed(f"El clan {nombreClan} no existe...")
             print()
 
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
-    text_speed("-- Selection mode --", 0)
-    text_speed("-- Select your goal --", 0)
-    text_speed("1. By clan.", 0)
-    text_speed("2. List all characters.", 0)
-    text_speed("3. Attack by title.", 0)
-    opcion = int(input("Choose an option: "))
+    text_speed("-- Modo de selección --", 0)
+    text_speed("-- Selecciona tu objetivo --", 0)
+    text_speed("1. Por clan.", 0)
+    text_speed("2. Listar todos los personajes.", 0)
+    text_speed("3. Atacar por titulo.", 0)
+    opcion = int(input("Elige una opción: "))
     
     if opcion == 1:
-        text_speed("clan list")
+        text_speed("lista de clanes")
         for index, clan in enumerate(clanes):
             print(f"{index+1} {clan.nombre}")
-        indexClan = int(input("Select clan number: ")) - 1
+        indexClan = int(input("Selecciona el número del clan: ")) - 1
         if 0 <= indexClan < len(clanes):# es igual que indexClan >= 0 or indexClan < len(clanes)
             clan = clanes[indexClan]
-            text_speed(f"clan's members {clan.nombre}")
+            text_speed(f"Miembros del clan {clan.nombre}")
             clan.listar_miembros()
-            nombreObjetivo = input("Enter the name of your target : ").upper()
+            nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
             for miembro in clan.miembros:
                 if nombreObjetivo == miembro.nombre:
                     return miembro
             return None
         else:
-            print("Invalid clan")
+            print("Clan no válido")
 
     if opcion == 2:
         listaPersonajes = fundadores + magos + guerreros + arqueros
-        text_speed("list of all characters")
+        text_speed("lista de todos los personajes")
         for miembro in listaPersonajes:
             print(miembro)
             print()
-        nombreObjetivo = input("Enter the name of your target: ").upper()
+        nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
         for miembro in listaPersonajes:
             if nombreObjetivo == miembro.nombre:
                 return miembro
         return None
 
     if opcion == 3:
-        text_speed("Title to list", 0)
-        text_speed("1. Founders", 0)
-        text_speed("2. Sorcerers", 0)
-        text_speed("3. warriors", 0)
-        text_speed("4. Archers", 0)
-        tipo = int(input("Enter your option: "))
+        text_speed("Titulo a listar", 0)
+        text_speed("1. Fundadores", 0)
+        text_speed("2. Magos", 0)
+        text_speed("3. Guerreros", 0)
+        text_speed("4. Arqueros", 0)
+        tipo = int(input("Digite su opción: "))
         if tipo == 1:
             listaObjetivos = fundadores
         elif tipo == 2:
@@ -119,28 +120,28 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
             listaObjetivos = guerreros
         elif tipo == 4:
             listaObjetivos = arqueros
-        text_speed("Characters:")
+        text_speed("Personajes:")
         for personaje in listaObjetivos:
             print(personaje)
-        nombreObjetivo = input("Enter the name of your target: ").upper()
+        nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
         for miembro in listaObjetivos:
             if nombreObjetivo == miembro.nombre:
                 return miembro
         return None
 
-    text_speed("Invalid option")
+    text_speed("Opción no válida")
     return None
 
 
 def organizarTurno(lst_pjs):
-    input("The characters' turn will be selected at random\n<ENTER TO CONTINUE>")
+    input("Se seleccionará al azar el turno de los personajes\n<ENTER PARA CONTINUAR> ")
     limpiar_consola()
     turnos_ordenados = lst_pjs[:]
     random.shuffle(turnos_ordenados)
     
-    text_speed("This will be the order of turns per player: ")
+    text_speed("Así será el orden de los turnos por jugador: ")
     for index, pj in enumerate(turnos_ordenados):
-        text_speed(f"{index+1} | Title: {pj.titulo} | Name: {pj.nombre}")
+        text_speed(f"{index+1} | Titulo: {pj.titulo} | Nombre: {pj.nombre}")
     return turnos_ordenados
 
 #--FIN FUNCIONES--
@@ -151,7 +152,7 @@ def listarTodoElStaff():
     global lista_personajes
     #Agregar a lista_personajes todos las clases según se vayan creando
     lista_personajes = fundadores + magos + guerreros + arqueros
-    text_speed("List of all the characters present in the game: ")
+    text_speed("Lista de todos los peronajes presentes en la partida: ")
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         text_speed(pj.nombre)
@@ -170,6 +171,7 @@ magos = []
 arqueros = []
 fundadores = []
 clanes = []
+lista_envenenados = []
 
 lista_personajes = fundadores + magos + guerreros + arqueros
 
@@ -179,26 +181,26 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 
 if __name__=="__main__":
 
-    cantidadJugadores = int(input("Number of players: "))
+    cantidadJugadores = int(input("Cantidad de jugadores: "))
     limpiar_consola()
     for i in range(cantidadJugadores):
         if i == 0:
-            mago = crearMago("Founder")
+            mago = crearMago("Fundador")
             fundador = crearFundador(mago)
             crearClan(fundador)
             limpiar_consola()
         else:
             print()
-            text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
+            text_speed(f"Eligiendo la clase del jugador {i+1}/{cantidadJugadores}: ")
             
-            opcionPersonaje = int(input("1.Warrior\n2.Sorcerers\n3.Archer\nOption: "))
+            opcionPersonaje = int(input("1.Guerrero\n2.Mago\n3.Arquero\nOpción: "))
             if opcionPersonaje == 1:
-                guerrero = crearGuerrero("warrior")
+                guerrero = crearGuerrero("Guerrero")
                 seleccionarClan(guerrero)
                 limpiar_consola()
             elif opcionPersonaje == 2:
-                mago = crearMago("Sorcerer")
-                opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                mago = crearMago("Mago")
+                opcionCrearClan = int(input("Desea crear su propio clan?\n1. SI\n2. NO\nOpción: "))
                 if opcionCrearClan == 1:
                     fundador = crearFundador(mago)
                     crearClan(fundador)
@@ -206,7 +208,7 @@ if __name__=="__main__":
                 else:
                     seleccionarClan(mago)
             elif opcionPersonaje == 3:
-                arquero = crearArquero("Archer")
+                arquero = crearArquero("Arquero")
                 seleccionarClan(arquero)
                 limpiar_consola()
 
@@ -219,45 +221,67 @@ if __name__=="__main__":
 
     cont_turnos = 0
 
+    # for pj in turnos_ordenados:
+    #     cont_turnos += 1
+    #     print(f"* Turno: {cont_turnos} *")
+    #     print(f"Es el turno de {pj.titulo} | {pj.nombre}")
+
+        # Aplicar daño por veneno si el personaje está envenenado
+    
+    
     for pj in turnos_ordenados:
+        for envenenado in lista_envenenados:
+            envenenado.restar_punto_vida()
         cont_turnos += 1
         limpiar_consola()
-        text_speed(f"*** Turn: {cont_turnos} ***")
-        text_speed(f"It's the turn of {pj.titulo} | {pj.nombre}")
+        text_speed(f"*** Turno: {cont_turnos} ***")
+        text_speed(f"Es el turno de {pj.titulo} | {pj.nombre}")
+        
+
         objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
+         
+
+
         print()
-        text_speed("-- Choose an option --")
-        if pj.titulo == "Founder":
-            text_speed("1. Attack.")
-            text_speed("2. Create potions.")
-            opc = int(input("Option: "))
+        text_speed("-- Elige una opción --")
+        if pj.titulo == "Fundador":
+            text_speed("1. Atacar.")
+            text_speed("2. Crear pociones. (NO IMPLEMENTADO)")
+            text_speed("3. Entregar pociones. (NO IMPLEMENTADO)")
+            opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
-            if opc == 2:
-                pj.crear_pociones()
-                pj.conceder_curacion(lista_personajes, objetivo)
-        elif pj.titulo == "Warrior":
+                 
+        elif pj.titulo == "Guerrero":
             print()
-            text_speed("1. Attack.")
-            text_speed("2. Defend. (NO IMPLEMENTADO)")
-            text_speed("3. sword dance. (NO IMPLEMENTADO)")
-            opc = int(input("Option: "))
+            text_speed("1. Atacar.")
+            text_speed("2. Defender. (NO IMPLEMENTADO)")
+            text_speed("3. Danza espada. (NO IMPLEMENTADO)")
+            opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
+                 
                 print()
-        elif pj.titulo == "Sorcerer":
-            text_speed("1. Attack.")
-            text_speed("2. cure. (NO IMPLEMENTADO)")
+        elif pj.titulo == "Mago":
+            text_speed("1. Atacar.")
+            text_speed("2. Curar. (NO IMPLEMENTADO)")
             text_speed("3. Meteorite storm ☄")
-            opc = int(input("Option: "))
+            opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
+               
         elif pj.titulo == "Arquero":
             print()
-            text_speed("1. Attack.")
-            text_speed("2. Accurate arrow. (NOT IMPLEMENTED)")
-            text_speed("3. arrow storm. (NO IMPLEMENTADO)")
-            opc = int(input("Option: "))
+            text_speed("1. Atacar.")
+            text_speed("2. Flecha venenosa.")
+            opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
+            elif opc == 2:
+                pj.flecha_venenosa(objetivo)
+                lista_envenenados.append(objetivo)
+              
+                
+                    
+            
         print(objetivo)
