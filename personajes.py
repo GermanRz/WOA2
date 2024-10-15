@@ -47,7 +47,9 @@ class Personaje:
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
-        if self.puntos_vida == 0:
+        if self.puntos_vida > 0:
+         print("estas bajo el ataque de flecha venenosa ")
+        if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
       
     
@@ -102,6 +104,18 @@ class Arquero(Personaje):
         damage = ((self.fuerza + self.ataque) / ((self.vida_original - self.puntos_vida) + self.vida_original)) / 10
         objetivo.recibir_venenoso( damage,objetivo)
         print(f"{self.nombre} ha disparado una flecha venenosa a {objetivo.nombre}!")
+    
+    def flecha_curativa(self, objetivo):
+        # Aquí puedes decidir la cantidad de vida que se curará
+        curacion = round(self.vida_original * 0.01)  # Curación equivalente al 50% del ataque
+        objetivo.puntos_vida += curacion
+
+        # Asegurarte de que no supere los puntos de vida originales
+        if objetivo.puntos_vida > objetivo.vida_original:
+            objetivo.puntos_vida = objetivo.vida_original
+
+        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} puntos de vida!")
+
 
         
     

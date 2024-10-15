@@ -232,6 +232,9 @@ if __name__=="__main__":
     for pj in turnos_ordenados:
         for envenenado in lista_envenenados:
             envenenado.restar_punto_vida()
+        # for curados in lista_envenenados:
+        #     if pj == curados:
+        #         lista_envenenados.remove(pj)
         cont_turnos += 1
         limpiar_consola()
         text_speed(f"*** Turno: {cont_turnos} ***")
@@ -274,12 +277,16 @@ if __name__=="__main__":
             print()
             text_speed("1. Atacar.")
             text_speed("2. Flecha venenosa.")
+            text_speed("3. pocion curativa.")
             opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
             elif opc == 2:
                 pj.flecha_venenosa(objetivo)
                 lista_envenenados.append(objetivo)
+            elif opc == 3:
+                pj.flecha_curativa(objetivo)
+                lista_envenenados.remove(objetivo)
               
                 
                     
