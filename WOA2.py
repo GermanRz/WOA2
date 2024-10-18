@@ -242,7 +242,9 @@ if __name__=="__main__":
             opc = int(input("Opción: "))
             if opc == 1:
                 pj.realizar_ataque(objetivo)
-                print()
+            elif opc == 2:
+                pj.protegido(objetivo)
+            print()
         elif pj.titulo == "Mago":
             text_speed("1. Atacar.")
             text_speed("2. Curar. (NO IMPLEMENTADO)")
