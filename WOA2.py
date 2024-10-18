@@ -5,32 +5,32 @@ from clanes import *
 #--INICIO FUNCIONES--
 
 def crearGuerrero(titulo):
-    nombre = input(f"Nombre del {titulo}: ").upper()
+    nombre = input(f"¿{titulo}'s name? -> ").upper()
     guerrero = Guerrero(nombre)
     guerreros.append(guerrero)
     return guerrero
 
 def crearMago(titulo):
-    nombre = input(f"Nombre del {titulo}: ").upper()
+    nombre = input(f"¿{titulo}'s name? -> ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
 
 def crearArquero(titulo):
-    nombre = input(f"Nombre del {titulo}: ").upper()
+    nombre = input(f"¿{titulo}'s name? -> ").upper()
     arquero = Arquero(nombre)
     arqueros.append(arquero)
     return arquero
 
 def crearFundador(mago):
-    print("Tu destino es ser fundador en estas baldías tierras Pythonias...")
+    print("Now you are the founder, within these farlands of ashes...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
     magos.remove(mago)
     return fundador
 
 def crearClan(fundador):
-    nombreClan = input("Nombre del clan: ").upper()
+    nombreClan = input("¡Set clan's name! -> ").upper()
     clan = Clan(nombreClan, fundador)
     clanes.append(clan)
     fundador.asignar_clan(nombreClan)
@@ -41,62 +41,62 @@ def seleccionarClan(personaje):
         for index, clan in enumerate(clanes):
             print(f"{index+1} : {clan.nombre}")
         print()
-        nombreClan = input("Digite el nombre del clan -> ").upper()
+        nombreClan = input("¿Which clan do you want to get in? -> ").upper()
         for clan in clanes:
             if clan.nombre == nombreClan:
                 personaje.asignar_clan(nombreClan)
                 clan.agregar_miembro(personaje)
-                input(f"{personaje.nombre} ha sido agregado al clan {clan.nombre} <ENTER PARA CONTINUAR>")
+                input(f"¡{personaje.nombre} joined the clan {clan.nombre}! <PRESS ENTER TO CONTINUE>")
                 asignado = True
         if asignado == False:
-            print(f"El clan {nombreClan} no existe...")
+            print(f"The clan '{nombreClan}' does not exist...")
             print()
 
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
-    print("-- Modo de selección --")
-    print("-- Selecciona tu objetivo --")
-    print("1. Por clan.")
-    print("2. Listar todos los personajes.")
-    print("3. Atacar por titulo.")
-    opcion = int(input("Elige una opción: "))
+    print("-- Select mode --")
+    print("-- Select your objective --")
+    print("1. Select by clan.")
+    print("2. List all players.")
+    print("3. Attack by title.")
+    opcion = int(input("Select an option: "))
     
     if opcion == 1:
-        print("lista de clanes")
+        print("Clan's list")
         for index, clan in enumerate(clanes):
             print(f"{index+1} {clan.nombre}")
-        indexClan = int(input("Selecciona el número del clan: ")) - 1
+        indexClan = int(input("Select by clan's number: ")) - 1
         if 0 <= indexClan < len(clanes):# es igual que indexClan >= 0 or indexClan < len(clanes)
             clan = clanes[indexClan]
-            print(f"Miembros del clan {clan.nombre}")
+            print(f"Members of the clan {clan.nombre}")
             clan.listar_miembros()
-            nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
+            nombreObjetivo = input("¡Write your objective's name! -> ").upper()
             for miembro in clan.miembros:
                 if nombreObjetivo == miembro.nombre:
                     return miembro
             return None
         else:
-            print("Clan no válido")
+            print("¡INVALID CLAN!")
 
     if opcion == 2:
         listaPersonajes = fundadores + magos + guerreros + arqueros
-        print("lista de todos los personajes")
+        print("PLAYERS LIST")
         for miembro in listaPersonajes:
             print(miembro)
             print()
-        nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
+        nombreObjetivo = input("¡Write your objetive's name! -> ").upper()
         for miembro in listaPersonajes:
             if nombreObjetivo == miembro.nombre:
                 return miembro
         return None
 
     if opcion == 3:
-        print("Titulo a listar")
-        print("1. Fundadores")
-        print("2. Magos")
-        print("3. Guerreros")
-        print("4. Arqueros")
-        tipo = int(input("Digite su opción: "))
+        print("TITLE'S LIST")
+        print("1. Founders")
+        print("2. Wizards")
+        print("3. Warriors")
+        print("4. Archers")
+        tipo = int(input("SELECT AN OPTION -> "))
         if tipo == 1:
             listaObjetivos = fundadores
         elif tipo == 2:
@@ -105,28 +105,28 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
             listaObjetivos = guerreros
         elif tipo == 4:
             listaObjetivos = arqueros
-        print("Personajes:")
+        print("PLAYERS")
         for personaje in listaObjetivos:
             print(personaje)
-        nombreObjetivo = input("Escriba el nombre de su objetivo: ").upper()
+        nombreObjetivo = input("!Write objective's name! ->").upper()
         for miembro in listaObjetivos:
             if nombreObjetivo == miembro.nombre:
                 return miembro
         return None
 
-    print("Opción no válida")
+    print("¡INVALID OPTION!")
     return None
 
 
 def organizarTurno(lst_pjs):
-    input("Se seleccionará al azar el turno de los personajes\n<ENTER PARA CONTINUAR> ")
+    input("¡The players turn it's about to get randomly set!\n<PRESS ENTER TO CONTINUE>")
     limpiar_consola()
     turnos_ordenados = lst_pjs[:]
     random.shuffle(turnos_ordenados)
     
-    print("Así será el orden de los turnos por jugador: ")
+    print("¡Players turn already set!")
     for index, pj in enumerate(turnos_ordenados):
-        print(f"{index+1} | Titulo: {pj.titulo} | Nombre: {pj.nombre}")
+        print(f"{index+1} | Title: {pj.titulo} | Name: {pj.nombre}")
     return turnos_ordenados
 
 #--FIN FUNCIONES--
@@ -137,7 +137,7 @@ def listarTodoElStaff():
     global lista_personajes
     #Agregar a lista_personajes todos las clases según se vayan creando
     lista_personajes = fundadores + magos + guerreros + arqueros
-    print("Lista de todos los peronajes presentes en la partida: ")
+    print("Total players list on actual game: ")
     print("--***---***--***---***--***---***")
     for pj in lista_personajes:
         print(pj.nombre)
@@ -163,80 +163,78 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 
 #INICIO CÓDIGO PRINCIPAL
 
-if __name__=="__main__":
-
-    cantidadJugadores = int(input("Cantidad de jugadores: "))
-    limpiar_consola()
-    for i in range(cantidadJugadores):
-        if i == 0:
-            mago = crearMago("Fundador")
-            fundador = crearFundador(mago)
-            crearClan(fundador)
+cantidadJugadores = int(input("Insert the amount of players: "))
+limpiar_consola()
+for i in range(cantidadJugadores):
+    if i == 0:
+        mago = crearMago("Founder")
+        fundador = crearFundador(mago)
+        crearClan(fundador)
+        limpiar_consola()
+    else:
+        print()
+        print(f"Selecting player's class {i+1}/{cantidadJugadores}: ")
+        
+        opcionPersonaje = int(input("1.Warrior\n2.Wizard\n3.Archer\nOption: "))
+        if opcionPersonaje == 1:
+            guerrero = crearGuerrero("Warrior")
+            seleccionarClan(guerrero)
             limpiar_consola()
-        else:
-            print()
-            print(f"Eligiendo la clase del jugador {i+1}/{cantidadJugadores}: ")
-            
-            opcionPersonaje = int(input("1.Guerrero\n2.Mago\n3.Arquero\nOpción: "))
-            if opcionPersonaje == 1:
-                guerrero = crearGuerrero("Guerrero")
-                seleccionarClan(guerrero)
+        elif opcionPersonaje == 2:
+            mago = crearMago("Wizard")
+            opcionCrearClan = int(input("¿Would you like to create a clan?\n1. Yes\n2. NO\nOption: "))
+            if opcionCrearClan == 1:
+                fundador = crearFundador(mago)
+                crearClan(fundador)
                 limpiar_consola()
-            elif opcionPersonaje == 2:
-                mago = crearMago("Mago")
-                opcionCrearClan = int(input("Desea crear su propio clan?\n1. SI\n2. NO\nOpción: "))
-                if opcionCrearClan == 1:
-                    fundador = crearFundador(mago)
-                    crearClan(fundador)
-                    limpiar_consola()
-                else:
-                    seleccionarClan(mago)
-            elif opcionPersonaje == 3:
-                arquero = crearArquero("Arquero")
-                seleccionarClan(arquero)
-                limpiar_consola()
+            else:
+                seleccionarClan(mago)
+        elif opcionPersonaje == 3:
+            arquero = crearArquero("Archer")
+            seleccionarClan(arquero)
+            limpiar_consola()
 
 
-    listarTodoElStaff()
+listarTodoElStaff()
 
-    turnos_ordenados = organizarTurno(lista_personajes)
+turnos_ordenados = organizarTurno(lista_personajes)
 
-    limpiar_consola()
+limpiar_consola()
 
-    cont_turnos = 0
+cont_turnos = 0
 
-    for pj in turnos_ordenados:
-        cont_turnos += 1
-        print(f"*** Turno: {cont_turnos} ***")
-        print(f"Es el turno de {pj.titulo} | {pj.nombre}")
-        objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
-        print("-- Elige una opción --")
-        if pj.titulo == "Fundador":
-            print("1. Atacar.")
-            print("2. Crear pociones. (NO IMPLEMENTADO)")
-            print("3. Entregar pociones. (NO IMPLEMENTADO)")
-            opc = int(input("Opción: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-        elif pj.titulo == "Guerrero":
-            print("1. Atacar.")
-            print("2. Defender. (NO IMPLEMENTADO)")
-            print("3. Danza espada. (NO IMPLEMENTADO)")
-            opc = int(input("Opción: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-        elif pj.titulo == "Mago":
-            print("1. Atacar.")
-            print("2. Curar. (NO IMPLEMENTADO)")
-            print("3. Meteorite storm ☄")
-            opc = int(input("Opción: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-        elif pj.titulo == "Arquero":
-            print("1. Atacar.")
-            print("2. Flechazo certero. (NO IMPLEMENTADO)")
-            print("3. arrow storm. (NO IMPLEMENTADO)")
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-            opc = int(input("Opción: "))
-        print(objetivo)
+for pj in turnos_ordenados:
+    cont_turnos += 1
+    print(f"*** Turn: {cont_turnos} ***")
+    print(f"¡It is {pj.nombre}'s ({pj.titulo}) turn!")
+    objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
+    print("-- ¿WHAT DO YOU WANT DO? --")
+    if pj.titulo == "Founder":
+        print("1. Attack.")
+        print("2. Craft potion. (NOT IMPLEMENTED)")
+        print("3. Give potion(s). (NOT IMPLEMENTED)")
+        opc = int(input("Option: "))
+        if opc == 1:
+            pj.realizar_ataque(objetivo)
+    elif pj.titulo == "Warrior":
+        print("1. Attack.")
+        print("2. Defend. (NOT IMPLEMENTED)")
+        print("3. Sword Dance (.__.). (NOT IMPLEMENTED)")
+        opc = int(input("Option: "))
+        if opc == 1:
+            pj.realizar_ataque(objetivo)
+    elif pj.titulo == "Wizard":
+        print("1. Attack.")
+        print("2. Heal. (NOT IMPLEMENTED)")
+        print("3. Meteorite storm ☄ (NOT IMPLEMENTED)")
+        opc = int(input("Option: "))
+        if opc == 1:
+            pj.realizar_ataque(objetivo)
+    elif pj.titulo == "Archer":
+        print("1. Attack.")
+        print("2. Accurate shot. (NOT IMPLEMENTED)")
+        print("3. arrow storm. (NOT IMPLEMENTED)")
+        if opc == 1:
+            pj.realizar_ataque(objetivo)
+        opc = int(input("Option: "))
+    print(objetivo)
