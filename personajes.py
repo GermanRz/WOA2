@@ -1,9 +1,11 @@
+import random
+from WOA2 import text_speed
+from WOA2 import lista_personajes
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
         self.nombre = nombre
         self.titulo = titulo
-        #self.slot_pocion = slot_pocion = []
         self.clan = clan
 
     def asignar_clan(self, clan):

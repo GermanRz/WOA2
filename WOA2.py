@@ -1,8 +1,22 @@
-import random, os
+'''
+Se importan las librerias de sys y time para que funcionen con text_speed
+'''
+import random, os, sys, time
 from personajes import *
 from clanes import *
 
 #--INICIO FUNCIONES--
+
+'''Función para mostrar el texto de manera incremental.
+text: Es el texto a mostrar
+velocity: La velocidad en la que se va mostrar (por defecto es de 0.05)
+'''
+def text_speed(text, velocity = 0.05):
+    for ca in text:
+        sys.stdout.write(ca)
+        sys.stdout.flush()
+        time.sleep(velocity)
+    print()
 
 def crearGuerrero(titulo):
     nombre = input(f"¿{titulo}'s name? -> ").upper()
@@ -39,7 +53,7 @@ def seleccionarClan(personaje):
     asignado = False
     while not asignado:
         for index, clan in enumerate(clanes):
-            print(f"{index+1} : {clan.nombre}")
+            text_speed(f"{index+1} : {clan.nombre}")
         print()
         nombreClan = input("¿Which clan do you want to get in? -> ").upper()
         for clan in clanes:
@@ -140,8 +154,8 @@ def listarTodoElStaff():
     print("Total players list on actual game: ")
     print("--***---***--***---***--***---***")
     for pj in lista_personajes:
-        print(pj.nombre)
-    print("--***---***--***---***--***---***")
+        text_speed(pj.nombre)
+    text_speed("--***---***--***---***--***---***", 0)
     print()
 
 def limpiar_consola():
