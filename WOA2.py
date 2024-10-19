@@ -211,15 +211,15 @@ if __name__=="__main__":
                 limpiar_consola()
 
 
-listarTodoElStaff()
+    listarTodoElStaff()
 
-turnos_ordenados = organizarTurno(lista_personajes)
+    turnos_ordenados = organizarTurno(lista_personajes)
 
-limpiar_consola()
+    limpiar_consola()
 
-cont_turnos = 0
+    cont_turnos = 0
 
-for pj in turnos_ordenados:
+    for pj in turnos_ordenados:
         cont_turnos += 1
         limpiar_consola()
         text_speed(f"*** Turn: {cont_turnos} ***")
