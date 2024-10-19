@@ -90,7 +90,7 @@ class Fundador(Mago):
             for pocion in self.slot_pociones:
                 text_speed(f"{self.nombre} 🧙‍♂️🧙‍♀️ Potions: ({self.cont_pociones} 🥤| Healing: {pocion} 💗)")
         else:
-            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {self.cont_pociones}")
+            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.cont_pociones)}")
 
     def conceder_curacion(self, lst_pjs, pj_receptor):
         for index, pj in enumerate(lst_pjs):
