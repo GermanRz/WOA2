@@ -19,10 +19,10 @@ class Personaje:
     def recibir_ataque(self, damage):
         f"{self.nombre}has received damage!"
         factor_damage = (self.defensa * damage) / 100
-        self.fuerza = round(self.fuerza / (factor_damage + 1))
-        self.puntos_vida = round(self.puntos_vida / (factor_damage + 1))
-        self.defensa = round(self.defensa / (factor_damage + 1))
-        self.ataque = round(self.ataque / (factor_damage + 1))
+        self.fuerza = round((self.fuerza )/ (factor_damage + 1))
+        self.puntos_vida = round((self.puntos_vida) / (factor_damage + 1))
+        self.defensa = round((self.defensa) / (factor_damage + 1))
+        self.ataque = round((self.ataque) / (factor_damage + 1))
 
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
@@ -31,13 +31,13 @@ class Personaje:
     
     # APLICANDO EFECTO DE ATAQUE FLECHA VENENOSA AL OBJETIVO
     
-    def recibir_venenoso(self,damage, objetivo):
-        print(f"{objetivo.nombre} ha recibido daño!")
-        factor_damage = round(objetivo.defensa * damage) / 100 +1
-        objetivo.fuerza = int(round( objetivo.fuerza + self.fuerza) / (factor_damage + 1))
-        objetivo.puntos_vida = int(round(objetivo.puntos_vida  + self.ataque) / (factor_damage + 1))
-        objetivo.defensa = int(round(objetivo.defensa + self.ataque) / (factor_damage + 1))
-        objetivo.ataque = int(round(objetivo.defensa + self.ataque) / (factor_damage + 1))
+    def recibir_venenoso(self,damage):
+        print(f"{self.nombre}has received damage!")
+        factor_damage = (self.defensa * damage) / 100
+        self.fuerza = round(self.fuerza / (factor_damage + 1))
+        self.puntos_vida = round(self.puntos_vida / (factor_damage + 1))
+        self.defensa = round(self.defensa / (factor_damage + 1))
+        self.ataque = round(self.ataque / (factor_damage + 1))
     
      # FIN
 
@@ -96,7 +96,7 @@ class Arquero(Personaje):
     
     def flecha_venenosa(self, objetivo ):
         damage = ((self.fuerza + self.ataque) / ((self.vida_original - self.puntos_vida) + self.vida_original)) / 10
-        objetivo.recibir_venenoso( damage,objetivo)
+        objetivo.recibir_venenoso( damage)
         print(f"{self.nombre} ha disparado una flecha venenosa a {objetivo.nombre}!")
     
     def flecha_curativa(self, objetivo):
@@ -155,4 +155,25 @@ class Fundador(Mago):
 #***********************************************************************
 
 if __name__=="__main__":
+    # fundador = Fundador("f")
+    # arquero1 = Arquero("a1")
+    # arquero2 = Arquero("a2")
+    # arquero3 = Arquero("a3")
+    # arquero4 = Arquero("a4")
+    # arquero5 = Arquero("a5")
+
+    # arquero1.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero2.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero5.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
     pass
