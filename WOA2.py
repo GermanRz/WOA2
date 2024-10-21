@@ -238,7 +238,13 @@ if __name__=="__main__":
                 pj.realizar_ataque(objetivo)
             if opc == 2:
                 pj.crear_pociones()
-                pj.conceder_curacion(lista_personajes, objetivo)
+                text_speed("¿Do you wanna conserve your potion?")
+                opc = int(input("1.Yes.\n2.No.\nOpc: "))
+                if opc == 1:
+                    text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
+                    input("Press ENTER to continue. ")
+                elif opc == 2:
+                    pj.conceder_curacion(lista_personajes, objetivo)
         elif pj.titulo == "Warrior":
             print()
             text_speed("1. Attack.")
