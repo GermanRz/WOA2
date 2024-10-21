@@ -31,8 +31,8 @@ class Personaje:
 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
-                f"strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
-                f"Defense: {self.defensa}, attack: {self.ataque}, "
+                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, Attack: {self.ataque}, "
                 f"Clan: {self.clan}")
         
 #***********************************************************************
@@ -95,17 +95,18 @@ class Fundador(Mago):
     def conceder_curacion(self, lst_pjs, pj_receptor):
         for index, pj in enumerate(lst_pjs):
             print(f"{index+1} | {pj.titulo} {pj.nombre}")
-        opc = int(input(f"Select by number of the character that you wanna heal with the potion: ")) - 1
+        opc = int(input(f"Select by character's number that you wanna heal: ")) - 1
         if 0 <= opc < len(lst_pjs):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
             pj_receptor = lst_pjs[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
             self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
             curacion = self.slot_pociones.pop()#SACA LA POCIÓN DEL BOLSILLO
+            self.cont_pociones -= 1
             text_speed(f"¡{self.nombre} used a healing potion 🥤 on {self.pj_receptor.nombre}!")
             pj_receptor.fuerza += curacion
             pj_receptor.puntos_vida += curacion
             pj_receptor.defensa += curacion
             pj_receptor.ataque += curacion
-            input("Press ENTER to continue! ")
+            input("¡Press ENTER to continue!")
         else:
             text_speed(f"¡The player doesn't even exist!")
         return pj_receptor
