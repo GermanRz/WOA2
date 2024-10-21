@@ -15,7 +15,7 @@ class Clan:
     def listar_miembros(self):
         print()
         print("*** *** *** *** ***")
-        print(f"The clan {self.nombre} has {self.cantidadMiembros} members")
+        print(f"The clan {self.nombre}, has an amount of {self.cantidadMiembros} members")
         for miembro in self.miembros:
             print(miembro)
 
