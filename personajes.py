@@ -1,6 +1,5 @@
 import random
-from WOA2 import text_speed
-from WOA2 import lista_personajes
+from resources import text_speed
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
