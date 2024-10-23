@@ -1,22 +1,11 @@
 '''
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
-import random, os, sys, time
+import random, os
 from personajes import *
 from clanes import *
 
 #--INICIO FUNCIONES--
-
-'''Función para mostrar el texto de manera incremental.
-text: Es el texto a mostrar
-velocity: La velocidad en la que se va mostrar (por defecto es de 0.05)
-'''
-def text_speed(text, velocity = 0.05):
-    for ca in text:
-        sys.stdout.write(ca)
-        sys.stdout.flush()
-        time.sleep(velocity)
-    print()
 
 def crearGuerrero(titulo):
     nombre = input(f"Name of the {titulo}: ").upper()
@@ -160,6 +149,10 @@ def listarTodoElStaff():
 
 def limpiar_consola():
     os.system("cls") if os.name == "nt" else os.system("clear")
+    
+def nombrarGanador(fundadores, rondas):
+    limpiar_consola()
+    text_speed(f"You have conquered the kingdom after {rondas} tough battles, the king in the Python. Long live the king {fundadores[0]}")
 
 #--FIN PROCEDIMIENTOS--
 
@@ -212,58 +205,60 @@ if __name__=="__main__":
 
 
     listarTodoElStaff()
-
     turnos_ordenados = organizarTurno(lista_personajes)
-
     limpiar_consola()
+    rondas = 0
 
-    cont_turnos = 0
-
-    for pj in turnos_ordenados:
-        cont_turnos += 1
-        limpiar_consola()
-        text_speed(f"*** Turn: {cont_turnos} ***")
-        text_speed(f"It's the turn of {pj.titulo} | {pj.nombre}")
-        objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
-        print()
-        text_speed("-- Choose an option --")
-        if pj.titulo == "Founder":
-            text_speed("1. Attack.")
-            text_speed("2. Create potions.")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-            if opc == 2:
-                pj.crear_pociones()
-                text_speed("¿Do you wanna conserve your potion?")
-                opc = int(input("1.Yes.\n2.No.\nOpc: "))
+    while len(fundadores)>1:
+        cont_turnos = 0
+        for jugadorEnTurno in turnos_ordenados:
+            cont_turnos += 1
+            limpiar_consola()
+            text_speed(f"*** Turn: {cont_turnos} ***")
+            text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
+            objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
+            print()
+            text_speed("-- Choose an option --")
+            if jugadorEnTurno.titulo == "Founder":
+                text_speed("1. Attack.")
+                text_speed("2. Create potions.")
+                opc = int(input("Option: "))
                 if opc == 1:
-                    text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
-                    input("Press ENTER to continue. ")
-                elif opc == 2:
-                    pj.conceder_curacion(lista_personajes, objetivo)
-        elif pj.titulo == "Warrior":
-            print()
-            text_speed("1. Attack.")
-            text_speed("2. Defend. (NO IMPLEMENTADO)")
-            text_speed("3. sword dance. (NO IMPLEMENTADO)")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
+                    jugadorEnTurno.realizar_ataque(objetivo)
+                if opc == 2:
+                    jugadorEnTurno.crear_pociones()
+                    text_speed("¿Do you wanna conserve your potion?")
+                    opc = int(input("1.Yes.\n2.No.\nOpc: "))
+                    if opc == 1:
+                        text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
+                        input("Press ENTER to continue. ")
+                    elif opc == 2:
+                        jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
+            elif jugadorEnTurno.titulo == "Warrior":
                 print()
-        elif pj.titulo == "Sorcerer":
-            text_speed("1. Attack.")
-            text_speed("2. cure. (NO IMPLEMENTADO)")
-            text_speed("3. Meteorite storm ☄")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-        elif pj.titulo == "Arquero":
-            print()
-            text_speed("1. Attack.")
-            text_speed("2. Accurate arrow. (NOT IMPLEMENTED)")
-            text_speed("3. arrow storm. (NO IMPLEMENTADO)")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-        print(objetivo)
+                text_speed("1. Attack.")
+                text_speed("2. Defend. (NO IMPLEMENTADO)")
+                text_speed("3. sword dance. (NO IMPLEMENTADO)")
+                opc = int(input("Option: "))
+                if opc == 1:
+                    jugadorEnTurno.realizar_ataque(objetivo)
+                    print()
+            elif jugadorEnTurno.titulo == "Sorcerer":
+                text_speed("1. Attack.")
+                text_speed("2. cure. (NO IMPLEMENTADO)")
+                text_speed("3. Meteorite storm ☄")
+                opc = int(input("Option: "))
+                if opc == 1:
+                    jugadorEnTurno.realizar_ataque(objetivo)
+            elif jugadorEnTurno.titulo == "Arquero":
+                print()
+                text_speed("1. Attack.")
+                text_speed("2. Accurate arrow. (NOT IMPLEMENTED)")
+                text_speed("3. arrow storm. (NO IMPLEMENTADO)")
+                opc = int(input("Option: "))
+                if opc == 1:
+                    jugadorEnTurno.realizar_ataque(objetivo)
+            print(objetivo)
+            rondas +=1
+        # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
+    nombrarGanador(fundadores, rondas)
