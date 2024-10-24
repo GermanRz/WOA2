@@ -44,7 +44,7 @@ def crearArquero(titulo):
     return arquero
 
 def crearFundador(mago):
-    text_speed(f"Your destiny is to be a {Fore.BLUE} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
+    text_speed(f"Your destiny is to be a {Fore.GREEN} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
     magos.remove(mago)
