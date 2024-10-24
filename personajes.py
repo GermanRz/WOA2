@@ -99,7 +99,12 @@ class Guerrero(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        
+
+    def ataque_tornado (self, objetivo):
+        if turnos == 3 :
+            ataque_clan = 
+
+
 #***********************************************************************
 
 class Mago(Personaje):
