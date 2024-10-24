@@ -1,5 +1,4 @@
 import random
-import math
 from resources import text_speed
 
 class Personaje:
@@ -157,15 +156,25 @@ class Fundador(Mago):
 #***********************************************************************
 
 if __name__=="__main__":
-    # m1 = Mago("F1")
-    f1 = Fundador("F1")
-    # m2 = Mago("F2")
-    f2 = Fundador("F2")
-    g1 = Guerrero("g1")
-    print()
-    print()
-    for i in range(1,10):
-        g1.realizar_ataque(f2)
-        print(f2)
-    
-    
+    # fundador = Fundador("f")
+    # arquero1 = Arquero("a1")
+    # arquero2 = Arquero("a2")
+    # arquero3 = Arquero("a3")
+    # arquero4 = Arquero("a4")
+    # arquero5 = Arquero("a5")
+
+    # arquero1.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero2.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero5.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    pass
