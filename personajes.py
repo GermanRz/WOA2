@@ -17,24 +17,75 @@ class Personaje:
 
     def asignar_clan(self, clan):
         self.clan = clan
-
+        
     def realizar_ataque(self, objetivo):
-        f"{self.nombre} has carried out an attack!"
-        damage = ((self.fuerza + self.ataque) / ((self.vida_original-self.puntos_vida) + self.vida_original)) / 10
-        objetivo.recibir_ataque(damage)
+        print(f"{self.nombre} has carried out an attack!")
+        # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
+        poder_ataque = (self.fuerza + self.ataque)
+        
+        # 2. Calculamos el poder de la defensa usando solo fuerza y defensa del objetivo
+        poder_defensa = (objetivo.fuerza + objetivo.defensa)
+        
+        # 3. Calculamos la diferencia de poder
+        diferencia_poder = poder_ataque - poder_defensa
+        
+        # 4. Calculamos el porcentaje de daño base
+        if diferencia_poder > 0:
+            # Si el ataque es más fuerte que la defensa
+            factor_ataque = 5 + (diferencia_poder * 0.5)  # 0.5% por cada punto de diferencia
+        else:
+            # Si la defensa es más fuerte o igual que el ataque
+            factor_ataque = 5  # Daño mínimo del 5%
+        # 6. Calculamos el daño final
+        damage = int((objetivo.vida_original * factor_ataque) / 100)
+        estado=objetivo.recibir_ataque(damage)
+        return estado
+
 
     def recibir_ataque(self, damage):
-        f"{self.nombre}has received damage!"
+        # print("damage :", damage)
+        self.puntos_vida = max(0, self.puntos_vida - damage)
+        #calculamos el porcentaje de vida resultante
+        porcentaje_vida = self.puntos_vida / self.vida_original
+        # print(f"{porcentaje_vida} = {self.puntos_vida} / {self.vida_original}")
+        # Los atributos se disminuyen proporcionalmente a la vida perdida
+        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))
+        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))
+        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))
+        # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
+        if self.puntos_vida > 0:
+            print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
+            return 1 #live
+        else:
+            print(f"The {self.titulo} {self.nombre} has died")
+            return 0 #death
+                   
+    
+    # APLICANDO EFECTO DE ATAQUE FLECHA VENENOSA AL OBJETIVO
+    
+    def recibir_venenoso(self,damage):
+        print(f"{self.nombre}has received damage!")
         factor_damage = (self.defensa * damage) / 100
         self.fuerza = round(self.fuerza / (factor_damage + 1))
         self.puntos_vida = round(self.puntos_vida / (factor_damage + 1))
         self.defensa = round(self.defensa / (factor_damage + 1))
         self.ataque = round(self.ataque / (factor_damage + 1))
+    
+     # FIN
 
+     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    
+    def restar_punto_vida(self):
+        if self.puntos_vida != 0:
+            self.puntos_vida -= 1
         if self.puntos_vida > 0:
-            print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
-        else:
-            print(f"The {self.titulo} {self.nombre} has died")
+         print("estas bajo el ataque de flecha venenosa ")
+        if   self.puntos_vida == 0:
+            print(f"{self.nombre} ha muerto")
+      
+    
+       #FIN
+
 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
@@ -51,7 +102,11 @@ class Guerrero(Personaje):
         self.puntos_vida = 100
         self.defensa = 90
         self.ataque = 100
-        self.vida_original = self.puntos_vida
+        # Guardamos los valores máximos/iniciales de cada atributo
+        self.fuerza_original = self.fuerza
+        self.vida_original = self.puntos_vida        
+        self.defensa_original = self.defensa
+        self.ataque_original = self.ataque
         
 #***********************************************************************
 
@@ -62,7 +117,11 @@ class Mago(Personaje):
         self.puntos_vida = 100
         self.defensa = 80
         self.ataque = 90
-        self.vida_original = self.puntos_vida
+        # Guardamos los valores máximos/iniciales de cada atributo
+        self.fuerza_original = self.fuerza
+        self.vida_original = self.puntos_vida        
+        self.defensa_original = self.defensa
+        self.ataque_original = self.ataque
 
 #***********************************************************************
 
@@ -73,7 +132,29 @@ class Arquero(Personaje):
         self.puntos_vida = 100
         self.defensa = 80
         self.ataque = 120
+        # Guardamos los valores máximos/iniciales de cada atributo
+        self.fuerza_original = self.fuerza
+        self.vida_original = self.puntos_vida        
+        self.defensa_original = self.defensa
+        self.ataque_original = self.ataque
         self.vida_original = self.puntos_vida
+    
+    def flecha_venenosa(self, objetivo ):
+        damage = ((self.fuerza + self.ataque) / ((self.vida_original - self.puntos_vida) + self.vida_original)) / 10
+        objetivo.recibir_venenoso( damage)
+        print(f"{self.nombre} ha disparado una flecha venenosa a {objetivo.nombre}!")
+    
+    def flecha_curativa(self, objetivo):
+        
+        curacion = round(self.vida_original * 0.01)  
+        objetivo.puntos_vida += curacion
+
+        # Asegurarnos de que no supere los puntos de vida originales
+        if objetivo.puntos_vida > objetivo.vida_original:
+            objetivo.puntos_vida = objetivo.vida_original
+
+        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+
 
 #***********************************************************************
 
@@ -85,7 +166,11 @@ class Fundador(Mago):
         self.puntos_vida = 110
         self.defensa = 110
         self.ataque = 110
-        self.vida_original = self.puntos_vida
+        # Guardamos los valores máximos/iniciales de cada atributo
+        self.fuerza_original = self.fuerza
+        self.vida_original = self.puntos_vida        
+        self.defensa_original = self.defensa
+        self.ataque_original = self.ataque
         self.slot_pociones = []
         text_speed(f"{self.nombre} has founded a clan.")
         
@@ -122,4 +207,25 @@ class Fundador(Mago):
 #***********************************************************************
 
 if __name__=="__main__":
+    # fundador = Fundador("f")
+    # arquero1 = Arquero("a1")
+    # arquero2 = Arquero("a2")
+    # arquero3 = Arquero("a3")
+    # arquero4 = Arquero("a4")
+    # arquero5 = Arquero("a5")
+
+    # arquero1.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero2.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero5.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
     pass

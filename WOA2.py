@@ -1,7 +1,7 @@
 '''
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
-import random, os, sys, time
+import random, os
 from personajes import *
 from clanes import *
 
@@ -13,17 +13,6 @@ LOS ARQUEROS TENDRAN UN COLOR CYAN
 LOS CLANES TENDRÁN UN COLOR MORADO'''
 
 #--INICIO FUNCIONES--
-
-'''Función para mostrar el texto de manera incremental.
-text: Es el texto a mostrar
-velocity: La velocidad en la que se va mostrar (por defecto es de 0.05)
-'''
-def text_speed(text, velocity = 0.05):
-    for ca in text:
-        sys.stdout.write(ca)
-        sys.stdout.flush()
-        time.sleep(velocity)
-    print()
 
 def crearGuerrero(titulo):
     nombre = input(f"Name of the {Fore.RED} {titulo} {Style.RESET_ALL}: ").upper()
@@ -176,6 +165,39 @@ def listarTodoElStaff():
 
 def limpiar_consola():
     os.system("cls") if os.name == "nt" else os.system("clear")
+    
+def nombrarGanador(fundadores, rondas):
+    limpiar_consola()
+    text_speed(f"You have conquered the kingdom after {rondas} tough battles, the king in the Python. Long live the king {fundadores[0]}")
+    
+def eliminarPersonaje(objetivo, asesino):
+    if objetivo.titulo=="Founder":
+        text_speed('''
+                   ⚔️ The Fall of the Founder ⚔️
+                   
+                   Today, the kingdom is tinged with shadows with the death of {objetivo.nombre}, 
+                   founder of the glorious {objetivo.clan} clan. His days of leadership 
+                   and bravery have come to an end, slain in battle by the {asesino.clan} clan.
+                   
+                   According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
+        fundadores.remove(objetivo)
+        #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
+        print()
+        input("ENTER to continue...")
+    elif objetivo.titulo=="Archer":
+        arqueros.remove(objetivo)
+    elif objetivo.titulo=="Sorcerer":
+        magos.remove(objetivo)
+    else:
+        guerreros.remove(objetivo)
+        #en este punto se debe inhablitar la defensa de los protegidos por este guerrero
+        
+    #remover de los jugadores activos        
+    turnos_ordenados.remove(objetivo)
+    # remover del clan
+    for clan in clanes:
+        if clan.nombre == objetivo.clan:
+            clan.remover_miembro(objetivo)
 
 #--FIN PROCEDIMIENTOS--
 
@@ -186,6 +208,7 @@ magos = []
 arqueros = []
 fundadores = []
 clanes = []
+lista_envenenados = []
 
 lista_personajes = fundadores + magos + guerreros + arqueros
 
@@ -228,58 +251,82 @@ if __name__=="__main__":
 
 
     listarTodoElStaff()
-
     turnos_ordenados = organizarTurno(lista_personajes)
-
     limpiar_consola()
+    rondas = 0
+    #Mientras que existe más de un fundador
+    while len(fundadores)>1:
 
-    cont_turnos = 0
-
-    for pj in turnos_ordenados:
-        cont_turnos += 1
-        limpiar_consola()
-        text_speed(f"*** Turn: {cont_turnos} ***")
-        text_speed(f"It's the turn of {pj.titulo} | {pj.nombre}")
-        objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
-        print()
-        text_speed("-- Choose an option --")
-        if pj.titulo == "Founder":
-            text_speed("1. Attack.")
-            text_speed("2. Create potions.")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-            if opc == 2:
-                pj.crear_pociones()
-                text_speed("¿Do you wanna conserve your potion?")
-                opc = int(input("1.Yes.\n2.No.\nOpc: "))
+        cont_turnos = 0
+        for jugadorEnTurno in turnos_ordenados:
+            for envenenados in lista_envenenados:
+                envenenados.restar_punto_vida()
+            cont_turnos += 1
+            limpiar_consola()
+            text_speed(f"*** Turn: {cont_turnos} ***")
+            text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
+            objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
+            print()
+            text_speed("-- Choose an option --")
+            
+            if jugadorEnTurno.titulo == "Founder":
+                text_speed("1. Attack.")
+                text_speed("2. Create potions.")
+                opc = int(input("Option: "))
                 if opc == 1:
-                    text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
-                    input("Press ENTER to continue. ")
-                elif opc == 2:
-                    pj.conceder_curacion(lista_personajes, objetivo)
-        elif pj.titulo == "Warrior":
-            print()
-            text_speed("1. Attack.")
-            text_speed("2. Defend. (NO IMPLEMENTADO)")
-            text_speed("3. sword dance. (NO IMPLEMENTADO)")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
+                    jugadorEnTurno.realizar_ataque(objetivo)
+                if opc == 2:
+                    jugadorEnTurno.crear_pociones()
+                    text_speed("¿Do you wanna conserve your potion?")
+                    opc = int(input("1.Yes.\n2.No.\nOpc: "))
+                    if opc == 1:
+                        estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                        if estadoObjetivo == 0:
+                            eliminarPersonaje(objetivo, jugadorEnTurno)
+                    if opc == 2:
+                        jugadorEnTurno.crear_pociones()
+                        text_speed("¿Do you wanna conserve your potion?")
+                        opc = int(input("1.Yes.\n2.No.\nOpc: "))
+                        if opc == 1:
+                            text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
+                            input("Press ENTER to continue. ")
+                        elif opc == 2:
+                            jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
+            
+            elif jugadorEnTurno.titulo == "Warrior":
                 print()
-        elif pj.titulo == "Sorcerer":
-            text_speed("1. Attack.")
-            text_speed("2. cure. (NO IMPLEMENTADO)")
-            text_speed("3. Meteorite storm ☄")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
-        elif pj.titulo == "Arquero":
-            print()
-            text_speed("1. Attack.")
-            text_speed("2. Accurate arrow. (NOT IMPLEMENTED)")
-            text_speed("3. arrow storm. (NO IMPLEMENTADO)")
-            opc = int(input("Option: "))
-            if opc == 1:
-                pj.realizar_ataque(objetivo)
+                text_speed("1. Attack.")
+                text_speed("2. Defend. (NO IMPLEMENTADO)")
+                text_speed("3. sword dance. (NO IMPLEMENTADO)")
+                opc = int(input("Option: "))
+                if opc == 1:
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    print()
+            
+            elif jugadorEnTurno.titulo == "Sorcerer":
+                text_speed("1. Attack.")
+                text_speed("2. cure. (NO IMPLEMENTADO)")
+                text_speed("3. Meteorite storm ☄")
+                opc = int(input("Option: "))
+                if opc == 1:
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+            
+            elif jugadorEnTurno.titulo == "Archer":
+                print()
+                text_speed("1. Attack.")
+                text_speed("2. Poison Arrow")
+                text_speed("3. healing arrow")
+                opc = int(input("Option: "))
+                if opc == 1:
+                    jugadorEnTurno.realizar_ataque(objetivo)
+                elif opc == 2:
+                    jugadorEnTurno.flecha_venenosa(objetivo)
+                    lista_envenenados.append(objetivo)
+                elif opc == 3:
+                    jugadorEnTurno.flecha_curativa(objetivo)
+                    lista_envenenados.remove(objetivo)
+            
         print(objetivo)
+        rondas +=1
+        # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
+    nombrarGanador(fundadores, rondas)

@@ -12,6 +12,10 @@ class Clan:
         self.miembros.append(miembro)
         self.cantidadMiembros += 1
         
+    def remover_miembro(self, miembro):
+        self.miembros.remove(miembro)
+        self.cantidadMiembros -= 1
+        
     def listar_miembros(self):
         print()
         print("*** *** *** *** ***")
