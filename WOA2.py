@@ -5,6 +5,12 @@ import random, os, sys, time
 from personajes import *
 from clanes import *
 
+from colorama import Fore
+'''LOS FUNDADORES TENDRAN COLOR AZUL
+LOS MAGOS TENDRAN UN COLOR VERDE
+LOS GUERRREROS TENDRAN COLOR ROJO
+LOS ARQUEROS TENDRAN UN COLOR CYAN'''
+
 #--INICIO FUNCIONES--
 
 '''Función para mostrar el texto de manera incremental.
@@ -19,19 +25,19 @@ def text_speed(text, velocity = 0.05):
     print()
 
 def crearGuerrero(titulo):
-    nombre = input(f"Name of the {titulo}: ").upper()
+    nombre = input(f"Name of the {Fore.RED} {titulo} {Style.RESET_ALL}: ").upper()
     guerrero = Guerrero(nombre)
     guerreros.append(guerrero)
     return guerrero
 
 def crearMago(titulo):
-    nombre = input(f"Name of the {titulo}: ").upper()
+    nombre = input(f"Name of the {Fore.GREEN} {titulo} {Style.RESET_ALL}: ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
 
 def crearArquero(titulo):
-    nombre = input(f"Name of the {titulo}: ").upper()
+    nombre = input(f"Name of the {Fore.CYAN} {titulo} {Style.RESET_ALL}: ").upper()
     arquero = Arquero(nombre)
     arqueros.append(arquero)
     return arquero
@@ -106,10 +112,10 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
 
     if opcion == 3:
         text_speed("Title to list", 0)
-        text_speed("1. Founders", 0)
-        text_speed("2. Sorcerers", 0)
-        text_speed("3. warriors", 0)
-        text_speed("4. Archers", 0)
+        text_speed( Fore.BLUE + "1. Founders", 0)
+        text_speed( Fore.GREEN + "2. Sorcerers", 0)
+        text_speed(Fore.RED + "3. warriors", 0)
+        text_speed(Fore.CYAN + "4. Archers", 0)
         tipo = int(input("Enter your option: "))
         if tipo == 1:
             listaObjetivos = fundadores
