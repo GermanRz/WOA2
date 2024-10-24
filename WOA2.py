@@ -5,11 +5,12 @@ import random, os, sys, time
 from personajes import *
 from clanes import *
 
-from colorama import Fore
+from colorama import Fore, Style
 '''LOS FUNDADORES TENDRAN COLOR AZUL
 LOS MAGOS TENDRAN UN COLOR VERDE
 LOS GUERRREROS TENDRAN COLOR ROJO
-LOS ARQUEROS TENDRAN UN COLOR CYAN'''
+LOS ARQUEROS TENDRAN UN COLOR CYAN
+LOS CLANES TENDRÁN UN COLOR MORADO'''
 
 #--INICIO FUNCIONES--
 
@@ -43,7 +44,7 @@ def crearArquero(titulo):
     return arquero
 
 def crearFundador(mago):
-    text_speed("Your destiny is to be a founder in these wastelands of Pythonias...")
+    text_speed(f"Your destiny is to be a {Fore.BLUE} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
     magos.remove(mago)
@@ -59,14 +60,14 @@ def seleccionarClan(personaje):
     asignado = False
     while not asignado:
         for index, clan in enumerate(clanes):
-            text_speed(f"{index+1} : {clan.nombre}")
+            text_speed(f"{index+1} : {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL}")
         print()
         nombreClan = input("Enter the name of the clan -> ").upper()
         for clan in clanes:
             if clan.nombre == nombreClan:
                 personaje.asignar_clan(nombreClan)
                 clan.agregar_miembro(personaje)
-                input(f"{personaje.nombre} has been added to the clan {clan.nombre} <ENTER TO CONTINUE>")
+                input(f"{personaje.nombre} has been added to the clan {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL} <ENTER TO CONTINUE>")
                 asignado = True
         if asignado == False:
             text_speed(f"The clan {nombreClan} does not exist...")
@@ -84,7 +85,7 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
     if opcion == 1:
         text_speed("clan list")
         for index, clan in enumerate(clanes):
-            print(f"{index+1} {clan.nombre}")
+            print(f"{index+1} {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL}")
         indexClan = int(input("Select clan number: ")) - 1
         if 0 <= indexClan < len(clanes):# es igual que indexClan >= 0 or indexClan < len(clanes)
             clan = clanes[indexClan]
@@ -112,10 +113,10 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
 
     if opcion == 3:
         text_speed("Title to list", 0)
-        text_speed( Fore.BLUE + "1. Founders", 0)
-        text_speed( Fore.GREEN + "2. Sorcerers", 0)
+        text_speed(Fore.BLUE + "1. Founders", 0)
+        text_speed(Fore.GREEN + "2. Sorcerers", 0)
         text_speed(Fore.RED + "3. warriors", 0)
-        text_speed(Fore.CYAN + "4. Archers", 0)
+        text_speed(Fore.CYAN + f"4. Archers {Style.RESET_ALL}", 0)
         tipo = int(input("Enter your option: "))
         if tipo == 1:
             listaObjetivos = fundadores
@@ -146,7 +147,16 @@ def organizarTurno(lst_pjs):
     
     text_speed("This will be the order of turns per player: ")
     for index, pj in enumerate(turnos_ordenados):
-        text_speed(f"{index+1} | Title: {pj.titulo} | Name: {pj.nombre}")
+        if pj.titulo == "Warrior":
+            text_speed(f"{index+1} | Title: {Fore.RED} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+        elif pj.titulo == "Sorcerer":
+            text_speed(f"{index+1} | Title: {Fore.GREEN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+        elif pj.titulo == "Archer":
+            text_speed(f"{index+1} | Title: {Fore.CYAN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+        else:
+            text_speed(f"{index+1} | Title: {Fore.BLUE} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+    time.sleep(2)
+            
     return turnos_ordenados
 
 #--FIN FUNCIONES--
@@ -197,7 +207,7 @@ if __name__=="__main__":
             print()
             text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
             
-            opcionPersonaje = int(input("1.Warrior\n2.Sorcerers\n3.Archer\nOption: "))
+            opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
             if opcionPersonaje == 1:
                 guerrero = crearGuerrero("warrior")
                 seleccionarClan(guerrero)
