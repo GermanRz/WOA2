@@ -224,7 +224,7 @@ if __name__=="__main__":
                 text_speed("2. Create potions.")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
                 if opc == 2:
                     jugadorEnTurno.crear_pociones()
                     text_speed("¿Do you wanna conserve your potion?")
@@ -241,7 +241,7 @@ if __name__=="__main__":
                 text_speed("3. sword dance. (NO IMPLEMENTADO)")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     print()
             elif jugadorEnTurno.titulo == "Sorcerer":
                 text_speed("1. Attack.")
@@ -249,7 +249,7 @@ if __name__=="__main__":
                 text_speed("3. Meteorite storm ☄")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
             elif jugadorEnTurno.titulo == "Arquero":
                 print()
                 text_speed("1. Attack.")
