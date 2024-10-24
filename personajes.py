@@ -1,4 +1,5 @@
 import random
+<<<<<<< HEAD
 from WOA2 import text_speed
 from WOA2 import lista_personajes
 import colorama
@@ -7,6 +8,9 @@ from colorama import Fore, Back, Style
 colorama.init()#esto es necesario para iniciar la clase colorama
 
 
+=======
+from resources import text_speed
+>>>>>>> 14a68b0fdd24ba462768808ef3c26206f53e0ce8
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -77,6 +81,7 @@ class Arquero(Personaje):
 #***********************************************************************
 
 class Fundador(Mago):
+    cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
         self.fuerza = 100
@@ -86,16 +91,16 @@ class Fundador(Mago):
         self.vida_original = self.puntos_vida
         self.slot_pociones = []
         text_speed(f"{self.nombre} has founded a clan.")
-       
         
     def crear_pociones(self):
         cura_aleatoria = random.randint(10, 25)
         if len(self.slot_pociones) < 3:
             self.slot_pociones.append(cura_aleatoria)
+            self.cont_pociones += 1#Se aumenta el contador de las pociones
             for pocion in self.slot_pociones:
-                text_speed(f"{self.nombre} 🧙‍♂️ Potions: ({list(self.slot_pociones)} 🥤| Healing: {pocion} 💗)")
+                text_speed(f"{self.nombre} 🧙‍♂️🧙‍♀️ Potions: ({self.cont_pociones} 🥤| Healing: {pocion} 💗)")
         else:
-            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.slot_pociones)}")
+            text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.cont_pociones)}")
 
     def conceder_curacion(self, lst_pjs, pj_receptor):
         for index, pj in enumerate(lst_pjs):
@@ -105,11 +110,13 @@ class Fundador(Mago):
             pj_receptor = lst_pjs[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
             self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
             curacion = self.slot_pociones.pop()#SACA LA POCIÓN DEL BOLSILLO
-            text_speed(f"{self.nombre} has using a healing potion 🥤! in {self.pj_receptor.nombre}")
+            self.cont_pociones -= 1
+            text_speed(f"{self.nombre} has using a healing potion 🥤 in {self.pj_receptor.nombre}")
             pj_receptor.fuerza += curacion
             pj_receptor.puntos_vida += curacion
             pj_receptor.defensa += curacion
             pj_receptor.ataque += curacion
+            input("Press ENTER to continue! ")
         else:
             text_speed(f"That character does´nt even exist!")
         return pj_receptor
