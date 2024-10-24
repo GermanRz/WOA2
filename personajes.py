@@ -52,6 +52,31 @@ class Personaje:
             print(f"The {self.titulo} {self.nombre} has died")
             return 0 #death
                    
+    
+    # APLICANDO EFECTO DE ATAQUE FLECHA VENENOSA AL OBJETIVO
+    
+    def recibir_venenoso(self,damage):
+        print(f"{self.nombre}has received damage!")
+        factor_damage = (self.defensa * damage) / 100
+        self.fuerza = round(self.fuerza / (factor_damage + 1))
+        self.puntos_vida = round(self.puntos_vida / (factor_damage + 1))
+        self.defensa = round(self.defensa / (factor_damage + 1))
+        self.ataque = round(self.ataque / (factor_damage + 1))
+    
+     # FIN
+
+     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    
+    def restar_punto_vida(self):
+        if self.puntos_vida != 0:
+            self.puntos_vida -= 1
+        if self.puntos_vida > 0:
+         print("estas bajo el ataque de flecha venenosa ")
+        if   self.puntos_vida == 0:
+            print(f"{self.nombre} ha muerto")
+      
+    
+       #FIN
 
 
     def __str__(self):
@@ -104,6 +129,24 @@ class Arquero(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
+        self.vida_original = self.puntos_vida
+    
+    def flecha_venenosa(self, objetivo ):
+        damage = ((self.fuerza + self.ataque) / ((self.vida_original - self.puntos_vida) + self.vida_original)) / 10
+        objetivo.recibir_venenoso( damage)
+        print(f"{self.nombre} ha disparado una flecha venenosa a {objetivo.nombre}!")
+    
+    def flecha_curativa(self, objetivo):
+        
+        curacion = round(self.vida_original * 0.01)  
+        objetivo.puntos_vida += curacion
+
+        # Asegurarnos de que no supere los puntos de vida originales
+        if objetivo.puntos_vida > objetivo.vida_original:
+            objetivo.puntos_vida = objetivo.vida_original
+
+        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+
 
 #***********************************************************************
 
