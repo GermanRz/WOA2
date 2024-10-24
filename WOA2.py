@@ -153,6 +153,35 @@ def limpiar_consola():
 def nombrarGanador(fundadores, rondas):
     limpiar_consola()
     text_speed(f"You have conquered the kingdom after {rondas} tough battles, the king in the Python. Long live the king {fundadores[0]}")
+    
+def eliminarPersonaje(objetivo, asesino):
+    if objetivo.titulo=="Founder":
+        text_speed('''
+                   ⚔️ The Fall of the Founder ⚔️
+                   
+                   Today, the kingdom is tinged with shadows with the death of {objetivo.nombre}, 
+                   founder of the glorious {objetivo.clan} clan. His days of leadership 
+                   and bravery have come to an end, slain in battle by the {asesino.clan} clan.
+                   
+                   According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
+        fundadores.remove(objetivo)
+        #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
+        print()
+        input("ENTER to continue...")
+    elif objetivo.titulo=="Archer":
+        arqueros.remove(objetivo)
+    elif objetivo.titulo=="Sorcerer":
+        magos.remove(objetivo)
+    else:
+        guerreros.remove(objetivo)
+        #en este punto se debe inhablitar la defensa de los protegidos por este guerrero
+        
+    #remover de los jugadores activos        
+    turnos_ordenados.remove(objetivo)
+    # remover del clan
+    for clan in clanes:
+        if clan.nombre == objetivo.clan:
+            clan.remover_miembro(objetivo)
 
 #--FIN PROCEDIMIENTOS--
 
@@ -225,6 +254,8 @@ if __name__=="__main__":
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
                 if opc == 2:
                     jugadorEnTurno.crear_pociones()
                     text_speed("¿Do you wanna conserve your potion?")
