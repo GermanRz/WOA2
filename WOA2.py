@@ -15,26 +15,26 @@ LOS CLANES TENDRÁN UN COLOR MORADO'''
 
 #--INICIO FUNCIONES--
 
-def crearGuerrero(titulo):
-    nombre = input(f"Name of the {Fore.RED} {titulo} {Style.RESET_ALL}: ").upper()
+def crearGuerrero(titulo, color = Fore.RED):
+    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
     guerrero = Guerrero(nombre)
     guerreros.append(guerrero)
     return guerrero
 
-def crearMago(titulo):
-    nombre = input(f"Name of the {Fore.GREEN} {titulo} {Style.RESET_ALL}: ").upper()
+def crearMago(titulo, color = Fore.GREEN):
+    nombre = input(f"Name of the {color}  {titulo} {Style.RESET_ALL}: ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
 
-def crearArquero(titulo):
-    nombre = input(f"Name of the {Fore.CYAN} {titulo} {Style.RESET_ALL}: ").upper()
+def crearArquero(titulo,color = Fore.CYAN):
+    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
     arquero = Arquero(nombre)
     arqueros.append(arquero)
     return arquero
 
-def crearFundador(mago):
-    text_speed(f"Your destiny is to be a {Fore.GREEN} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
+def crearFundador(mago,color = Fore.BLUE):
+    text_speed(f"Your destiny is to be a {color} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
     magos.remove(mago)
@@ -138,13 +138,13 @@ def organizarTurno(lst_pjs):
     text_speed("This will be the order of turns per player: ")
     for index, pj in enumerate(turnos_ordenados):
         if pj.titulo == "Warrior":
-            text_speed(f"{index+1} | Title: {Fore.RED} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"{index+1} | Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Sorcerer":
-            text_speed(f"{index+1} | Title: {Fore.GREEN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"{index+1} | Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Archer":
-            text_speed(f"{index+1} | Title: {Fore.CYAN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"{index+1} | Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         else:
-            text_speed(f"{index+1} | Title: {Fore.BLUE} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"{index+1} | Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
     time.sleep(2)
             
     return turnos_ordenados
@@ -161,13 +161,13 @@ def listarTodoElStaff():
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         if pj.titulo == "Warrior":
-            text_speed(f"Title: {Fore.RED} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Sorcerer":
-            text_speed(f"Title: {Fore.GREEN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Archer":
-            text_speed(f"Title: {Fore.CYAN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         else:
-            text_speed(f"Title: {Fore.BLUE} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
     time.sleep(2)
     text_speed("--***---***--***---***--***---***", 0)
     print()
@@ -264,7 +264,7 @@ if __name__ == "__main__":
             
             opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
             if opcionPersonaje == 1:
-                guerrero = crearGuerrero("warrior")
+                guerrero = crearGuerrero("Warrior")
                 seleccionarClan(guerrero)
                 limpiar_consola()
             elif opcionPersonaje == 2:
