@@ -2,7 +2,7 @@ import random
 from WOA2 import text_speed
 from WOA2 import lista_personajes
 import colorama
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 
 colorama.init()#esto es necesario para iniciar la clase colorama
 
@@ -57,9 +57,16 @@ class Personaje:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
             return 1 #live
         else:
-            print(f"The {self.titulo} {self.nombre} has died")
+            if self.titulo=="Warrior":
+                print(f"The {Fore.RED} {self.titulo} {Style.RESET_ALL} {self.nombre} has died")
+            elif self.titulo=="Sorcerer":
+                print(f"The {Fore.GREEN} {self.titulo} {Style.RESET_ALL} {self.nombre} has died")
+            elif self.titulo=="Archer":
+                print(f"The {Fore.CYAN} {self.titulo} {Style.RESET_ALL} {self.nombre} has died")
+            else:
+                print(f"The {Fore.BLUE} {self.titulo} {Style.RESET_ALL} {self.nombre} has died")
+
             return 0 #death
-                   
     
     # APLICANDO EFECTO DE ATAQUE FLECHA VENENOSA AL OBJETIVO
     
