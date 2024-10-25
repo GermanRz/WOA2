@@ -207,6 +207,29 @@ def eliminarPersonaje(objetivo, asesino):
     for clan in clanes:
         if clan.nombre == objetivo.clan:
             clan.remover_miembro(objetivo)
+            
+def informacionClanes():
+    opc = 0
+    while opc!=3:
+        limpiar_consola()
+        text_speed("After this tough encounter you will find the status of the clans after the battle")
+        text_speed("1. All clans.")
+        text_speed("2. Specific clan.")
+        text_speed("3. Continue with the next battle")
+        opc = int(input("Option: "))
+        if opc == 1:
+            for clan in clanes:
+                clan.listar_miembros()
+                input("ENTER to continue...")
+        if opc == 2:
+            for index, clan in enumerate(clanes):
+                text_speed(f"{index+1} : {clan.nombre}")
+            print()
+            nombreClan = input("Enter the name of the clan -> ").upper()
+            for clan in clanes:
+                if clan.nombre == nombreClan:
+                    clan.listar_miembros()
+                    input("ENTER to continue...")
 
 #--FIN PROCEDIMIENTOS--
 
@@ -266,10 +289,14 @@ if __name__=="__main__":
     #Mientras que existe más de un fundador
     while len(fundadores)>1:
 
+        informacionClanes()
         cont_turnos = 0
         for jugadorEnTurno in turnos_ordenados:
             for envenenados in lista_envenenados:
                 envenenados.restar_punto_vida()
+                if jugadorEnTurno == envenenados:
+                 lista_envenenados.remove(jugadorEnTurno)
+
             cont_turnos += 1
             limpiar_consola()
             text_speed(f"*** Turn: {cont_turnos} ***")
