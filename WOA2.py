@@ -314,8 +314,8 @@ if __name__=="__main__":
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     print()
                 elif opc == 2:
-                    jugadorEnTurno.proteger(objetivo)
-                    input("CONTINUAR")
+                    jugadorEnTurno.protector(objetivo)  #el jugador en turno entra en la lista del objetivo (lista de protectores)
+                    jugadorEnTurno.protegido(objetivo)  #el objetivo entra en la lista del jugador en turno (lista de protegidos)
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 text_speed("1. Attack.")

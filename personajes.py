@@ -72,11 +72,11 @@ class Personaje:
     
        #FIN
 
-    def proteger(self, objetivo):
+    def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
-        for protector in objetivo.lst_protectores:
-            print(protector)
-        input("LISTA DE PROTECTORES")
+        # for protector in objetivo.lst_protectores:
+        #     print(protector)
+        # input("LISTA DE PROTECTORES")
 
 
     def __str__(self):
@@ -99,6 +99,10 @@ class Guerrero(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
+        self.lst_protegidos = []
+
+    def protegido(self, protegido):
+        self.lst_protegidos.append(protegido)
         
 #***********************************************************************
 
