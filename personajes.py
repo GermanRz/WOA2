@@ -6,6 +6,7 @@ class Personaje:
         self.nombre = nombre
         self.titulo = titulo
         self.clan = clan
+        self.lst_protectores = []
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -70,6 +71,12 @@ class Personaje:
       
     
        #FIN
+
+    def proteger(self, objetivo):
+        objetivo.lst_protectores.append(self)
+        for protector in objetivo.lst_protectores:
+            print(protector)
+        input("LISTA DE PROTECTORES")
 
 
     def __str__(self):

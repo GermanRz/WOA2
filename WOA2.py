@@ -313,6 +313,9 @@ if __name__=="__main__":
                 if opc == 1:
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     print()
+                elif opc == 2:
+                    jugadorEnTurno.proteger(objetivo)
+                    input("CONTINUAR")
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 text_speed("1. Attack.")
