@@ -1,6 +1,7 @@
 '''
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
+from resources import *
 import random, os
 from personajes import *
 from clanes import *
@@ -159,7 +160,15 @@ def listarTodoElStaff():
     text_speed("List of all the characters present in the game: ")
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
-        text_speed(pj.nombre)
+        if pj.titulo == "Warrior":
+            text_speed(f"Title: {Fore.RED} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+        elif pj.titulo == "Sorcerer":
+            text_speed(f"Title: {Fore.GREEN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+        elif pj.titulo == "Archer":
+            text_speed(f"Title: {Fore.CYAN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+        else:
+            text_speed(f"Title: {Fore.BLUE} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+    time.sleep(2)
     text_speed("--***---***--***---***--***---***", 0)
     print()
 
