@@ -16,6 +16,8 @@ class Clan:
         self.miembros.remove(miembro)
         self.cantidadMiembros -= 1
         
+        
+    #metodo para calcular la fuerza de los miembros por categoria
     def info_miembros(self, titulo):
         cantidad = 0
         fuerza, vida, defensa, ataque = 0, 0, 0, 0
@@ -40,14 +42,15 @@ class Clan:
             defensaClan += miembro.defensa
             ataqueClan += miembro.ataque
         cantidad, fuerza, vida, defensa, ataque = self.info_miembros("Archer")   
-        print(f"{cantidad} Archers --> fuerza({fuerza}), vida({vida}) defensa({defensa}) ataque({ataque})")
+        print(f"{cantidad} Archers --> Strength({fuerza}), Life({vida}) Defense({defensa}) strike force({ataque})")
         cantidad, fuerza, vida, defensa, ataque = self.info_miembros("Warrior")   
-        print(f"{cantidad} Warrior --> fuerza({fuerza}), vida({vida}) defensa({defensa}) ataque({ataque})")        
+        print(f"{cantidad} Warrior --> Strength({fuerza}), Life({vida}) Defense({defensa}) strike force({ataque})")
         cantidad, fuerza, vida, defensa, ataque = self.info_miembros("Sorcerer")   
-        print(f"{cantidad} Sorcerer --> fuerza({fuerza}), vida({vida}) defensa({defensa}) ataque({ataque})") 
+        print(f"{cantidad} Sorcerer --> Strength({fuerza}), Life({vida}) Defense({defensa}) strike force({ataque})")
         print()
-        cantidad, fuerza, vida, defensa, ataque = self.info_miembros("Founder")  
-        print(f"Founder {self.nombre} --> fuerza({fuerzaClan}), vida({vidaClan}) defensa({defensaClan}) ataque({ataqueClan})")  
+        cantidad, fuerza, vida, defensa, ataque = self.info_miembros("Founder")
+        print(f"Clan {self.nombre} statistics") 
+        print(f"Founder {self.fundador} | Strength({fuerzaClan}), Life({vidaClan}) Defense({defensaClan}) strike force({ataqueClan})")
             
 
 #***********************************************************************
