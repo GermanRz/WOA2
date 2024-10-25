@@ -1,4 +1,12 @@
 import random
+from WOA2 import text_speed
+from WOA2 import lista_personajes
+import colorama
+from colorama import Fore, Back, Style
+
+colorama.init()#esto es necesario para iniciar la clase colorama
+
+
 from resources import text_speed
 
 class Personaje:
