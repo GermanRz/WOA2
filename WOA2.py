@@ -33,7 +33,7 @@ def crearArquero(titulo,color = Fore.CYAN):
     arqueros.append(arquero)
     return arquero
 
-def crearFundador(mago,color = Fore.BLUE):
+def crearFundador(mago, color = Fore.BLUE):
     text_speed(f"Your destiny is to be a {color} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
@@ -310,6 +310,8 @@ if __name__ == "__main__":
                 clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
                 if clan:
                     if len(clan.miembros) < 2:
+                        # Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
+                        jugadorEnTurno.elegir_ataque_desesperado()
                         jugadorEnTurno.fundador_ataque_desesperado(clanes)
                         clan.info_miembros(jugadorEnTurno.titulo)
                         input("Enter para continuar")

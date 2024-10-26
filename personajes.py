@@ -162,6 +162,7 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
+        self.ataque_desesperado = None # Atributo para cuando esté solo el fundador, poder elegir un ataque desesperado
         self.fuerza = 100
         self.puntos_vida = 110
         self.defensa = 110
@@ -203,11 +204,35 @@ class Fundador(Mago):
             text_speed(f"That character does´nt even exist!")
         return pj_receptor
     
+    def elegir_ataque_desesperado(self):
+        ataques = {
+        1: "Katon: Magnificent destruction of fire 🔥",
+        2: "Final Kamehameha x100 ☄",
+        3: "Domain expansion: Malevolent shrine 🤘",
+        4: "Domain expansion: Incommensurable void 🤞"
+        }
+    
+        for num, ataque in ataques.items():
+            text_speed(f"{num} | {ataque}")
+        
+        estado = True
+    
+        while estado:
+            try:
+                opc = int(input("Deciding your final attack: "))
+                if opc < 1 or opc > 4:
+                    text_speed("I don´t have that attack!")
+                else:
+                    self.ataque_desesperado = ataques[opc]
+                    estado = False
+            except ValueError:
+                text_speed("Please, enter a valid option...")
+    
     def fundador_ataque_desesperado(self, clanes):
         text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
         text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
-        text_speed(f"The {self.titulo} {self.nombre} has gonna begin a domain expansion... ")
-        text_speed("Domain expansion... 🤘 Malevolent shrine 🤘", 0.07)
+        text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
+        text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}", 0.07)
         #Se multiplican sus atributos de ataque
         fuerza_duplicada = self.fuerza_original * 2
         ataque_duplicado = self.ataque_original * 2
