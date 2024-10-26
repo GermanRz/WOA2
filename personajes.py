@@ -217,5 +217,3 @@ if __name__ == "__main__":
     print(arquero)
     print(fundador)
     #print(f"{mago.nombre}'s mana bar: {mago.barra_mana}")
-if __name__ == "__main__":
-            pass
