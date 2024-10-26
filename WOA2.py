@@ -22,7 +22,7 @@ def crearGuerrero(titulo, color = Fore.RED):
     return guerrero
 
 def crearMago(titulo, color = Fore.GREEN):
-    nombre = input(f"Name of the {color}  {titulo} {Style.RESET_ALL}: ").upper()
+    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
@@ -305,7 +305,15 @@ if __name__ == "__main__":
             print()
             text_speed("-- Choose an option --")
             
+            
             if jugadorEnTurno.titulo == "Founder":
+                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
+                if clan:
+                    if len(clan.miembros) < 2:
+                        jugadorEnTurno.fundador_ataque_desesperado(clanes)
+                        clan.info_miembros(jugadorEnTurno.titulo)
+                        input("Enter para continuar")
+                
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")
                 opc = int(input("Option: "))

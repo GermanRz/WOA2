@@ -202,8 +202,26 @@ class Fundador(Mago):
         else:
             text_speed(f"That character does´nt even exist!")
         return pj_receptor
+    
+    def fundador_ataque_desesperado(self, clanes):
+        text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
+        text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
+        text_speed(f"The {self.titulo} {self.nombre} has gonna begin a domain expansion... ")
+        text_speed("Domain expansion... 🤘 Malevolent shrine 🤘", 0.07)
+        #Se multiplican sus atributos de ataque
+        fuerza_duplicada = self.fuerza_original * 2
+        ataque_duplicado = self.ataque_original * 2
         
-        
+        for index, clan_obj in enumerate(clanes):
+            text_speed(f"{index+1} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
+        while True:
+            try:    
+                elegir_clan = int(input("Select by number of the clan that gonna suffer: "))
+                if 0 <= elegir_clan < len(clanes):
+                    clan = clanes[elegir_clan]
+                    
+            except ValueError:
+                text_speed("Please, select by number")
 #***********************************************************************
 
 if __name__ == "__main__":
