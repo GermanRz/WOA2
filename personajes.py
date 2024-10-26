@@ -73,19 +73,18 @@ class Personaje:
 
             return 0 #death
     
-     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
     
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-         print("estas bajo el ataque de flecha venenosa ")
+            print("estas bajo el ataque de flecha venenosa ")
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
-      
     
-       #FIN
-
+    
+    #FIN
 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
@@ -207,37 +206,5 @@ class Fundador(Mago):
         
 #***********************************************************************
 
-if __name__=="__main__":
-    fundador = Fundador("f")
-    arquero1 = Arquero("a1")
-    guerrero1 = Guerrero("g1")
-    guerrero2 = Guerrero("g2")
-    mago1 = Mago("m1")
-    
-    arquero1.flecha_venenosa(guerrero1)
-    print(guerrero1)
-    print()
-    arquero1.realizar_ataque(guerrero2)
-    print(guerrero2)    
-    
-    
-    arquero2 = Arquero("a2")
-    arquero3 = Arquero("a3")
-    arquero4 = Arquero("a4")
-    arquero5 = Arquero("a5")
-
-    # arquero1.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero2.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero5.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
+if __name__ == "__main__":
     pass
