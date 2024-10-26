@@ -56,20 +56,28 @@ class Personaje:
         else:
             print(f"The {self.titulo} {self.nombre} has died")
             return 0 #death
-                   
+                
     
-     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
     
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-         print("estas bajo el ataque de flecha venenosa ")
+            print("estas bajo el ataque de flecha venenosa ")
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
-      
     
-       #FIN
+    
+    #FIN
+
+    def ataque_doble(self, objetivo):
+        print(f"{self.nombre} launches double attack {objetivo.nombre}!")
+        # Incrementación del ataque
+        damage = self.ataque * 1.4  
+        objetivo.recibir_ataque(damage)
+        print(f"{objetivo.nombre} takes damage {damage}!")
+        input("Press ENTER to continue. ")
 
 
     def __str__(self):
@@ -209,3 +217,5 @@ if __name__ == "__main__":
     print(arquero)
     print(fundador)
     #print(f"{mago.nombre}'s mana bar: {mago.barra_mana}")
+if __name__ == "__main__":
+            pass
