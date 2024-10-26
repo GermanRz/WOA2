@@ -34,7 +34,7 @@ def crearArquero(titulo,color = Fore.CYAN):
     return arquero
 
 def crearFundador(mago,color = Fore.BLUE):
-    text_speed(f"Your destiny is to be a {Fore.BLUE} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
+    text_speed(f"Your destiny is to be a {color} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
     magos.remove(mago)
@@ -161,13 +161,13 @@ def listarTodoElStaff():
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         if pj.titulo == "Warrior":
-            text_speed(f"Title: {Fore.RED} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Sorcerer":
-            text_speed(f"Title: {Fore.GREEN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Archer":
-            text_speed(f"Title: {Fore.CYAN} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         else:
-            text_speed(f"Title: {Fore.BLUE} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
     time.sleep(2)
     text_speed("--***---***--***---***--***---***", 0)
     print()
