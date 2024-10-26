@@ -163,7 +163,8 @@ def eliminarPersonaje(objetivo, asesino):
                    founder of the glorious {objetivo.clan} clan. His days of leadership 
                    and bravery have come to an end, slain in battle by the {asesino.clan} clan.
                    
-                   According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
+                   According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, 
+                   becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
         fundadores.remove(objetivo)
         #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
         print()
@@ -205,6 +206,7 @@ def informacionClanes():
                 if clan.nombre == nombreClan:
                     clan.listar_miembros()
                     input("ENTER to continue...")
+
 
 #--FIN PROCEDIMIENTOS--
 
@@ -285,33 +287,32 @@ if __name__=="__main__":
                 text_speed("2. Create potions.")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    jugadorEnTurno.realizar_ataque(objetivo)
+                    # ********************************************************
+                    #CODIGO PAA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                    # ********************************************************    
                 if opc == 2:
                     jugadorEnTurno.crear_pociones()
                     text_speed("¿Do you wanna conserve your potion?")
                     opc = int(input("1.Yes.\n2.No.\nOpc: "))
                     if opc == 1:
-                        estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
-                        if estadoObjetivo == 0:
-                            eliminarPersonaje(objetivo, jugadorEnTurno)
-                    if opc == 2:
-                        jugadorEnTurno.crear_pociones()
-                        text_speed("¿Do you wanna conserve your potion?")
-                        opc = int(input("1.Yes.\n2.No.\nOpc: "))
-                        if opc == 1:
-                            text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
-                            input("Press ENTER to continue. ")
-                        elif opc == 2:
-                            jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
-            
+                        text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
+                        input("Press ENTER to continue. ")
+                    elif opc == 2:
+                        jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
+        
             elif jugadorEnTurno.titulo == "Warrior":
                 print()
                 text_speed("1. Attack.")
-                text_speed("2. Defend. (NO IMPLEMENTADO)")
+                text_speed("2. Defend.")
                 text_speed("3. sword dance. (NO IMPLEMENTADO)")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
                     print()
                 elif opc == 2:
                     jugadorEnTurno.protector(objetivo)  #el jugador en turno entra en la lista del objetivo (lista de protectores)
@@ -324,7 +325,8 @@ if __name__=="__main__":
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
-            
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)            
             elif jugadorEnTurno.titulo == "Archer":
                 print()
                 text_speed("1. Attack.")
@@ -332,7 +334,9 @@ if __name__=="__main__":
                 text_speed("3. healing arrow")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 2:
                     jugadorEnTurno.flecha_venenosa(objetivo)
                     lista_envenenados.append(objetivo)

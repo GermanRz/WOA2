@@ -18,7 +18,7 @@ class Personaje:
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         # verificar si el objetivo tiene protectores
-        if len(objetivo.lst_protectores)>0:
+        if len(objetivo.lst_protectores)>0 and txtAtaque!="flecha certera":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
 
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
@@ -60,6 +60,11 @@ class Personaje:
             return 1 #live
         else:
             print(f"The {self.titulo} {self.nombre} has died")
+            #si el titulo del objetivo fallecido es un guerrero se debe verificar su lista de protegidos para eliminarse de cada uno de ellos como protector
+            if self.titulo == "Warrior":
+                if len(self.lst_protegidos)>0:
+                    for protegido in self.lst_protegidos:
+                        protegido.lst_protectores.remove(self)
             return 0 #death
                    
     
@@ -160,9 +165,9 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 100
-        self.puntos_vida = 110
-        self.defensa = 110
+        self.fuerza = 40 #100
+        self.puntos_vida = 40 #110
+        self.defensa = 40 #110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
