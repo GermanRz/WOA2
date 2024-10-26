@@ -318,10 +318,13 @@ if __name__=="__main__":
                 text_speed("1. Attack.")
                 text_speed("2. cure. (NO IMPLEMENTADO)")
                 text_speed("3. Meteorite storm ☄")
+                text_speed("4. Double attack")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
-            
+                    estadoObjetivo = jugadorEnTurno.realizar_ataque(objetivo)
+                elif opc == 4:
+                    estadoObjetivo = jugadorEnTurno.ataque_doble(objetivo)
+
             elif jugadorEnTurno.titulo == "Archer":
                 print()
                 text_speed("1. Attack.")
