@@ -310,7 +310,9 @@ if __name__ == "__main__":
                 text_speed("2. Create potions.")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
                 if opc == 2:
                     jugadorEnTurno.crear_pociones()
                     text_speed("¿Do you wanna conserve your potion?")
