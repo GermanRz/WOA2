@@ -70,6 +70,24 @@ class Personaje:
     
     
     #FIN
+    def regeneracion_mana(self):
+        regeneracion = random.randint(5, 25)
+        self.barra_mana += regeneracion
+        if self.barra_mana > 100:
+            self.barra_mana = 100
+        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        
+
+    def usar_hechizo(self, costo_mana):
+        if self.barra_mana >= costo_mana:
+            self.barra_mana -= costo_mana
+            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+        else:
+            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+
+    def __str__(self):
+        return (super().__str__() + 
+                f", Barra de Mana: {self.barra_mana}")
 
     def ataque_doble(self, objetivo):
         print(f"{self.nombre} launches double attack {objetivo.nombre}!")
@@ -205,15 +223,5 @@ class Fundador(Mago):
         
 #***********************************************************************
 
-if __name__ == "__main__":
-    guerrero = Guerrero("jensen")
-    mago = Mago("cristian")
-    arquero = Arquero("jhon")
-    fundador = Fundador("millan")
-
- 
-    print(guerrero)
-    print(mago)
-    print(arquero)
-    print(fundador)
-    #print(f"{mago.nombre}'s mana bar: {mago.barra_mana}")
+if __name__=="__main__":
+    pass
