@@ -107,6 +107,14 @@ class Mago(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
+        self.barra_mana = 50
+          
+    def __str__(self):
+        return (f"{self.titulo}: {self.nombre}\n"
+                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, Attack: {self.ataque}, "
+                f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+        
 
 #***********************************************************************
 
@@ -189,37 +197,15 @@ class Fundador(Mago):
         
 #***********************************************************************
 
-if __name__=="__main__":
-    fundador = Fundador("f")
-    arquero1 = Arquero("a1")
-    guerrero1 = Guerrero("g1")
-    guerrero2 = Guerrero("g2")
-    mago1 = Mago("m1")
-    
-    arquero1.flecha_venenosa(guerrero1)
-    print(guerrero1)
-    print()
-    arquero1.realizar_ataque(guerrero2)
-    print(guerrero2)    
-    
-    
-    arquero2 = Arquero("a2")
-    arquero3 = Arquero("a3")
-    arquero4 = Arquero("a4")
-    arquero5 = Arquero("a5")
+if __name__ == "__main__":
+    guerrero = Guerrero("jensen")
+    mago = Mago("cristian")
+    arquero = Arquero("jhon")
+    fundador = Fundador("millan")
 
-    # arquero1.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero2.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero5.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    pass
+ 
+    print(guerrero)
+    print(mago)
+    print(arquero)
+    print(fundador)
+    #print(f"{mago.nombre}'s mana bar: {mago.barra_mana}")
