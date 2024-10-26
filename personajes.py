@@ -103,12 +103,13 @@ class Personaje:
 #***********************************************************************
 
 class Guerrero(Personaje):
-    def __init__(self, nombre, titulo = "Warrior"):
+    def __init__(self, nombre, titulo = "Warrior", color = Fore.RED):
         super().__init__(nombre, titulo)
         self.fuerza = 90
         self.puntos_vida = 100
         self.defensa = 90
         self.ataque = 100
+        self.color = color
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
@@ -118,12 +119,13 @@ class Guerrero(Personaje):
 #***********************************************************************
 
 class Mago(Personaje):
-    def __init__(self, nombre, titulo = "Sorcerer"):
+    def __init__(self, nombre, titulo = "Sorcerer", color = Fore.GREEN):
         super().__init__(nombre, titulo)
         self.fuerza = 80
         self.puntos_vida = 100
         self.defensa = 80
         self.ataque = 90
+        self.color = color
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
@@ -133,12 +135,13 @@ class Mago(Personaje):
 #***********************************************************************
 
 class Arquero(Personaje):
-    def __init__(self, nombre, titulo = "Archer"):
+    def __init__(self, nombre, titulo = "Archer", color = Fore.CYAN):
         super().__init__(nombre, titulo)
         self.fuerza = 95
         self.puntos_vida = 100
         self.defensa = 80
         self.ataque = 120
+        self.color = color
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
