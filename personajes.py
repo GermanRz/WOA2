@@ -205,11 +205,13 @@ class Fundador(Mago):
         return pj_receptor
     
     def elegir_ataque_desesperado(self):
+        text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
+        text_speed("These are my spells!\n")
         ataques = {
-        1: "Katon: Magnificent destruction of fire 🔥",
-        2: "Final Kamehameha x100 ☄",
-        3: "Domain expansion: Malevolent shrine 🤘",
-        4: "Domain expansion: Incommensurable void 🤞"
+            1: "Katon: Magnificent destruction of fire 🔥",
+            2: "Final Kamehameha x100 ☄",
+            3: "Domain expansion: Malevolent shrine 🤘",
+            4: "Domain expansion: Incommensurable void 🤞"
         }
     
         for num, ataque in ataques.items():
@@ -219,7 +221,7 @@ class Fundador(Mago):
     
         while estado:
             try:
-                opc = int(input("Deciding your final attack: "))
+                opc = int(input("Deciding your final attack: \n"))
                 if opc < 1 or opc > 4:
                     text_speed("I don´t have that attack!")
                 else:
@@ -228,23 +230,42 @@ class Fundador(Mago):
             except ValueError:
                 text_speed("Please, enter a valid option...")
     
-    def fundador_ataque_desesperado(self, clanes):
-        text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
+    def fundador_ataque_desesperado(self, clanes, objetivo):
         text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
         text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
-        text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}", 0.07)
+        text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
+        
         #Se multiplican sus atributos de ataque
-        fuerza_duplicada = self.fuerza_original * 2
-        ataque_duplicado = self.ataque_original * 2
+        fuerza_duplicada = self.fuerza * 2
+        ataque_duplicado = self.ataque * 2
+        ataque_definitivo = fuerza_duplicada + ataque_duplicado #El daño realizado es daño verdadero
         
         for index, clan_obj in enumerate(clanes):
             text_speed(f"{index+1} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
         while True:
             try:    
-                elegir_clan = int(input("Select by number of the clan that gonna suffer: "))
+                elegir_clan = int(input("Select by number of the clan that gonna suffer: ")) -1
                 if 0 <= elegir_clan < len(clanes):
-                    clan = clanes[elegir_clan]
+                    clan = clanes[elegir_clan] #Se elige el clan a atacar
+                    miembros_clan = clan.miembros # Se instancian los miembros
+                    text_speed(f"The founder has casting his fury in all members of clan {clan.nombre}!\n")
+                    for miembro in miembros_clan:
+                        self.realizar_ataque(objetivo, self.ataque_desesperado, 5)
+                        text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
+                        text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}")
+                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
                     
+                    #Disminuye a la mitad todos los atributos del fundador después de haber casteado el ataque desesperado
+                    self.fuerza //= 2
+                    self.puntos_vida //= 2
+                    self.defensa //= 2
+                    self.ataque //= 2
+                    
+                    text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
+                    text_speed(f"-Strenght: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
+                    break
+                else:
+                    text_speed(f"{elegir_clan} doesn't even exist!")
             except ValueError:
                 text_speed("Please, select by number")
 #***********************************************************************
