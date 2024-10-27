@@ -250,6 +250,8 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 
 if __name__ == "__main__":
 
+    audio = "Messmer"
+    reproducir_musica(audio)
     cantidadJugadores = int(input("Number of players: "))
     limpiar_consola()
     for i in range(cantidadJugadores):
@@ -310,6 +312,8 @@ if __name__ == "__main__":
                 clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
                 if clan:
                     if len(clan.miembros) < 2:
+                        audio = "Gael"
+                        reproducir_musica(audio)
                         # Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
                         jugadorEnTurno.elegir_ataque_desesperado()
                         jugadorEnTurno.fundador_ataque_desesperado(clanes)
