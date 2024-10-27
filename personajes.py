@@ -219,10 +219,11 @@ class Fundador(Mago):
         text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
         text_speed("These are my spells!\n")
         ataques = {
-            1: "Katon: Magnificent destruction of fire 🔥",
-            2: "Final Kamehameha x100 ☄",
+            1: "Magnificent destruction of fire 🔥",
+            2: "Divine Pillars of Light 👼",
             3: "Domain expansion: Malevolent shrine 🤘",
-            4: "Domain expansion: Incommensurable void 🤞"
+            4: "Domain expansion: Incommensurable void 🤞",
+            5: "Great Chaos Fire Orb 🌋"
         }
     
         for num, ataque in ataques.items():
@@ -232,8 +233,8 @@ class Fundador(Mago):
     
         while estado:
             try:
-                opc = int(input("Deciding your final attack: \n"))
-                if opc < 1 or opc > 4:
+                opc = int(input("Deciding your final attack: "))
+                if opc < 1 or opc > 5:
                     text_speed("I don´t have that attack!")
                 else:
                     self.ataque_desesperado = ataques[opc]
@@ -246,15 +247,17 @@ class Fundador(Mago):
         text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
         text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
         
-        for index, clan_obj in enumerate(clanes):
-            text_speed(f"{index+1} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
+        clanes_filtrado = [clan_obj for clan_obj in clanes if clan_obj.nombre != self.clan]
+        
+        for index, clan_obj in enumerate(clanes_filtrado):
+            text_speed(f"{index+2} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
             
             # Se duplica temporalmente su fuerza actual para el ataque a un clan
-            self.fuerza = self.fuerza_original * 1.5 # 100 x 2 = 200
-            self.ataque = self.ataque_original * 1.5 # 110 x 2 = 220
+            self.fuerza = self.fuerza_original * 1.5
+            self.ataque = self.ataque_original * 1.5
             
         while True:
-            try:    
+            try:
                 elegir_clan = int(input("Select by number of the clan that gonna suffer: ")) -1
                 if 0 <= elegir_clan < len(clanes):
                     clan = clanes[elegir_clan] #Se elige el clan a atacar
@@ -267,13 +270,12 @@ class Fundador(Mago):
                         text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
                         text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}\n")
                     
-                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
-                    
+                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")                    
                     #Disminuye a la mitad todos los atributos del fundador después de haber casteado el ataque desesperado
-                    self.fuerza //= 2
+                    self.fuerza = self.fuerza_original // 2
                     self.puntos_vida //= 2
                     self.defensa //= 2
-                    self.ataque //= 2
+                    self.ataque = self.ataque_original // 2
                     
                     text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
                     text_speed(f"-Strenght: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
