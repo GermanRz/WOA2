@@ -312,7 +312,7 @@ if __name__ == "__main__":
                     if len(clan.miembros) < 2:
                         # Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
                         jugadorEnTurno.elegir_ataque_desesperado()
-                        jugadorEnTurno.fundador_ataque_desesperado(clanes, objetivo)
+                        jugadorEnTurno.fundador_ataque_desesperado(clanes)
                         clan.info_miembros(jugadorEnTurno.titulo)
                         input("Enter para continuar")
                 

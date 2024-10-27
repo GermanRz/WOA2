@@ -22,27 +22,38 @@ class Personaje:
     se agregan dos parametros acicionales
     txtAtaque : descripcion del ataque recibido (flecha venenosa, ataque meteorito, etc...)  default = " "
     intensidadAtaque: valor entero de la intensidad del ataque.   default = 5
+    self.fuerza = 100
+        self.puntos_vida = 110
+        self.defensa = 110
+        self.ataque = 110
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
         # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
         poder_ataque = (self.fuerza + self.ataque)
+        #420
         
         # 2. Calculamos el poder de la defensa usando solo fuerza y defensa del objetivo
         poder_defensa = (objetivo.fuerza + objetivo.defensa)
+        #220
         
         # 3. Calculamos la diferencia de poder
         diferencia_poder = poder_ataque - poder_defensa
+        #200
         
         # 4. Calculamos el porcentaje de daño base
         if diferencia_poder > 0:
             # Si el ataque es más fuerte que la defensa
             factor_ataque = intensidadAtaque + (diferencia_poder * 0.5)  # 0.5% por cada punto de diferencia
+            #diferencia_poder = 100
+            #intensidadAtaque = 5
+            #factor_ataque = 105
         else:
             # Si la defensa es más fuerte o igual que el ataque
             factor_ataque = intensidadAtaque  # Daño mínimo de intensidadAtaque%
         # 6. Calculamos el daño final
         damage = int((objetivo.vida_original * factor_ataque) / 100)
+        #damage = 105
         estado=objetivo.recibir_ataque(damage)
         return estado
 
@@ -54,9 +65,9 @@ class Personaje:
         porcentaje_vida = self.puntos_vida / self.vida_original
         # print(f"{porcentaje_vida} = {self.puntos_vida} / {self.vida_original}")
         # Los atributos se disminuyen proporcionalmente a la vida perdida
-        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))
-        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))
-        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))
+        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))#-50
+        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))#-55
+        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))#-55
         # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
@@ -230,18 +241,18 @@ class Fundador(Mago):
             except ValueError:
                 text_speed("Please, enter a valid option...")
     
-    def fundador_ataque_desesperado(self, clanes, objetivo):
+    def fundador_ataque_desesperado(self, clanes):
         text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
         text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
         text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
         
-        #Se multiplican sus atributos de ataque
-        fuerza_duplicada = self.fuerza * 2
-        ataque_duplicado = self.ataque * 2
-        ataque_definitivo = fuerza_duplicada + ataque_duplicado #El daño realizado es daño verdadero
-        
         for index, clan_obj in enumerate(clanes):
             text_speed(f"{index+1} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
+            
+            # Se duplica temporalmente su fuerza actual para el ataque a un clan
+            self.fuerza = self.fuerza_original * 1.5 # 100 x 2 = 200
+            self.ataque = self.ataque_original * 1.5 # 110 x 2 = 220
+            
         while True:
             try:    
                 elegir_clan = int(input("Select by number of the clan that gonna suffer: ")) -1
@@ -249,10 +260,13 @@ class Fundador(Mago):
                     clan = clanes[elegir_clan] #Se elige el clan a atacar
                     miembros_clan = clan.miembros # Se instancian los miembros
                     text_speed(f"The founder has casting his fury in all members of clan {clan.nombre}!\n")
+                    
                     for miembro in miembros_clan:
-                        self.realizar_ataque(objetivo, self.ataque_desesperado, 5)
+                        self.realizar_ataque(miembro, self.ataque_desesperado, 1)
+                        print()
                         text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
-                        text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}")
+                        text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}\n")
+                    
                     text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
                     
                     #Disminuye a la mitad todos los atributos del fundador después de haber casteado el ataque desesperado
