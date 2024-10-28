@@ -84,18 +84,47 @@ class Personaje:
                         protegido.lst_protectores.remove(self)
             return 0 #death
     
-     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
     
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-         print("estas bajo el ataque de flecha venenosa ")
+            print("estas bajo el ataque de flecha venenosa ")
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
-      
     
-       #FIN
+    
+    #FIN
+    def regeneracion_mana(self):
+        regeneracion = random.randint(5, 25)
+        self.barra_mana += regeneracion
+        if self.barra_mana > 100:
+            self.barra_mana = 100
+        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        
+
+    def usar_hechizo(self, costo_mana):
+        if self.barra_mana >= costo_mana:
+            self.barra_mana -= costo_mana
+            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+        else:
+            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+
+    def __str__(self):
+        return (super().__str__() + 
+                f", Barra de Mana: {self.barra_mana}")
+
+    def ataque_doble(self, objetivo):
+        print(f"{self.nombre} launches double attack {objetivo.nombre}!")
+        # Incrementación del ataque
+        damage = int(self.ataque * 0.47)  
+        estado_objetivo = objetivo.recibir_ataque(damage)
+        print(f"{objetivo.nombre} takes damage {damage}!")
+        # Muestra el esatdo actualizado del objetivo
+        print(f"After the attack, {objetivo.nombre} 's status:")
+        print(objetivo)
+        input("Press ENTER to continue. ")
 
     def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
@@ -145,6 +174,14 @@ class Mago(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
+        self.barra_mana = 50
+          
+    def __str__(self):
+        return (f"{self.titulo}: {self.nombre}\n"
+                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, Attack: {self.ataque}, "
+                f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+        
 
 #***********************************************************************
 
@@ -229,36 +266,4 @@ class Fundador(Mago):
 #***********************************************************************
 
 if __name__=="__main__":
-    fundador = Fundador("f")
-    arquero1 = Arquero("a1")
-    guerrero1 = Guerrero("g1")
-    guerrero2 = Guerrero("g2")
-    mago1 = Mago("m1")
-    
-    arquero1.flecha_venenosa(guerrero1)
-    print(guerrero1)
-    print()
-    arquero1.realizar_ataque(guerrero2)
-    print(guerrero2)    
-    
-    
-    arquero2 = Arquero("a2")
-    arquero3 = Arquero("a3")
-    arquero4 = Arquero("a4")
-    arquero5 = Arquero("a5")
-
-    # arquero1.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero2.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero5.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
     pass
