@@ -353,11 +353,16 @@ if __name__=="__main__":
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)            
             elif jugadorEnTurno.titulo == "Archer":
+                jugadorEnTurno.mostrar_flechas()
                 print()
                 text_speed("1. Attack.")
                 text_speed("2. Poison Arrow")
                 text_speed("3. healing arrow")
+<<<<<<< HEAD
                 text_speed("4. accurate arrow")
+=======
+                text_speed("4. create poison arrow")
+>>>>>>> b5b1e6256a34ad5027850dc10e8ff39851836814
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -372,11 +377,19 @@ if __name__=="__main__":
                 elif opc == 3:
                     jugadorEnTurno.flecha_curativa(objetivo)
                     lista_envenenados.remove(objetivo)
+<<<<<<< HEAD
                 elif opc== 4:
                     estadoObjetivo=jugadorEnTurno.accurate_arrow(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
 
+=======
+                elif opc == 4:
+                    jugadorEnTurno.crear_flecha_venenosa()
+                    print("You spent your turn creating a new poision arrow.")
+                    
+                   
+>>>>>>> b5b1e6256a34ad5027850dc10e8ff39851836814
             
         print(objetivo)
         rondas +=1
