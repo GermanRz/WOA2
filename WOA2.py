@@ -329,6 +329,7 @@ if __name__ == "__main__":
                 
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")
+                text_speed("3. Give potions.")
                 opc = int(input("Option: "))
                 if opc == 1:
                     # ********************************************************
@@ -337,15 +338,11 @@ if __name__ == "__main__":
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                     # ********************************************************    
-                if opc == 2:
+                elif opc == 2:
                     jugadorEnTurno.crear_pociones()
-                    text_speed("¿Do you wanna conserve your potion?")
-                    opc = int(input("1.Yes.\n2.No.\nOpc: "))
-                    if opc == 1:
-                        text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
-                        input("Press ENTER to continue. ")
-                    elif opc == 2:
-                        jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
+                    text_speed(f"My potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
+                elif opc == 3:
+                    jugadorEnTurno.conceder_curacion(magos, objetivo)
         
             elif jugadorEnTurno.titulo == "Warrior":
                 print()

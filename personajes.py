@@ -222,12 +222,12 @@ class Fundador(Mago):
         else:
             text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.cont_pociones)}")
 
-    def conceder_curacion(self, lst_pjs, pj_receptor):
-        for index, pj in enumerate(lst_pjs):
+    def conceder_curacion(self, lst_magos, pj_receptor):
+        for index, pj in enumerate(lst_magos):
             print(f"{index+1} | {pj.titulo} {pj.nombre}")
-        opc = int(input(f"Select number of the character that you wanna heal with the pocion: ")) - 1
-        if 0 <= opc < len(lst_pjs):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
-            pj_receptor = lst_pjs[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
+        opc = int(input(f"Select number of the {pj.nombre} that you give the heal potion: ")) - 1
+        if 0 <= opc < len(lst_magos):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
+            pj_receptor = lst_magos[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
             self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
             curacion = self.slot_pociones.pop()#SACA LA POCIÓN DEL BOLSILLO
             self.cont_pociones -= 1
