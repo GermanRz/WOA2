@@ -92,9 +92,12 @@ class Personaje:
     def ataque_doble(self, objetivo):
         print(f"{self.nombre} launches double attack {objetivo.nombre}!")
         # Incrementación del ataque
-        damage = self.ataque * 1.4  
-        objetivo.recibir_ataque(damage)
+        damage = int(self.ataque * 0.47)  
+        estado_objetivo = objetivo.recibir_ataque(damage)
         print(f"{objetivo.nombre} takes damage {damage}!")
+        # Muestra el esatdo actualizado del objetivo
+        print(f"After the attack, {objetivo.nombre} 's status:")
+        print(objetivo)
         input("Press ENTER to continue. ")
 
 
