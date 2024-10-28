@@ -23,6 +23,10 @@ class Personaje:
     se agregan dos parametros acicionales
     txtAtaque : descripcion del ataque recibido (flecha venenosa, ataque meteorito, etc...)  default = " "
     intensidadAtaque: valor entero de la intensidad del ataque.   default = 5
+    self.fuerza = 100
+        self.puntos_vida = 110
+        self.defensa = 110
+        self.ataque = 110
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         # verificar si el objetivo tiene protectores
@@ -32,22 +36,29 @@ class Personaje:
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
         # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
         poder_ataque = (self.fuerza + self.ataque)
+        #420
         
         # 2. Calculamos el poder de la defensa usando solo fuerza y defensa del objetivo
         poder_defensa = (objetivo.fuerza + objetivo.defensa)
+        #220
         
         # 3. Calculamos la diferencia de poder
         diferencia_poder = poder_ataque - poder_defensa
+        #200
         
         # 4. Calculamos el porcentaje de daño base
         if diferencia_poder > 0:
             # Si el ataque es más fuerte que la defensa
             factor_ataque = intensidadAtaque + (diferencia_poder * 0.5)  # 0.5% por cada punto de diferencia
+            #diferencia_poder = 100
+            #intensidadAtaque = 5
+            #factor_ataque = 105
         else:
             # Si la defensa es más fuerte o igual que el ataque
             factor_ataque = intensidadAtaque  # Daño mínimo de intensidadAtaque%
         # 6. Calculamos el daño final
         damage = int((objetivo.vida_original * factor_ataque) / 100)
+        #damage = 105
         estado=objetivo.recibir_ataque(damage)
         return estado
 
@@ -59,9 +70,9 @@ class Personaje:
         porcentaje_vida = self.puntos_vida / self.vida_original
         # print(f"{porcentaje_vida} = {self.puntos_vida} / {self.vida_original}")
         # Los atributos se disminuyen proporcionalmente a la vida perdida
-        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))
-        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))
-        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))
+        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))#-50
+        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))#-55
+        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))#-55
         # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
@@ -84,18 +95,23 @@ class Personaje:
                         protegido.lst_protectores.remove(self)
             return 0 #death
     
-     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
     
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-         print("estas bajo el ataque de flecha venenosa ")
+            print("estas bajo el ataque de flecha venenosa ")
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
-      
     
        #FIN
+
+    def protector(self, objetivo):
+        objetivo.lst_protectores.append(self)
+        # for protector in objetivo.lst_protectores:
+        #     print(protector)
+        # input("LISTA DE PROTECTORES")
 
     def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
@@ -188,9 +204,9 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 40 #100
-        self.puntos_vida = 40 #110
-        self.defensa = 40 #110
+        self.fuerza = 100
+        self.puntos_vida = 110
+        self.defensa = 110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
@@ -239,10 +255,10 @@ if __name__=="__main__":
     guerrero2 = Guerrero("g2")
     mago1 = Mago("m1")
     
-    arquero1.accurate_arrow(guerrero1)
+    arquero1.flecha_venenosa(guerrero1)
     print(guerrero1)
     print()
-    arquero1.accurate_arrow(guerrero2)
+    arquero1.realizar_ataque(guerrero2)
     print(guerrero2)    
     
     
