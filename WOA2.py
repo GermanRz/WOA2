@@ -6,6 +6,11 @@ import random, os
 from personajes import *
 from clanes import *
 
+# * División de bloques del código
+# ! Secciones de error
+# ? No sé si esto funciona pero prefiero no borrarlo
+# TODO: Lo que tú quieras  
+
 from colorama import Fore, Style
 '''LOS FUNDADORES TENDRAN COLOR AZUL
 LOS MAGOS TENDRAN UN COLOR VERDE
@@ -13,7 +18,7 @@ LOS GUERRREROS TENDRAN COLOR ROJO
 LOS ARQUEROS TENDRAN UN COLOR CYAN
 LOS CLANES TENDRÁN UN COLOR MORADO'''
 
-#--INICIO FUNCIONES--
+# *--INICIO FUNCIONES--
 
 def crearGuerrero(titulo, color = Fore.RED):
     nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
@@ -231,9 +236,9 @@ def informacionClanes():
                     clan.listar_miembros()
                     input("ENTER to continue...")
 
-#--FIN PROCEDIMIENTOS--
+# *--FIN PROCEDIMIENTOS--
 
-#--INICIO ARREGLOS--
+# *--INICIO ARREGLOS--
 
 guerreros = []
 magos = []
@@ -244,9 +249,9 @@ lista_envenenados = []
 
 lista_personajes = fundadores + magos + guerreros + arqueros
 
-#--FIN ARREGLOS
+# *--FIN ARREGLOS
 
-#INICIO CÓDIGO PRINCIPAL
+# * --INICIO CÓDIGO PRINCIPAL
 
 if __name__ == "__main__":
 
@@ -288,7 +293,7 @@ if __name__ == "__main__":
     turnos_ordenados = organizarTurno(lista_personajes)
     limpiar_consola()
     rondas = 0
-    #Mientras que existe más de un fundador
+    # ?Mientras que existe más de un fundador
     while len(fundadores)>1:
 
         informacionClanes()
@@ -314,7 +319,7 @@ if __name__ == "__main__":
                     if len(clan.miembros) < 2:
                         audio = "Gael"
                         reproducir_musica(audio)
-                        # Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
+                        # ? Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
                         jugadorEnTurno.elegir_ataque_desesperado()
                         jugadorEnTurno.fundador_ataque_desesperado(clanes)
                         clan.info_miembros(jugadorEnTurno.titulo)
@@ -372,5 +377,5 @@ if __name__ == "__main__":
             
         print(objetivo)
         rondas +=1
-        # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
+        # ? Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
     nombrarGanador(fundadores, rondas)
