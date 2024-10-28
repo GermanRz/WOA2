@@ -215,10 +215,28 @@ class Arquero(Personaje):
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
         self.vida_original = self.puntos_vida
-    
+        self.count_venenosa = 2
+        
+    def mostrar_flechas(self):
+        print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
+        
+        
+    def crear_flecha_venenosa(self):
+        if self.count_venenosa < 2:
+            self.count_venenosa+=1
+        else:
+            print("The maximum capacity is: 2 poison arrows")
+            input("Press ENTER to continue.")
+            
+        
     def flecha_venenosa(self, objetivo ):
-        estadoObjetivo, objetivo = self.realizar_ataque(objetivo,"poision arrow", 3)
-        return estadoObjetivo, objetivo
+        if self.count_venenosa>0:
+            estadoObjetivo, objetivo = self.realizar_ataque(objetivo,"poision arrow", 3)
+            self.count_venenosa -=1
+            return estadoObjetivo, objetivo
+        else:
+            return 1, None
+        
     
     def flecha_curativa(self, objetivo):
         
