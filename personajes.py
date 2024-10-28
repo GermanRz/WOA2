@@ -26,7 +26,7 @@ class Personaje:
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         # verificar si el objetivo tiene protectores
-        if len(objetivo.lst_protectores)>0 and txtAtaque!="flecha certera":
+        if len(objetivo.lst_protectores)>0 and txtAtaque!="accurate arrow":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
 
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
@@ -164,7 +164,8 @@ class Arquero(Personaje):
         self.vida_original = self.puntos_vida
     
     def flecha_venenosa(self, objetivo ):
-        self.realizar_ataque(objetivo,"poision arrow", 3)
+        status= self.realizar_ataque(objetivo,"poision arrow", 3)
+        return status
     
     def flecha_curativa(self, objetivo):
         
@@ -177,6 +178,9 @@ class Arquero(Personaje):
 
         print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
 
+    def accurate_arrow(self, objetivo):
+        status= self.realizar_ataque(objetivo, "accurate arrow", 4)
+        return status
 
 #***********************************************************************
 
@@ -235,10 +239,10 @@ if __name__=="__main__":
     guerrero2 = Guerrero("g2")
     mago1 = Mago("m1")
     
-    arquero1.flecha_venenosa(guerrero1)
+    arquero1.accurate_arrow(guerrero1)
     print(guerrero1)
     print()
-    arquero1.realizar_ataque(guerrero2)
+    arquero1.accurate_arrow(guerrero2)
     print(guerrero2)    
     
     

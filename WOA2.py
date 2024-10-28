@@ -357,17 +357,26 @@ if __name__=="__main__":
                 text_speed("1. Attack.")
                 text_speed("2. Poison Arrow")
                 text_speed("3. healing arrow")
+                text_speed("4. accurate arrow")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 2:
-                    jugadorEnTurno.flecha_venenosa(objetivo)
-                    lista_envenenados.append(objetivo)
+                    estadoObjetivo=jugadorEnTurno.flecha_venenosa(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                    else:
+                        lista_envenenados.append(objetivo)
                 elif opc == 3:
                     jugadorEnTurno.flecha_curativa(objetivo)
                     lista_envenenados.remove(objetivo)
+                elif opc== 4:
+                    estadoObjetivo=jugadorEnTurno.accurate_arrow(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
+
             
         print(objetivo)
         rondas +=1
