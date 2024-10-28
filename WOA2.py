@@ -353,8 +353,12 @@ if __name__=="__main__":
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo = jugadorEnTurno.realizar_ataque(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 4:
                     estadoObjetivo = jugadorEnTurno.ataque_doble(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
 
             elif jugadorEnTurno.titulo == "Archer":
                 print()
