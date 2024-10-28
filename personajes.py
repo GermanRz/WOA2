@@ -23,10 +23,6 @@ class Personaje:
     se agregan dos parametros acicionales
     txtAtaque : descripcion del ataque recibido (flecha venenosa, ataque meteorito, etc...)  default = " "
     intensidadAtaque: valor entero de la intensidad del ataque.   default = 5
-    self.fuerza = 100
-        self.puntos_vida = 110
-        self.defensa = 110
-        self.ataque = 110
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         # verificar si el objetivo tiene protectores
@@ -36,29 +32,22 @@ class Personaje:
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
         # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
         poder_ataque = (self.fuerza + self.ataque)
-        #420
         
         # 2. Calculamos el poder de la defensa usando solo fuerza y defensa del objetivo
         poder_defensa = (objetivo.fuerza + objetivo.defensa)
-        #220
         
         # 3. Calculamos la diferencia de poder
         diferencia_poder = poder_ataque - poder_defensa
-        #200
         
         # 4. Calculamos el porcentaje de daño base
         if diferencia_poder > 0:
             # Si el ataque es más fuerte que la defensa
             factor_ataque = intensidadAtaque + (diferencia_poder * 0.5)  # 0.5% por cada punto de diferencia
-            #diferencia_poder = 100
-            #intensidadAtaque = 5
-            #factor_ataque = 105
         else:
             # Si la defensa es más fuerte o igual que el ataque
             factor_ataque = intensidadAtaque  # Daño mínimo de intensidadAtaque%
         # 6. Calculamos el daño final
         damage = int((objetivo.vida_original * factor_ataque) / 100)
-        #damage = 105
         estado=objetivo.recibir_ataque(damage)
         return estado
 
@@ -70,9 +59,9 @@ class Personaje:
         porcentaje_vida = self.puntos_vida / self.vida_original
         # print(f"{porcentaje_vida} = {self.puntos_vida} / {self.vida_original}")
         # Los atributos se disminuyen proporcionalmente a la vida perdida
-        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))#-50
-        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))#-55
-        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))#-55
+        self.fuerza = max(1,int(self.fuerza_original * porcentaje_vida))
+        self.defensa = max(1,int(self.defensa_original * porcentaje_vida))
+        self.ataque = max(1,int(self.ataque_original * porcentaje_vida))
         # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
@@ -95,23 +84,18 @@ class Personaje:
                         protegido.lst_protectores.remove(self)
             return 0 #death
     
-    # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
     
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-            print("estas bajo el ataque de flecha venenosa ")
+         print("estas bajo el ataque de flecha venenosa ")
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
+      
     
        #FIN
-
-    def protector(self, objetivo):
-        objetivo.lst_protectores.append(self)
-        # for protector in objetivo.lst_protectores:
-        #     print(protector)
-        # input("LISTA DE PROTECTORES")
 
     def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
@@ -200,9 +184,9 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 100
-        self.puntos_vida = 110
-        self.defensa = 110
+        self.fuerza = 40 #100
+        self.puntos_vida = 40 #110
+        self.defensa = 40 #110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
@@ -240,77 +224,41 @@ class Fundador(Mago):
         else:
             text_speed(f"That character does´nt even exist!")
         return pj_receptor
-    
-    def elegir_ataque_desesperado(self):
-        text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
-        text_speed("These are my spells!\n")
-        ataques = {
-            1: "Magnificent destruction of fire 🔥",
-            2: "Divine Pillars of Light 👼",
-            3: "Domain expansion: Malevolent shrine 🤘",
-            4: "Domain expansion: Incommensurable void 🤞",
-            5: "Great Chaos Fire Orb 🌋"
-        }
-    
-        for num, ataque in ataques.items():
-            text_speed(f"{num} | {ataque}")
         
-        estado = True
-    
-        while estado:
-            try:
-                opc = int(input("Deciding your final attack: "))
-                if opc < 1 or opc > 5:
-                    text_speed("I don´t have that attack!")
-                else:
-                    self.ataque_desesperado = ataques[opc]
-                    estado = False
-            except ValueError:
-                text_speed("Please, enter a valid option...")
-    
-    def fundador_ataque_desesperado(self, clanes):
-        text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
-        text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
-        text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
         
-        clanes_filtrado = [clan_obj for clan_obj in clanes if clan_obj.nombre != self.clan]
-        
-        for index, clan_obj in enumerate(clanes_filtrado):
-            text_speed(f"{index+2} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
-            
-            # Se duplica temporalmente su fuerza actual para el ataque a un clan
-            self.fuerza = self.fuerza_original * 1.5
-            self.ataque = self.ataque_original * 1.5
-            
-        while True:
-            try:
-                elegir_clan = int(input("Select by number of the clan that gonna suffer: ")) -1
-                if 0 <= elegir_clan < len(clanes):
-                    clan = clanes[elegir_clan] #Se elige el clan a atacar
-                    miembros_clan = clan.miembros # Se instancian los miembros
-                    text_speed(f"The founder has casting his fury in all members of clan {clan.nombre}!\n")
-                    
-                    for miembro in miembros_clan:
-                        self.realizar_ataque(miembro, self.ataque_desesperado, 1)
-                        print()
-                        text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
-                        text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}\n")
-                    
-                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")                    
-                    #Disminuye a la mitad todos los atributos del fundador después de haber casteado el ataque desesperado
-                    self.fuerza = self.fuerza_original // 2
-                    self.puntos_vida //= 2
-                    self.defensa //= 2
-                    self.ataque = self.ataque_original // 2
-                    
-                    text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
-                    text_speed(f"-Strenght: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
-                    break
-                else:
-                    text_speed(f"{elegir_clan} doesn't even exist!")
-            except ValueError:
-                text_speed("Please, select by number")
 #***********************************************************************
 
-if __name__ == "__main__":
+if __name__=="__main__":
+    fundador = Fundador("f")
+    arquero1 = Arquero("a1")
+    guerrero1 = Guerrero("g1")
+    guerrero2 = Guerrero("g2")
+    mago1 = Mago("m1")
+    
+    arquero1.flecha_venenosa(guerrero1)
+    print(guerrero1)
+    print()
+    arquero1.realizar_ataque(guerrero2)
+    print(guerrero2)    
+    
+    
+    arquero2 = Arquero("a2")
+    arquero3 = Arquero("a3")
+    arquero4 = Arquero("a4")
+    arquero5 = Arquero("a5")
+
+    # arquero1.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero2.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero5.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(arquero5)
+    # print(arquero5)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
+    # arquero4.flecha_venenosa(fundador)
+    # print(fundador)
     pass
