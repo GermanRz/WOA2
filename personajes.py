@@ -168,8 +168,7 @@ class Mago(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        self.barra_mana = 50
-          
+        self.barra_mana = 50 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
@@ -215,9 +214,9 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 40 #100
-        self.puntos_vida = 40 #110
-        self.defensa = 40 #110
+        self.fuerza = 100 #100
+        self.puntos_vida = 110 #110
+        self.defensa = 110 #110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
@@ -260,4 +259,60 @@ class Fundador(Mago):
 #***********************************************************************
 
 if __name__=="__main__":
+    import random
+from colorama import Fore, Style
+
+# Suponiendo que tienes una clase Miembro para representar a cada miembro del clan
+class Miembro:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+# Definición de la clase Clan
+class Clan:
+    def __init__(self, nombre, miembros):
+        self.nombre = nombre
+        self.miembros = miembros
+
+# Definición de la clase Guerrero
+class Guerrero:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.barra_mana = 100  # Suponemos que comienza con el mana completo
+        self.clanes = []
+
+    def realizar_ataque(self, objetivo, ataque, daño):
+        # Aquí solo mostramos un mensaje simulando el ataque
+        print(f"{self.nombre} realiza {ataque} sobre {objetivo.nombre}, causando {daño} de daño.")
+
+    def tormenta_meteorito(self, objetivo):
+        # Buscar un clan para atacar
+        for index, clan in enumerate(self.clanes):
+            print(f"{index + 1} {Fore.MAGENTA}{clan.nombre}{Style.RESET_ALL}")
+        indexClan = int(input("Select clan number: ")) - 1
+
+        if 0 <= indexClan < len(self.clanes):
+            clan = self.clanes[indexClan]
+            print(f"Clan's members: {clan.nombre}")
+            
+            # Verificar si la barra de mana está completa
+            if self.barra_mana == 100:
+                print(f"{self.nombre} launches meteorite storm at {clan.nombre}!")
+                
+                # Realizar 4 ataques a posiciones aleatorias dentro del clan
+                for _ in range(4):
+                    pos = random.randint(0, len(clan.miembros) - 1)  # Selecciona una posición aleatoria
+                    miembro_objetivo = clan.miembros[pos]
+                    print(f"{self.nombre} attacks {miembro_objetivo.nombre} with a meteorite!")
+                    # Llamada a realizar_ataque para cada miembro atacado
+                    self.realizar_ataque(miembro_objetivo, "meteorite storm", 5)
+                
+                # Reducir la barra de mana después del ataque
+                self.barra_mana -= 100
+            else:
+                print("Not enough mana to launch the meteorite storm.")
+        else:
+            print("Invalid clan")
+
+# Código de prueba
+if __name__ == "__main__":
     pass

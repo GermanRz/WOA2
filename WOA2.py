@@ -297,7 +297,7 @@ if __name__=="__main__":
             for envenenados in lista_envenenados:
                 envenenados.restar_punto_vida()
                 if jugadorEnTurno == envenenados:
-                 lista_envenenados.remove(jugadorEnTurno)
+                    lista_envenenados.remove(jugadorEnTurno)
 
             cont_turnos += 1
             limpiar_consola()
@@ -347,7 +347,7 @@ if __name__=="__main__":
                 jugadorEnTurno.regeneracion_mana()
                 input("aqui estoy regenerando")
                 text_speed("1. Attack.")
-                text_speed("2. cure. (NO IMPLEMENTADO)")
+                # text_speed("2. cure. (NO IMPLEMENTADO)")
                 text_speed("3. Meteorite storm ☄")
                 text_speed("4. Double attack")
                 opc = int(input("Option: "))
@@ -355,8 +355,11 @@ if __name__=="__main__":
                     estadoObjetivo = jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
+                elif opc == 3:
+                    estadoObjetivo = jugadorEnTurno.realizar_ataque(objetivo,"storm meteorite",5)
+                    eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 4:
-                    estadoObjetivo = jugadorEnTurno.ataque_doble(objetivo)
+                    estadoObjetivo = jugadorEnTurno.ataque_doble(objetivo,"double attack",10)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
 
