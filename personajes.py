@@ -123,9 +123,25 @@ class Arquero(Personaje):
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
         self.vida_original = self.puntos_vida
-    
+        self.count_venenosa = 2
+        
+    def mostrar_flechas(self):
+        print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
+        
+        
+    def crear_flecha_venenosa(self):
+        if self.count_venenosa < 2:
+            self.count_venenosa+=1
+        else:
+            print("The maximum capacity is: 2 poison arrows")
+            input("Press ENTER to continue.")
+            
+        
     def flecha_venenosa(self, objetivo ):
-        self.realizar_ataque(objetivo,"poision arrow", 3)
+        if self.count_venenosa>0:
+            self.realizar_ataque(objetivo,f" tienes: {self.count_venenosa} poision arrow", 3)
+            self.count_venenosa -=1
+        
     
     def flecha_curativa(self, objetivo):
         
@@ -195,23 +211,31 @@ if __name__=="__main__":
     guerrero1 = Guerrero("g1")
     guerrero2 = Guerrero("g2")
     mago1 = Mago("m1")
+
     
-    arquero1.flecha_venenosa(guerrero1)
-    print(guerrero1)
-    print()
-    arquero1.realizar_ataque(guerrero2)
-    print(guerrero2)    
+    
+    # arquero1.flecha_venenosa(guerrero1)
+    # print(guerrero1)
+    # print()
+    # arquero1.realizar_ataque(guerrero2)
+    # print(guerrero2)    
     
     
     arquero2 = Arquero("a2")
     arquero3 = Arquero("a3")
     arquero4 = Arquero("a4")
     arquero5 = Arquero("a5")
-
-    # arquero1.flecha_venenosa(fundador)
-    # print(fundador)
+    
+    # arquero2.mostrar_flechas()
     # arquero2.flecha_venenosa(arquero5)
     # print(arquero5)
+    # arquero2.mostrar_flechas()
+    arquero2.crear_flecha_venenosa()
+    print(arquero2)
+    arquero2.crear_flecha_venenosa()
+    print(arquero2)
+    arquero2.crear_flecha_venenosa()
+    print(arquero2)
     # arquero5.flecha_venenosa(arquero5)
     # print(arquero5)
     # arquero4.flecha_venenosa(arquero5)
@@ -222,4 +246,4 @@ if __name__=="__main__":
     # print(fundador)
     # arquero4.flecha_venenosa(fundador)
     # print(fundador)
-    pass
+    
