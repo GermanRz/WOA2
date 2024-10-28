@@ -6,11 +6,6 @@ import random, os
 from personajes import *
 from clanes import *
 
-# * División de bloques del código
-# ! Secciones de error
-# ? No sé si esto funciona pero prefiero no borrarlo
-# TODO: Lo que tú quieras  
-
 from colorama import Fore, Style
 '''LOS FUNDADORES TENDRAN COLOR AZUL
 LOS MAGOS TENDRAN UN COLOR VERDE
@@ -18,7 +13,7 @@ LOS GUERRREROS TENDRAN COLOR ROJO
 LOS ARQUEROS TENDRAN UN COLOR CYAN
 LOS CLANES TENDRÁN UN COLOR MORADO'''
 
-# *--INICIO FUNCIONES--
+#--INICIO FUNCIONES--
 
 def crearGuerrero(titulo, color = Fore.RED):
     nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
@@ -27,7 +22,7 @@ def crearGuerrero(titulo, color = Fore.RED):
     return guerrero
 
 def crearMago(titulo, color = Fore.GREEN):
-    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
+    nombre = input(f"Name of the {color}  {titulo} {Style.RESET_ALL}: ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
@@ -38,7 +33,7 @@ def crearArquero(titulo,color = Fore.CYAN):
     arqueros.append(arquero)
     return arquero
 
-def crearFundador(mago, color = Fore.BLUE):
+def crearFundador(mago,color = Fore.BLUE):
     text_speed(f"Your destiny is to be a {color} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
@@ -238,9 +233,9 @@ def informacionClanes():
                     input("ENTER to continue...")
 
 
-# *--FIN PROCEDIMIENTOS--
+#--FIN PROCEDIMIENTOS--
 
-# *--INICIO ARREGLOS--
+#--INICIO ARREGLOS--
 
 guerreros = []
 magos = []
@@ -251,14 +246,12 @@ lista_envenenados = []
 
 lista_personajes = fundadores + magos + guerreros + arqueros
 
-# *--FIN ARREGLOS
+#--FIN ARREGLOS
 
-# * --INICIO CÓDIGO PRINCIPAL
+#INICIO CÓDIGO PRINCIPAL
 
-if __name__ == "__main__":
+if __name__=="__main__":
 
-    audio = "Messmer"
-    reproducir_musica(audio)
     cantidadJugadores = int(input("Number of players: "))
     limpiar_consola()
     for i in range(cantidadJugadores):
@@ -295,7 +288,7 @@ if __name__ == "__main__":
     turnos_ordenados = organizarTurno(lista_personajes)
     limpiar_consola()
     rondas = 0
-    # ?Mientras que existe más de un fundador
+    #Mientras que existe más de un fundador
     while len(fundadores)>1:
 
         informacionClanes()
@@ -304,7 +297,7 @@ if __name__ == "__main__":
             for envenenados in lista_envenenados:
                 envenenados.restar_punto_vida()
                 if jugadorEnTurno == envenenados:
-                    lista_envenenados.remove(jugadorEnTurno)
+                 lista_envenenados.remove(jugadorEnTurno)
 
             cont_turnos += 1
             limpiar_consola()
@@ -314,19 +307,7 @@ if __name__ == "__main__":
             print()
             text_speed("-- Choose an option --")
             
-            
             if jugadorEnTurno.titulo == "Founder":
-                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
-                if clan:
-                    if len(clan.miembros) < 2:
-                        audio = "Gael"
-                        reproducir_musica(audio)
-                        # ? Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
-                        jugadorEnTurno.elegir_ataque_desesperado()
-                        jugadorEnTurno.fundador_ataque_desesperado(clanes)
-                        clan.info_miembros(jugadorEnTurno.titulo)
-                        input("Enter para continuar")
-                
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")
                 opc = int(input("Option: "))
@@ -390,5 +371,5 @@ if __name__ == "__main__":
             
         print(objetivo)
         rondas +=1
-        # ? Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
+        # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
     nombrarGanador(fundadores, rondas)
