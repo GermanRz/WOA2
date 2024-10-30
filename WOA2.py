@@ -340,9 +340,9 @@ if __name__ == "__main__":
                     # ********************************************************    
                 elif opc == 2:
                     jugadorEnTurno.crear_pociones()
-                    text_speed(f"My potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
+                    text_speed(f"My potion/s {fundador.cont_pociones_fundador} | {fundador.bolsillo_pociones_fundador}")
                 elif opc == 3:
-                    jugadorEnTurno.conceder_curacion(magos, objetivo)
+                    jugadorEnTurno.entregar_pocion(magos, objetivo)
         
             elif jugadorEnTurno.titulo == "Warrior":
                 print()
