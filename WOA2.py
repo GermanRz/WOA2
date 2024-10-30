@@ -259,6 +259,9 @@ if __name__ == "__main__":
 
     audio = "Messmer"
     reproducir_musica(audio)
+    limpiar_consola()
+    text_speed(f"{Fore.RED}--    WOA2: ¡War for the glory and our honor!    --{Style.RESET_ALL}\n")
+    text_speed(f"Once again... Rise, forgetful of the eternal night without hope, and reach the longed-for glory of our lady {Fore.LIGHTCYAN_EX}Nyxara... {Style.RESET_ALL}")
     cantidadJugadores = int(input("Number of players: "))
     limpiar_consola()
     for i in range(cantidadJugadores):
@@ -285,6 +288,7 @@ if __name__ == "__main__":
                     limpiar_consola()
                 else:
                     seleccionarClan(mago)
+                    limpiar_consola()
             elif opcionPersonaje == 3:
                 arquero = crearArquero("Archer")
                 seleccionarClan(arquero)
