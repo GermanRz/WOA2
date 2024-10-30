@@ -1,3 +1,16 @@
+# Definición de la clase Miembro para probar si esta bien
+class Miembro:
+    def __init__(self, nombre, titulo, fuerza, puntos_vida, defensa, ataque):
+        self.nombre = nombre
+        self.titulo = titulo
+        self.fuerza = fuerza
+        self.puntos_vida = puntos_vida
+        self.defensa = defensa
+        self.ataque = ataque
+        
+    def __repr__(self):
+        return f"{self.titulo} {self.nombre}"
+
 
 class Clan:
     cantidadMiembros = 0
@@ -16,8 +29,6 @@ class Clan:
         self.miembros.remove(miembro)
         self.cantidadMiembros -= 1
         
-        
-    #metodo para calcular la fuerza de los miembros por categoria
     def info_miembros(self, titulo):
         cantidad = 0
         fuerza, vida, defensa, ataque = 0, 0, 0, 0
@@ -53,7 +64,33 @@ class Clan:
         print(f"Founder {self.fundador} | Strength({fuerzaClan}), Life({vidaClan}) Defense({defensaClan}) strike force({ataqueClan})")
             
 
-#***********************************************************************
+# Función que verifica que estan los fundadores en los clanes
+def verificar_fundadores(lista_clanes):
+    for clan in lista_clanes:
+        # retificar si el fundador está en la lista de miembros
+        if not any(miembro.titulo == "Founder" for miembro in clan.miembros):
+            print(f"En el clan {clan.nombre}, el fundador ha muerto. Tu destino está en las crueles manos de un asesino.")
+        else:
+            print(f"El clan {clan.nombre} aún tiene a su fundador, {clan.fundador}, en sus filas.")
 
-if __name__=="__main__":
-    pass
+# código de prueba
+if __name__ == "__main__":
+    # Creación de miembros de ejemplo
+    fundador1 = Miembro("Fundador1", "Founder", 100, 1000, 200, 300)
+    fundador2 = Miembro("Fundador2", "Founder", 150, 1200, 250, 350)
+    miembro1 = Miembro("Miembro1", "Warrior", 80, 500, 150, 200)
+    miembro2 = Miembro("Miembro2", "Archer", 70, 400, 100, 180)
+
+    # se crean los clanes de prueba
+    clan_con_fundador = Clan("Clan Con Fundador", fundador1)
+    clan_con_fundador.agregar_miembro(miembro1)
+
+    clan_sin_fundador = Clan("Clan Sin Fundador", fundador2)
+    clan_sin_fundador.remover_miembro(fundador2)  # Remueve el fundador para simular su ausencia
+    clan_sin_fundador.agregar_miembro(miembro2)
+
+    # realizo una lista de clanes para retificar
+    lista_clanes = [clan_con_fundador, clan_sin_fundador]
+
+    # llamo a el metodo para probar
+    verificar_fundadores(lista_clanes)
