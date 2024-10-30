@@ -218,10 +218,10 @@ class Fundador(Mago):
         cura_aleatoria = random.randint(10, 25)
         if self.cont_pociones_fundador <= 3:
             self.bolsillo_pociones_fundador.append(cura_aleatoria)
-            self.cont_pociones_fundador + 1#Se aumenta el contador de las pociones
+            self.cont_pociones_fundador += 1#Se aumenta el contador de las pociones
             for pocion in self.bolsillo_pociones_fundador:
                 text_speed(f"{self.nombre} 🧙‍♂️🧙‍♀️ Potions: ({self.cont_pociones_fundador} 🥤| Healing: {pocion} 💗)")
-                input("PREES ENTER to continue")
+            input("PREES ENTER to continue")
         else:
             text_speed(f"Oops! You can´t have more than 3 potions in your pockets 🥤! {list(self.cont_pociones_fundador)}")
             input("PREES ENTER to continue")
@@ -229,18 +229,25 @@ class Fundador(Mago):
     def entregar_pocion(self, lst_magos, pj_receptor):
         for index, pj in enumerate(lst_magos):
             print(f"{index+1} | {pj.titulo} {pj.nombre}")
-        opc = int(input(f"Select number of the {pj.nombre} that you give the heal potion: ")) - 1
+        opc = int(input(f"Select number of the {pj.titulo} that you give the heal potion: ")) - 1
         if 0 <= opc < len(lst_magos):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
             pj_receptor = lst_magos[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
             self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
-            pocion = self.bolsillo_pociones_fundador.pop()#SACA LA POCIÓN DEL BOLSILLO
-            self.cont_pociones_fundador - 1
-            text_speed(f"The {self.titulo} {self.nombre} has given a potion to the {self.pj_receptor.titulo} {self.pj_receptor.nombre}")
-            pj_receptor.bolsillo_pociones_mago.append(pocion)
-            text_speed(f"{self.pj_receptor.cont_pociones_mago} | {self.bolsillo_pociones_mago} 🧙‍♂️")
-            input("Press ENTER to continue! ")
+            if self.bolsillo_pociones_fundador:
+                pocion = self.bolsillo_pociones_fundador.pop()#SACA LA POCIÓN DEL BOLSILLO DEL FUNDADOR
+                self.cont_pociones_fundador -= 1 # Se resta la poción al mago
+                text_speed(f"The {self.titulo} {self.nombre} has given a potion to the {self.pj_receptor.titulo} {self.pj_receptor.nombre}")
+                self.pj_receptor.bolsillo_pociones_mago.append(pocion) # Recibe la poción
+                self.pj_receptor.cont_pociones_mago += 1 # Se suma la poción al mago
+                text_speed(f"The {self.pj_receptor.titulo} | {self.pj_receptor.nombre} has recieved a healing potion 🥤")
+                text_speed(f"Potion/s: 🥤 {self.pj_receptor.cont_pociones_mago} | Healing 💗: {list(self.pj_receptor.bolsillo_pociones_mago)} 🧙‍♂️")
+                input("Press ENTER to continue! ")
+            else:
+                text_speed("No potions available to give!")
+                input("Press ENTER to continue! ")
         else:
             text_speed(f"That character does´nt even exist!")
+            input("Press ENTER to continue! ")
         return pj_receptor
     
     def elegir_ataque_desesperado(self):
