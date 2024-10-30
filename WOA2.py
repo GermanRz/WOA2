@@ -182,14 +182,14 @@ def nombrarGanador(fundadores, rondas):
 def eliminarPersonaje(objetivo, asesino):
     if objetivo.titulo=="Founder":
         text_speed('''
-                   ⚔️ The Fall of the Founder ⚔️
-                   
-                   Today, the kingdom is tinged with shadows with the death of {objetivo.nombre}, 
-                   founder of the glorious {objetivo.clan} clan. His days of leadership 
-                   and bravery have come to an end, slain in battle by the {asesino.clan} clan.
-                   
-                   According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, 
-                   becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
+                ⚔️ The Fall of the Founder ⚔️
+                
+                Today, the kingdom is tinged with shadows with the death of {objetivo.nombre}, 
+                founder of the glorious {objetivo.clan} clan. His days of leadership 
+                and bravery have come to an end, slain in battle by the {asesino.clan} clan.
+                
+                According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, 
+                becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
         fundadores.remove(objetivo)
         #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
         print()
@@ -297,7 +297,7 @@ if __name__=="__main__":
             for envenenados in lista_envenenados:
                 envenenados.restar_punto_vida()
                 if jugadorEnTurno == envenenados:
-                 lista_envenenados.remove(jugadorEnTurno)
+                    lista_envenenados.remove(jugadorEnTurno)
 
             cont_turnos += 1
             limpiar_consola()
