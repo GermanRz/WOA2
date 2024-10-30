@@ -252,6 +252,11 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 
 if __name__=="__main__":
 
+    audio = "Messmer"
+    reproducir_musica(audio)
+    limpiar_consola()
+    text_speed(f"{Fore.RED}--    WOA2: ¡War for the glory and our honor!    --{Style.RESET_ALL}\n")
+    text_speed(f"Once again... Rise, forgetful of the eternal night without hope, and reach the longed-for glory of our lady {Fore.LIGHTCYAN_EX}Nyxara... {Style.RESET_ALL}")
     cantidadJugadores = int(input("Number of players: "))
     limpiar_consola()
     for i in range(cantidadJugadores):
@@ -278,6 +283,7 @@ if __name__=="__main__":
                     limpiar_consola()
                 else:
                     seleccionarClan(mago)
+                    limpiar_consola()
             elif opcionPersonaje == 3:
                 arquero = crearArquero("Archer")
                 seleccionarClan(arquero)
@@ -310,6 +316,7 @@ if __name__=="__main__":
             if jugadorEnTurno.titulo == "Founder":
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")
+                text_speed("3. Give potions.")
                 opc = int(input("Option: "))
                 if opc == 1:
                     # ********************************************************
@@ -318,15 +325,11 @@ if __name__=="__main__":
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                     # ********************************************************    
-                if opc == 2:
+                elif opc == 2:
                     jugadorEnTurno.crear_pociones()
-                    text_speed("¿Do you wanna conserve your potion?")
-                    opc = int(input("1.Yes.\n2.No.\nOpc: "))
-                    if opc == 1:
-                        text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
-                        input("Press ENTER to continue. ")
-                    elif opc == 2:
-                        jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
+                    text_speed(f"My potion/s {fundador.cont_pociones_fundador} | {fundador.bolsillo_pociones_fundador}")
+                elif opc == 3:
+                    jugadorEnTurno.entregar_pocion(magos, objetivo)
         
             elif jugadorEnTurno.titulo == "Warrior":
                 print()

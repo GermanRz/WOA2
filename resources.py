@@ -15,7 +15,7 @@ def text_speed(text, velocity = 0):
     print()
 
 '''
-Función para implementar música en el juego y que el juego sea mas chimba 🤟
+Función para implementar música en el juego
 NOTA: Se debe de instalar pygame ((ctrl + ñ) y seguidamente ejecutar el comando pip install pygame)
 '''
 # Soundtracks
