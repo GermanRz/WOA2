@@ -105,7 +105,37 @@ class Personaje:
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
     
-       #FIN
+    
+    #FIN
+    def regeneracion_mana(self):
+        regeneracion = random.randint(5, 25)
+        self.barra_mana += regeneracion
+        if self.barra_mana > 100:
+            self.barra_mana = 100
+        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        
+
+    def usar_hechizo(self, costo_mana):
+        if self.barra_mana >= costo_mana:
+            self.barra_mana -= costo_mana
+            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+        else:
+            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+
+    def __str__(self):
+        return (super().__str__() + 
+                f", Barra de Mana: {self.barra_mana}")
+
+    def ataque_doble(self, objetivo):
+        if self.barra_mana == 100:
+            print(f"{self.nombre} launches double attack {objetivo.nombre}!")
+            estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
+
+    def protector(self, objetivo):
+        objetivo.lst_protectores.append(self)
+        # for protector in objetivo.lst_protectores:
+        #     print(protector)
+        # input("LISTA DE PROTECTORES")
 
     def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
@@ -161,6 +191,13 @@ class Mago(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
+        self.barra_mana = 50 
+    def __str__(self):
+        return (f"{self.titulo}: {self.nombre}\n"
+                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, Attack: {self.ataque}, "
+                f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+        
 
 #***********************************************************************
 
@@ -204,9 +241,9 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 100
-        self.puntos_vida = 110
-        self.defensa = 110
+        self.fuerza = 40 #100
+        self.puntos_vida = 40 #110
+        self.defensa = 40 #110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
