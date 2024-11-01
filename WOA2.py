@@ -180,21 +180,68 @@ def nombrarGanador(fundadores, rondas):
     text_speed(f"You have conquered the kingdom after {rondas} tough battles, the king in the Python. Long live the king {fundadores[0]}")
     
 def eliminarPersonaje(objetivo, asesino):
-    if objetivo.titulo=="Founder":
-        text_speed('''
+    if objetivo.titulo == "Founder":
+        text_speed(f'''
                    ⚔️ The Fall of the Founder ⚔️
                    
                    Today, the kingdom is tinged with shadows with the death of {objetivo.nombre}, 
                    founder of the glorious {objetivo.clan} clan. His days of leadership 
                    and bravery have come to an end, slain in battle by the {asesino.clan} clan.
                    
-                   According to the ancient laws of the kingdom, the members of the {objetivo.clan} clan must now bow to their new destiny, 
-                   becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.''')
+                   Now, the victor has a choice to make regarding the fate of the fallen clan...
+                   ''')
+
         fundadores.remove(objetivo)
-        #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
-        print()
-        input("ENTER to continue...")
-    elif objetivo.titulo=="Archer":
+        turnos_ordenados.remove(objetivo)
+
+        # Determinar destino del clan del fundador derrotado
+        decidirDestinoClan(asesino, objetivo.clan)
+        
+    elif objetivo.titulo == "Archer":
+        arqueros.remove(objetivo)
+    elif objetivo.titulo == "Sorcerer":
+        magos.remove(objetivo)
+    else:
+        guerreros.remove(objetivo)
+
+    # Eliminar personaje de la lista de turnos y del clan
+    turnos_ordenados.remove(objetivo)
+    for clan in clanes:
+        if clan.nombre == objetivo.clan:
+            clan.remover_miembro(objetivo)
+    
+    return asesino  # Devuelve el asesino para poder tomar la decisión
+
+def decidirDestinoClan(asesino, clan_derrotado_nombre):
+    # Encontrar el clan derrotado en la lista de clanes
+    clan_derrotado = next((clan for clan in clanes if clan.nombre == clan_derrotado_nombre), None)
+    if not clan_derrotado:
+        text_speed("No se encontró el clan derrotado.")
+        return
+
+    text_speed(f"The victor {asesino.nombre} has the power to decide the fate of the {clan_derrotado_nombre} clan members.")
+    opcion = int(input("Choose the fate:\n1. Merge defeated clan members into your clan.\n2. Execute all members of the defeated clan.\nOption: "))
+
+    if opcion == 1:
+        # Transferir todos los miembros al clan del asesino
+        for miembro in clan_derrotado.miembros:
+            miembro.asignar_clan(asesino.clan)
+            for clan in clanes:
+                if clan.nombre == asesino.clan:
+                    clan.agregar_miembro(miembro)
+                    text_speed(f"{miembro.nombre} has been added to the {asesino.clan} clan.")
+        
+    elif opcion == 2:
+        # Ejecutar a todos los miembros del clan derrotado
+        text_speed(f"The victor {asesino.nombre} has decided to execute all members of the {clan_derrotado_nombre} clan...")
+        for miembro in list(clan_derrotado.miembros):  # Usamos una copia para modificar mientras iteramos
+            eliminarPersonaje(miembro, asesino)
+            text_speed(f"{miembro.nombre} has been executed.")
+
+    # Eliminar el clan derrotado de la lista de clanes
+    clanes.remove(clan_derrotado)
+    input("ENTER to continue...")
+    if objetivo.titulo=="Archer":
         arqueros.remove(objetivo)
     elif objetivo.titulo=="Sorcerer":
         magos.remove(objetivo)
