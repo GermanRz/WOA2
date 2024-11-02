@@ -242,7 +242,7 @@ class Fundador(Mago):
             except ValueError:
                 text_speed("Please, enter a valid option...")
     
-    def fundador_ataque_desesperado(self, clanes):
+    def fundador_ataque_desesperado(self, clanes): # Ataque desesperado
         text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
         text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
         text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
