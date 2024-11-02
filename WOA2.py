@@ -330,6 +330,17 @@ if __name__=="__main__":
             text_speed("-- Choose an option --")
             
             if jugadorEnTurno.titulo == "Founder":
+                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None) # Ataque desesperado
+                if clan:
+                    if len(clan.miembros) < 2:
+                        audio = "Gael"
+                        reproducir_musica(audio)
+                        # Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
+                        jugadorEnTurno.elegir_ataque_desesperado()
+                        jugadorEnTurno.fundador_ataque_desesperado(clanes)
+                        clan.info_miembros(jugadorEnTurno.titulo)
+                        input("Enter para continuar")
+                
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")
                 text_speed("3. Give potions.")
