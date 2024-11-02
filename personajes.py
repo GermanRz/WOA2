@@ -84,16 +84,16 @@ class Personaje:
                         protegido.lst_protectores.remove(self)
             return 0 #death
     
-     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
+    # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
     
     def restar_punto_vida(self):
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-         print("estas bajo el ataque de flecha venenosa ")
+            print("estas bajo el ataque de flecha venenosa ")
         if   self.puntos_vida == 0:
             print(f"{self.nombre} ha muerto")
-      
+    
     
     
     #FIN
