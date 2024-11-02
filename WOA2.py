@@ -309,7 +309,7 @@ if __name__ == "__main__":
             
             
             if jugadorEnTurno.titulo == "Founder":
-                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
+                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None) # Ataque desesperado
                 if clan:
                     if len(clan.miembros) < 2:
                         audio = "Gael"
