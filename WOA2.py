@@ -217,20 +217,26 @@ def informacionClanes():
         text_speed("1. All clans.")
         text_speed("2. Specific clan.")
         text_speed("3. Continue with the next battle")
-        opc = int(input("Option: "))
-        if opc == 1:
-            for clan in clanes:
-                clan.listar_miembros()
-                input("ENTER to continue...")
-        if opc == 2:
-            for index, clan in enumerate(clanes):
-                text_speed(f"{index+1} : {clan.nombre}")
-            print()
-            nombreClan = input("Enter the name of the clan -> ").upper()
-            for clan in clanes:
-                if clan.nombre == nombreClan:
+        
+        try:
+            opc = int(input("Option: "))
+            if opc == 1:
+                for clan in clanes:
                     clan.listar_miembros()
                     input("ENTER to continue...")
+            if opc == 2:
+                for index, clan in enumerate(clanes):
+                    text_speed(f"{index+1} : {clan.nombre}")
+                print()
+                nombreClan = input("Enter the name of the clan -> ").upper()
+                for clan in clanes:
+                    if clan.nombre == nombreClan:
+                        clan.listar_miembros()
+                        input("ENTER to continue...")
+            else:
+                text_speed("Invalid option. Please select 1, 2, or 3.")
+        except ValueError:
+            text_speed("Please enter a valid option")
 
 
 #--FIN PROCEDIMIENTOS--
@@ -257,8 +263,18 @@ if __name__=="__main__":
     limpiar_consola()
     text_speed(f"{Fore.RED}--    WOA2: ¡War for the glory and our honor!    --{Style.RESET_ALL}\n")
     text_speed(f"Once again... Rise, forgetful of the eternal night without hope, and reach the longed-for glory of our lady {Fore.LIGHTCYAN_EX}Nyxara... {Style.RESET_ALL}")
-    cantidadJugadores = int(input("Number of players: "))
+    
+    while True:
+        try:
+            cantidadJugadores = int(input("Number of players: "))
+            if cantidadJugadores < 2 or cantidadJugadores > 20:
+                text_speed("Amount entered invalid! Please enter a number between 2 and 20")
+            else:
+                break
+        except ValueError:
+            text_speed("Please enter a number...")
     limpiar_consola()
+    
     for i in range(cantidadJugadores):
         if i == 0:
             mago = crearMago("Founder")
@@ -317,7 +333,15 @@ if __name__=="__main__":
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")
                 text_speed("3. Give potions.")
-                opc = int(input("Option: "))
+                while True:
+                    try:
+                        opc = int(input("Option: "))
+                        if 1 > opc > 3:
+                            text_speed("Invalid option. Please select 1, 2, or 3.")
+                        else:
+                            break
+                    except ValueError:
+                        text_speed("Please enter a valid option")
                 if opc == 1:
                     # ********************************************************
                     #CODIGO PAA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
