@@ -329,43 +329,44 @@ if __name__=="__main__":
             print()
             text_speed("-- Choose an option --")
             
+            # Filtrar el clan del fundador para verificar si está solo.
+            clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
+            
             if jugadorEnTurno.titulo == "Founder":
-                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None) # Ataque desesperado
-                if clan:
-                    if len(clan.miembros) < 2:
+                if clan and len(clan.miembros) <= 1 and not jugadorEnTurno.estado_ataque_final:
                         audio = "Gael"
                         reproducir_musica(audio)
-                        # Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
-                        jugadorEnTurno.elegir_ataque_desesperado()
+                        jugadorEnTurno.elegir_ataque_desesperado()# Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
                         jugadorEnTurno.fundador_ataque_desesperado(clanes)
                         clan.info_miembros(jugadorEnTurno.titulo)
-                        input("Enter para continuar")
-                
-                text_speed("1. Attack.")
-                text_speed("2. Create potions.")
-                text_speed("3. Give potions.")
-                while True:
-                    try:
-                        opc = int(input("Option: "))
-                        if 1 > opc > 3:
-                            text_speed("Invalid option. Please select 1, 2, or 3.")
-                        else:
-                            break
-                    except ValueError:
-                        text_speed("Please enter a valid option")
-                if opc == 1:
-                    # ********************************************************
-                    #CODIGO PAA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
-                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
-                    if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
-                    # ********************************************************    
-                elif opc == 2:
-                    jugadorEnTurno.crear_pociones()
-                    text_speed(f"My potion/s {fundador.cont_pociones_fundador} | {fundador.bolsillo_pociones_fundador}")
-                elif opc == 3:
-                    jugadorEnTurno.entregar_pocion(magos, objetivo)
-        
+                        input("Press enter to continue")
+                        limpiar_consola()
+                else:
+                    text_speed("1. Attack.")
+                    text_speed("2. Create potions.")
+                    text_speed("3. Give potions.")
+                    while True:
+                        try:
+                            opc = int(input("Option: "))
+                            if 1 > opc > 3:
+                                text_speed("Invalid option. Please select 1, 2, or 3.")
+                            else:
+                                break
+                        except ValueError:
+                            text_speed("Please enter a valid option")
+                    if opc == 1:
+                        # ********************************************************
+                        #CODIGO PArA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
+                        estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                        if estadoObjetivo == 0:
+                            eliminarPersonaje(objetivo, jugadorEnTurno)
+                        # ********************************************************
+                    elif opc == 2:
+                        jugadorEnTurno.crear_pociones()
+                        text_speed(f"My potion/s {fundador.cont_pociones_fundador} | {fundador.bolsillo_pociones_fundador}")
+                    elif opc == 3:
+                        jugadorEnTurno.entregar_pocion(magos, objetivo)
+                    
             elif jugadorEnTurno.titulo == "Warrior":
                 print()
                 text_speed("1. Attack.")

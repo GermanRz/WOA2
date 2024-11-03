@@ -223,9 +223,9 @@ class Fundador(Mago):
     cont_pociones_fundador = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 40 #100
-        self.puntos_vida = 40 #110
-        self.defensa = 40 #110
+        self.fuerza = 100 #100
+        self.puntos_vida = 110 #110
+        self.defensa = 110 #110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
@@ -233,6 +233,7 @@ class Fundador(Mago):
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
         self.bolsillo_pociones_fundador = []
+        self.estado_ataque_final = False
         text_speed(f"{self.nombre} has founded a clan.")
         
     def crear_pociones(self):
@@ -326,7 +327,8 @@ class Fundador(Mago):
                         text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
                         text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}\n")
                     
-                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")                    
+                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
+                    self.estado_ataque_final = True # El fundador ya realizó su ataque final
                     #Disminuye a la mitad todos los atributos del fundador después de haber casteado el ataque desesperado
                     self.fuerza = self.fuerza_original // 2
                     self.puntos_vida //= 2
@@ -335,7 +337,7 @@ class Fundador(Mago):
                     
                     text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
                     text_speed(f"-Strenght: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
-                    break
+                    return self.estado_ataque_final
                 else:
                     text_speed(f"{elegir_clan} doesn't even exist!")
             except ValueError:
