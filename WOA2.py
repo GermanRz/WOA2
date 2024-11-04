@@ -407,7 +407,7 @@ if __name__ == "__main__":
                     jugadorEnTurno.flecha_curativa(objetivo)
                     lista_envenenados.remove(objetivo)
                 elif opc == 4:
-                    jugadorEnTurno.crear_=()
+                    jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
                     
                    
