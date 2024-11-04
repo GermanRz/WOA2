@@ -389,6 +389,8 @@ if __name__ == "__main__":
                 text_speed("2. Poison Arrow")
                 text_speed("3. healing arrow")
                 text_speed("4. create poison arrow")
+                text_speed("5. accurate arrow")
+                text_speed("6. create accurate arrow")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -409,8 +411,26 @@ if __name__ == "__main__":
                 elif opc == 4:
                     jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
+                elif opc == 5:
+                    estadoObjetivo, objetivo, error = jugadorEnTurno.flecha_certera(objetivo,rondas)
+                    if error == 0:
+                        if estadoObjetivo == 0:
+                            eliminarPersonaje(objetivo, jugadorEnTurno)
+                    elif error == 1:
+                        print(f"This battle is invalid for this attack - battle {rondas}")
+                    else:
+                        print("Your carcaj doesn't have accurate arrows")
+                elif opc == 6:
+                    estado = jugadorEnTurno.crear_flecha_certera(rondas)
+                    if estado == 1:
+                        print(f"This battle is invalid for the cration of this arrow - batte {rondas}")
+                    elif estado == 2:
+                        print(f"You already have this arrow in your carcaj")
+                    else:
+                        print("You spent your turn creating a new accurate arrow.")
+            text_speed("ENTER to continue")
                     
-                   
+                    
             
         print(objetivo)
         rondas +=1

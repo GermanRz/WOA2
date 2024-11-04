@@ -30,7 +30,7 @@ class Personaje:
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         # verificar si el objetivo tiene protectores
-        if len(objetivo.lst_protectores)>0 and txtAtaque!="flecha certera":
+        if len(objetivo.lst_protectores)>0 and txtAtaque!="accurate arrow":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
 
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
@@ -190,6 +190,7 @@ class Arquero(Personaje):
         self.ataque_original = self.ataque
         self.vida_original = self.puntos_vida
         self.count_venenosa = 2
+        self.count_certera = 1
         
     def mostrar_flechas(self):
         print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
@@ -219,6 +220,28 @@ class Arquero(Personaje):
         if objetivo.puntos_vida > objetivo.vida_original:
             objetivo.puntos_vida = objetivo.vida_original
         print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+        
+    def flecha_certera(self, objetivo, ronda):
+        if ronda % 4!=0:
+            return 1 #ronda no valida
+        elif self.cant_Flecha_Certera < 1:
+            return 2 #no hay flechas certeras disponibles
+        else:
+            estadoObjetivo, objetivo = self.realizar_ataque("accurate arrow", objetivo)
+            self.count_certera -= 1
+            return estadoObjetivo, objetivo, 0  #estado 0, no se presentaon errores
+        
+    def crear_flecha_certera(self, ronda):
+        if ronda % 4 != 0:
+            return 1 #ronda no valida para la creacion de la flecha certera
+        elif self.count_certera >= 1:
+            return 2 #Ya tiene una fleha certera
+        else:
+            self.count_certera = 1
+            return 0
+            
+            
+            
 
 
 #***********************************************************************
@@ -265,7 +288,7 @@ class Fundador(Mago):
             pj_receptor.ataque += curacion
             input("Press ENTER to continue! ")
         else:
-            text_speed(f"That character does´nt even exist!")
+            text_speed(f"That character does'nt even exist!")
         return pj_receptor
     
     def elegir_ataque_desesperado(self):
