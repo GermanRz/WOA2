@@ -304,15 +304,31 @@ class Fundador(Mago):
         text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
         text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
         
-        clanes_filtrado = [clan_obj for clan_obj in clanes if clan_obj.nombre != self.clan]
+        # * Método para filtrar el clan del fundador y asi no esté en su lista de clanes objetivos *
+        clanes_filtrado = [clan_objetivo for clan_objetivo in clanes if clan_objetivo.nombre != self.clan]
         
-        for index, clan_obj in enumerate(clanes_filtrado):
-            text_speed(f"{index+2} | {Fore.MAGENTA} {clan_obj.nombre} {Style.RESET_ALL}")
-            
-            # Se duplica temporalmente su fuerza actual para el ataque a un clan
-            self.fuerza = self.fuerza_original * 1.5
-            self.ataque = self.ataque_original * 1.5
-            
+        self.fuerza = self.fuerza_original * 1.5
+        self.ataque = self.ataque_original * 1.5
+        
+        # * Selección del modo de ataque del fundador *
+        while True:
+            try:
+                text_speed("¿How would you like to attack?\n1. By select.\n2. Randomly.")
+                opc = int(input("Choosing option: "))
+                if opc == 1:
+                    self._seleccionar_clan(clanes_filtrado)
+                    break
+                elif opc == 2:
+                    self._atacar_desesperado_clan_aleatorio(clanes_filtrado)
+                    break
+                else:
+                    text_speed("That option doesn't even exist...")
+            except ValueError:
+                text_speed("Please, enter a valid option.")
+        
+    def _seleccionar_clan(self, clanes):
+        for index, clan_objetivo in enumerate(clanes):
+            text_speed(f"{index+1} | {Fore.MAGENTA} {clan_objetivo.nombre} {Style.RESET_ALL}")
         while True:
             try:
                 elegir_clan = int(input("Select by number of the clan that gonna suffer: ")) -1
@@ -329,20 +345,33 @@ class Fundador(Mago):
                     
                     text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
                     self.estado_ataque_final = True # El fundador ya realizó su ataque final
-                    #Disminuye a la mitad todos los atributos del fundador después de haber casteado el ataque desesperado
-                    self.fuerza = self.fuerza_original // 2
-                    self.puntos_vida //= 2
-                    self.defensa //= 2
-                    self.ataque = self.ataque_original // 2
-                    
-                    text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
-                    text_speed(f"-Strenght: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
+                    self._reducir_atributos()
                     return self.estado_ataque_final
                 else:
-                    text_speed(f"{elegir_clan} doesn't even exist!")
+                    text_speed(f"{clanes[elegir_clan]} doesn't even exist!")
             except ValueError:
                 text_speed("Please, select by number")
-        
+                
+    def _atacar_desesperado_clan_aleatorio(self, clanes_filtrado):
+        clan_random = random.choice(clanes_filtrado) # * Selección del clan de manera aleatoria *
+        clan = clan_random.miembros
+        for miembro in clan:
+            self.realizar_ataque(miembro, self.ataque_desesperado, 1)
+            text_speed(f"\n{miembro.nombre} of the clan {clan_random.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
+            text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}\n")
+
+        text_speed(f"I've taken my choice randomly and I decide to attack {Fore.MAGENTA} {clan_random.nombre} {Style.RESET_ALL}")
+        text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
+        self._reducir_atributos()
+    
+    def _reducir_atributos(self):
+        self.estado_ataque_final = True
+        self.fuerza = self.fuerza_original // 2
+        self.puntos_vida //= 2
+        self.defensa //= 2
+        self.ataque = self.ataque_original // 2
+        text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
+        text_speed(f"-Strength: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
 #***********************************************************************
 
 if __name__=="__main__":
