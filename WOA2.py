@@ -398,13 +398,16 @@ if __name__ == "__main__":
                     estadoObjetivo, objetivo = jugadorEnTurno.flecha_venenosa(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
-                    else:
+                    elif estadoObjetivo == 1 and objetivo!=None:
                         lista_envenenados.append(objetivo)
+                    else:
+                        print(f"You don't have any poison arrow")
+                        input("ENTER to continue...")
                 elif opc == 3:
                     jugadorEnTurno.flecha_curativa(objetivo)
                     lista_envenenados.remove(objetivo)
                 elif opc == 4:
-                    jugadorEnTurno.crear_flecha_venenosa()
+                    jugadorEnTurno.crear_=()
                     print("You spent your turn creating a new poision arrow.")
                     
                    
