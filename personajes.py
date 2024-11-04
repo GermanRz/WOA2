@@ -58,9 +58,9 @@ class Personaje:
             factor_ataque = intensidadAtaque  # Daño mínimo de intensidadAtaque%
         # 6. Calculamos el daño final
         damage = int((objetivo.vida_original * factor_ataque) / 100)
-        #damage = 105
         estado=objetivo.recibir_ataque(damage)
-        return estado
+        #Se agrega el objetivo en el return, ya que el objetivo puede cambiar durante el ataque por un protector
+        return estado, objetivo
 
 
     def recibir_ataque(self, damage):
@@ -217,7 +217,8 @@ class Arquero(Personaje):
         self.vida_original = self.puntos_vida
     
     def flecha_venenosa(self, objetivo ):
-        self.realizar_ataque(objetivo,"poision arrow", 3)
+        estadoObjetivo, objetivo = self.realizar_ataque(objetivo,"poision arrow", 3)
+        return estadoObjetivo, objetivo
     
     def flecha_curativa(self, objetivo):
         

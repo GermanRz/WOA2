@@ -371,14 +371,14 @@ if __name__ == "__main__":
                 text_speed("4. Double attack")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    estadoObjetivo = jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 3:
-                    estadoObjetivo = jugadorEnTurno.realizar_ataque(objetivo,"storm meteorite",5)
+                    estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo,"storm meteorite",5)
                     eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 4:
-                    estadoObjetivo = jugadorEnTurno.ataque_doble(objetivo,"double attack",10)
+                    estadoObjetivo, objetivo = jugadorEnTurno.ataque_doble(objetivo,"double attack",10)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
 
@@ -389,12 +389,15 @@ if __name__ == "__main__":
                 text_speed("3. healing arrow")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 2:
-                    jugadorEnTurno.flecha_venenosa(objetivo)
-                    lista_envenenados.append(objetivo)
+                    estadoObjetivo, objetivo = jugadorEnTurno.flecha_venenosa(objetivo)
+                    if estadoObjetivo == 0:
+                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                    else:
+                        lista_envenenados.append(objetivo)
                 elif opc == 3:
                     jugadorEnTurno.flecha_curativa(objetivo)
                     lista_envenenados.remove(objetivo)
