@@ -36,23 +36,14 @@ class Personaje:
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
         # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
         poder_ataque = (self.fuerza + self.ataque)
-        #420
-        
         # 2. Calculamos el poder de la defensa usando solo fuerza y defensa del objetivo
         poder_defensa = (objetivo.fuerza + objetivo.defensa)
-        #220
-        
         # 3. Calculamos la diferencia de poder
         diferencia_poder = poder_ataque - poder_defensa
-        #200
-        
         # 4. Calculamos el porcentaje de daño base
         if diferencia_poder > 0:
             # Si el ataque es más fuerte que la defensa
             factor_ataque = intensidadAtaque + (diferencia_poder * 0.5)  # 0.5% por cada punto de diferencia
-            #diferencia_poder = 100
-            #intensidadAtaque = 5
-            #factor_ataque = 105
         else:
             # Si la defensa es más fuerte o igual que el ataque
             factor_ataque = intensidadAtaque  # Daño mínimo de intensidadAtaque%
@@ -107,48 +98,9 @@ class Personaje:
     
     
     #FIN
-    def regeneracion_mana(self):
-        regeneracion = random.randint(5, 25)
-        self.barra_mana += regeneracion
-        if self.barra_mana > 100:
-            self.barra_mana = 100
-        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
-        
-
-    def usar_hechizo(self, costo_mana):
-        if self.barra_mana >= costo_mana:
-            self.barra_mana -= costo_mana
-            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
-        else:
-            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
-
-    def __str__(self):
-        return (super().__str__() + 
-                f", Barra de Mana: {self.barra_mana}")
-
-    def ataque_doble(self, objetivo):
-        if self.barra_mana == 100:
-            print(f"{self.nombre} launches double attack {objetivo.nombre}!")
-            estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
 
     def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
-        # for protector in objetivo.lst_protectores:
-        #     print(protector)
-        # input("LISTA DE PROTECTORES")
-
-    def protector(self, objetivo):
-        objetivo.lst_protectores.append(self)
-        # for protector in objetivo.lst_protectores:
-        #     print(protector)
-        # input("LISTA DE PROTECTORES")
-
-    def protector(self, objetivo):
-        objetivo.lst_protectores.append(self)
-        # for protector in objetivo.lst_protectores:
-        #     print(protector)
-        # input("LISTA DE PROTECTORES")
-
 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
@@ -191,7 +143,29 @@ class Mago(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        self.barra_mana = 50 
+        self.barra_mana = 50
+        
+    def regeneracion_mana(self):
+        regeneracion = random.randint(5, 25)
+        self.barra_mana += regeneracion
+        if self.barra_mana > 100:
+            self.barra_mana = 100
+        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        
+
+    def usar_hechizo(self, costo_mana):
+        if self.barra_mana >= costo_mana:
+            self.barra_mana -= costo_mana
+            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+        else:
+            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+
+
+    def ataque_doble(self, objetivo):
+        if self.barra_mana == 100:
+            print(f"{self.nombre} launches double attack {objetivo.nombre}!")
+            estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
+        
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
@@ -238,15 +212,12 @@ class Arquero(Personaje):
             return 1, None
         
     
-    def flecha_curativa(self, objetivo):
-        
+    def flecha_curativa(self, objetivo):        
         curacion = round(self.vida_original * 0.01)  
         objetivo.puntos_vida += curacion
-
         # Asegurarnos de que no supere los puntos de vida originales
         if objetivo.puntos_vida > objetivo.vida_original:
             objetivo.puntos_vida = objetivo.vida_original
-
         print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
 
 
