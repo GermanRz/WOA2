@@ -1,7 +1,6 @@
 '''
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
-from resources import *
 import random, os
 from personajes import *
 from clanes import *
@@ -97,9 +96,8 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
     if opcion == 2:
         listaPersonajes = fundadores + magos + guerreros + arqueros
         text_speed("list of all characters")
-        for miembro in listaPersonajes:
-            print(miembro)
-            print()
+        imprimirTodosPersonajes(listaPersonajes)
+        print(f"{Style.RESET_ALL}")
         nombreObjetivo = input("Enter the name of your target: ").upper()
         for miembro in listaPersonajes:
             if nombreObjetivo == miembro.nombre:
@@ -186,7 +184,7 @@ def nombrarGanador(fundadores, rondas):
     
 def eliminarPersonaje(objetivo, asesino):
     if objetivo.titulo=="Founder":
-        text_speed(f"⚔️ The Fall of the Founder ⚔️\n\n Today, the kingdom is tinged with shadows with the death of {objetivo.nombre},\n founder of the glorious {objetivo.clan} clan. His days of leadership \n and bravery have come to an end, slain in battle by the {asesino.clan} clan.\n\n        According to the ancient laws of the kingdom, \n the members of the {objetivo.clan} clan\n must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. May your spirit live under a new banner.",2)
+        text_speed(f"⚔️ The Fall of the Founder ⚔️\n\n Today, the kingdom is tinged with shadows with the death of {objetivo.nombre},\n founder of the glorious {objetivo.clan} clan. His days of leadership \n and bravery have come to an end, slain in battle by the {asesino.clan} clan.\n\n        According to the ancient laws of the kingdom, \n the members of the {objetivo.clan} clan\n must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. \nMay your spirit live under a new banner.",0.02)
         fundadores.remove(objetivo)
         #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
         print()
@@ -325,7 +323,7 @@ if __name__ == "__main__":
                 if opc == 1:
                     # ********************************************************
                     #CODIGO PAA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
-                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                     # ********************************************************    
@@ -346,7 +344,7 @@ if __name__ == "__main__":
                 text_speed("3. sword dance. (NO IMPLEMENTADO)")
                 opc = int(input("Option: "))
                 if opc == 1:
-                    estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                     print()

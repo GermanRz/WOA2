@@ -1,13 +1,6 @@
 import random
-from WOA2 import text_speed
+from resources import *
 from WOA2 import lista_personajes
-import colorama
-from colorama import Fore, Style
-
-colorama.init()#esto es necesario para iniciar la clase colorama
-
-
-from resources import text_speed
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -67,6 +60,7 @@ class Personaje:
         # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
+            input("ENTER to continue...")
             return 1 #live
         else:
             if self.titulo=="Warrior":
@@ -84,6 +78,7 @@ class Personaje:
                 if len(self.lst_protegidos)>0:
                     for protegido in self.lst_protegidos:
                         protegido.lst_protectores.remove(self)
+            input("ENTER to continue...")
             return 0 #death
     
     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
@@ -103,10 +98,11 @@ class Personaje:
         objetivo.lst_protectores.append(self)
 
     def __str__(self):
-        return (f"{self.titulo}: {self.nombre}\n"
-                f"strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
-                f"Defense: {self.defensa}, attack: {self.ataque}, "
+        return (f"{self.titulo}: {self.nombre} - "
+                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, Attack: {self.ataque}, "
                 f"Clan: {self.clan}")
+
         
 #***********************************************************************
 
@@ -166,11 +162,11 @@ class Mago(Personaje):
             print(f"{self.nombre} launches double attack {objetivo.nombre}!")
             estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
         
-    def __str__(self):
-        return (f"{self.titulo}: {self.nombre}\n"
-                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
-                f"Defense: {self.defensa}, Attack: {self.ataque}, "
-                f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+    # def __str__(self):
+    #     return (f"{self.titulo}: {self.nombre}\n"
+    #             f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+    #             f"Defense: {self.defensa}, Attack: {self.ataque}, "
+    #             f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
         
 
 #***********************************************************************
