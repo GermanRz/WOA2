@@ -2,6 +2,7 @@
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
 import random, os
+import threading
 from personajes import *
 from clanes import *
 
@@ -49,6 +50,12 @@ def crearClan(fundador):
     clan = Clan(nombreClan, fundador)
     clanes.append(clan)
     fundador.asignar_clan(nombreClan)
+    
+def buscarClan(clanes, jugador):
+    for clan_personaje in clanes:
+        if clan_personaje.nombre == jugador.clan:
+            return clan_personaje 
+    
 
 def seleccionarClan(personaje):
     asignado = False
@@ -68,14 +75,14 @@ def seleccionarClan(personaje):
             print()
 
 
-def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
+def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorTurno):
     text_speed("-- Selection mode --", 0)
     text_speed("-- Select your goal --", 0)
     text_speed("1. By clan.", 0)
     text_speed("2. List all characters.", 0)
     text_speed("3. Attack by title.", 0)
     opcion = int(input("Choose an option: "))
-    
+    limpiar_consola()
     if opcion == 1:
         text_speed("clan list")
         for index, clan in enumerate(clanes):
@@ -96,8 +103,8 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
     if opcion == 2:
         listaPersonajes = fundadores + magos + guerreros + arqueros
         text_speed("list of all characters")
+        text_speed(f"player turn : {jugadorTurno.nombre}")
         imprimirTodosPersonajes(listaPersonajes)
-        print(f"{Style.RESET_ALL}")
         nombreObjetivo = input("Enter the name of your target: ").upper()
         for miembro in listaPersonajes:
             if nombreObjetivo == miembro.nombre:
@@ -120,8 +127,7 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros):
         elif tipo == 4:
             listaObjetivos = arqueros
         text_speed("Characters:")
-        for personaje in listaObjetivos:
-            print(personaje)
+        imprimirTodosPersonajes(listaObjetivos)
         nombreObjetivo = input("Enter the name of your target: ").upper()
         for miembro in listaObjetivos:
             if nombreObjetivo == miembro.nombre:
@@ -148,7 +154,8 @@ def organizarTurno(lst_pjs):
             text_speed(f"{index+1} | Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         else:
             text_speed(f"{index+1} | Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
-    time.sleep(2)
+    # time.sleep(2)
+    input("ENTER to continue...")
             
     return turnos_ordenados
 
@@ -171,8 +178,9 @@ def listarTodoElStaff():
             text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         else:
             text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
-    time.sleep(2)
     text_speed("--***---***--***---***--***---***", 0)
+    # time.sleep(2)
+    input("ENTER to continue...")
     print()
 
 def limpiar_consola():
@@ -246,7 +254,6 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 # * --INICIO CÓDIGO PRINCIPAL
 
 if __name__ == "__main__":
-
     audio = "Messmer"
     reproducir_musica(audio)
     cantidadJugadores = int(input("Number of players: "))
@@ -300,7 +307,7 @@ if __name__ == "__main__":
             limpiar_consola()
             text_speed(f"*** Turn: {cont_turnos} ***")
             text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
-            objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros)
+            objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorEnTurno)
             print()
             text_speed("-- Choose an option --")
             
@@ -315,7 +322,7 @@ if __name__ == "__main__":
                         jugadorEnTurno.elegir_ataque_desesperado()
                         jugadorEnTurno.fundador_ataque_desesperado(clanes)
                         clan.info_miembros(jugadorEnTurno.titulo)
-                        input("Enter para continuar")
+                        input("ENTER to continue...")
                 
                 text_speed("1. Attack.")
                 text_speed("2. Create potions.")

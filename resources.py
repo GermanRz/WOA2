@@ -44,16 +44,6 @@ def reproducir_musica(audio, time = 1500):
             
             
 # Visualizaciones
-class Personaje:
-    def __init__(self, titulo, nombre, fuerza, puntos_vida, defensa, ataque, clan):
-        self.titulo = titulo
-        self.nombre = nombre
-        self.fuerza = fuerza
-        self.puntos_vida = puntos_vida
-        self.defensa = defensa
-        self.ataque = ataque
-        self.clan = clan
-
 def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
     """
     Imprime personajes en columnas, con la información de cada personaje en múltiples líneas.
@@ -72,7 +62,7 @@ def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
         
         # Primera línea: Título y nombre
         for personaje in grupo_actual:
-            print(f"{personaje.color}{personaje.titulo}: {personaje.nombre}".ljust(ancho_columna), end="")
+            print(f"{personaje.color}{personaje.titulo}: {personaje.nombre}           ".ljust(ancho_columna), end="")
         print()
         
         # Segunda línea: Fuerza y puntos de vida
@@ -85,8 +75,14 @@ def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
             print(f"Defense: {personaje.defensa}, Attack: {personaje.ataque}, Clan: {personaje.clan}".ljust(ancho_columna), end="")
         print()
         
-        # Línea en blanco entre grupos de personajes
-        print()
+        # Cuarta línea: Maná
+        # for personaje in grupo_actual:
+        #     print(f"Defense: {personaje.mana}".ljust(ancho_columna), end="")
+        # print()
+        
+        
+        # Línea en blanco entre grupos de personajes y reseteo de color
+        print(f"{Style.RESET_ALL}")
 
 
     
