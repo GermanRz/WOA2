@@ -216,7 +216,7 @@ def informacionClanes():
     opc = 0
     while opc!=3:
         limpiar_consola()
-        print(f"numero de rondas es {rondas}")
+        print(f"round{rondas}")
         text_speed("After this tough encounter you will find the status of the clans after the battle")
         text_speed("1. All clans.")
         text_speed("2. Specific clan.")
