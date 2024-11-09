@@ -1,6 +1,13 @@
 import random
-from resources import *
+from WOA2 import text_speed
 from WOA2 import lista_personajes
+import colorama
+from colorama import Fore, Style
+
+colorama.init()#esto es necesario para iniciar la clase colorama
+
+
+from resources import text_speed
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -19,16 +26,19 @@ class Personaje:
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         # verificar si el objetivo tiene protectores
-        if len(objetivo.lst_protectores)>0 and txtAtaque!="accurate arrow":
+        if len(objetivo.lst_protectores)>0 and txtAtaque!="flecha certera":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
 
         print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
         # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
         poder_ataque = (self.fuerza + self.ataque)
+        
         # 2. Calculamos el poder de la defensa usando solo fuerza y defensa del objetivo
         poder_defensa = (objetivo.fuerza + objetivo.defensa)
+        
         # 3. Calculamos la diferencia de poder
         diferencia_poder = poder_ataque - poder_defensa
+        
         # 4. Calculamos el porcentaje de daño base
         if diferencia_poder > 0:
             # Si el ataque es más fuerte que la defensa
@@ -39,8 +49,7 @@ class Personaje:
         # 6. Calculamos el daño final
         damage = int((objetivo.vida_original * factor_ataque) / 100)
         estado=objetivo.recibir_ataque(damage)
-        #Se agrega el objetivo en el return, ya que el objetivo puede cambiar durante el ataque por un protector
-        return estado, objetivo
+        return estado
 
 
     def recibir_ataque(self, damage):
@@ -56,7 +65,6 @@ class Personaje:
         # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
-            input("ENTER to continue...")
             return 1 #live
         else:
             if self.titulo=="Warrior":
@@ -74,7 +82,6 @@ class Personaje:
                 if len(self.lst_protegidos)>0:
                     for protegido in self.lst_protegidos:
                         protegido.lst_protectores.remove(self)
-            input("ENTER to continue...")
             return 0 #death
     
     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
@@ -90,17 +97,48 @@ class Personaje:
     
     
     #FIN
+    def regeneracion_mana(self):
+        regeneracion = random.randint(5, 25)
+        self.barra_mana += regeneracion
+        if self.barra_mana > 100:
+            self.barra_mana = 100
+        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        
+
+    def usar_hechizo(self, costo_mana):
+        if self.barra_mana >= costo_mana:
+            self.barra_mana -= costo_mana
+            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+        else:
+            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+
+    def __str__(self):
+        return (super().__str__() + 
+                f", Barra de Mana: {self.barra_mana}")
+
+    def ataque_doble(self, objetivo):
+        if self.barra_mana == 100:
+            print(f"{self.nombre} launches double attack {objetivo.nombre}!")
+            estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
 
     def protector(self, objetivo):
         objetivo.lst_protectores.append(self)
+        # for protector in objetivo.lst_protectores:
+        #     print(protector)
+        # input("LISTA DE PROTECTORES")
+
+    def protector(self, objetivo):
+        objetivo.lst_protectores.append(self)
+        # for protector in objetivo.lst_protectores:
+        #     print(protector)
+        # input("LISTA DE PROTECTORES")
+
 
     def __str__(self):
-        return (f"{self.titulo}: {self.nombre} - "
-                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
-                f"Defense: {self.defensa}, Attack: {self.ataque}, "
+        return (f"{self.titulo}: {self.nombre}\n"
+                f"strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, attack: {self.ataque}, "
                 f"Clan: {self.clan}")
-                # f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
-
         
 #***********************************************************************
 
@@ -139,29 +177,7 @@ class Mago(Personaje):
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        self.barra_mana = 50
-        
-    def regeneracion_mana(self):
-        regeneracion = random.randint(5, 25)
-        self.barra_mana += regeneracion
-        if self.barra_mana > 100:
-            self.barra_mana = 100
-        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
-        
-
-    def usar_hechizo(self, costo_mana):
-        if self.barra_mana >= costo_mana:
-            self.barra_mana -= costo_mana
-            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
-        else:
-            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
-
-
-    def ataque_doble(self, objetivo):
-        if self.barra_mana == 100:
-            print(f"{self.nombre} launches double attack {objetivo.nombre}!")
-            estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
-        
+        self.barra_mana = 50 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
@@ -185,59 +201,20 @@ class Arquero(Personaje):
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
         self.vida_original = self.puntos_vida
-        self.count_venenosa = 2
-        self.count_certera = 1
-        
-    def mostrar_flechas(self):
-        print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
-        
-        
-    def crear_flecha_venenosa(self):
-        if self.count_venenosa < 2:
-            self.count_venenosa+=1
-        else:
-            print("The maximum capacity is: 2 poison arrows")
-            input("Press ENTER to continue.")
-            
-        
-    def flecha_venenosa(self, objetivo ):
-        if self.count_venenosa>0:
-            estadoObjetivo, objetivo = self.realizar_ataque(objetivo,"poision arrow", 3)
-            self.count_venenosa -=1
-            return estadoObjetivo, objetivo
-        else:
-            return 1, None
-        
     
-    def flecha_curativa(self, objetivo):        
+    def flecha_venenosa(self, objetivo ):
+        self.realizar_ataque(objetivo,"poision arrow", 3)
+    
+    def flecha_curativa(self, objetivo):
+        
         curacion = round(self.vida_original * 0.01)  
         objetivo.puntos_vida += curacion
+
         # Asegurarnos de que no supere los puntos de vida originales
         if objetivo.puntos_vida > objetivo.vida_original:
             objetivo.puntos_vida = objetivo.vida_original
+
         print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
-        
-    def flecha_certera(self, objetivo, ronda):
-        if ronda % 1 !=0:
-            return 1 #ronda no valida
-        elif self.count_certera < 1:
-            return 2 #no hay flechas certeras disponibles
-        else:
-            estadoObjetivo, objetivo = self.realizar_ataque(objetivo, "accurate arrow")
-            self.count_certera -= 1
-            return estadoObjetivo, objetivo, 0  #estado 0, no se presentaon errores
-        
-    def crear_flecha_certera(self, ronda):
-        if ronda % 1 != 0:
-            return 1 #ronda no valida para la creacion de la flecha certera
-        elif self.count_certera >= 1:
-            return 2 #Ya tiene una fleha certera
-        else:
-            self.count_certera = 1
-            return 0
-            
-            
-            
 
 
 #***********************************************************************
@@ -246,9 +223,9 @@ class Fundador(Mago):
     cont_pociones_fundador = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 100
-        self.puntos_vida = 110
-        self.defensa = 110
+        self.fuerza = 100 #100
+        self.puntos_vida = 110 #110
+        self.defensa = 110 #110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
@@ -291,7 +268,7 @@ class Fundador(Mago):
                 text_speed("No potions available to give!")
                 input("Press ENTER to continue! ")
         else:
-            text_speed(f"That character does'nt even exist!")
+            text_speed(f"That character does´nt even exist!")
             input("Press ENTER to continue! ")
         return pj_receptor
         
@@ -330,19 +307,22 @@ class Fundador(Mago):
         # * Método para filtrar el clan del fundador y asi no esté en su lista de clanes objetivos *
         clanes_filtrado = [clan_objetivo for clan_objetivo in clanes if clan_objetivo.nombre != self.clan]
         
-        self.fuerza = self.fuerza_original * 1.5
-        self.ataque = self.ataque_original * 1.5
+        self.fuerza = self.fuerza_original * 0.7
+        self.ataque = self.ataque_original * 0.7
         
         # * Selección del modo de ataque del fundador *
         while True:
             try:
-                text_speed("¿How would you like to attack?\n1. By select.\n2. Randomly.")
+                text_speed("¿How would you like to attack?\n1. By select.\n2. Attack Randomly a clan.\n3. Attack randomly all of them.")
                 opc = int(input("Choosing option: "))
                 if opc == 1:
                     self._seleccionar_clan(clanes_filtrado)
                     break
                 elif opc == 2:
                     self._atacar_desesperado_clan_aleatorio(clanes_filtrado)
+                    break
+                elif opc == 3:
+                    self._atacar_todos_los_personajes(lista_personajes)
                     break
                 else:
                     text_speed("That option doesn't even exist...")
@@ -386,6 +366,10 @@ class Fundador(Mago):
         text_speed(f"I've taken my choice randomly and I decide to attack {Fore.MAGENTA} {clan_random.nombre} {Style.RESET_ALL}")
         text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
         self._reducir_atributos()
+    
+    def _atacar_todos_los_personajes(self, lst_personajes):
+        pass
+    
     
     def _reducir_atributos(self):
         self.estado_ataque_final = True
