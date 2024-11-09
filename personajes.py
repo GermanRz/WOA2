@@ -217,12 +217,10 @@ class Arquero(Personaje):
         
     
     def flecha_curativa(self, objetivo):        
-        curacion = round(self.vida_original * 0.01)  
-        objetivo.puntos_vida += curacion
-        # Asegurarnos de que no supere los puntos de vida originales
-        if objetivo.puntos_vida > objetivo.vida_original:
-            objetivo.puntos_vida = objetivo.vida_original
-        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+        
+        if objetivo.puntos_vida < objetivo.vida_original:
+            objetivo.puntos_vida += 1
+            print(f"{self.nombre} fired a healing antidote at {objetivo.nombre} and restored 1 hit point!")
         
     def flecha_certera(self, objetivo, ronda):
         if ronda % 1 !=0:
