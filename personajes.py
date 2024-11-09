@@ -1,8 +1,8 @@
 import random
 from WOA2 import text_speed
-#from WOA2 import lista_personajes
-import colorama 
-from colorama import Fore, Style 
+from WOA2 import lista_personajes
+import colorama
+from colorama import Fore, Style
 
 colorama.init()#esto es necesario para iniciar la clase colorama
 
@@ -67,6 +67,7 @@ class Personaje:
         # print(f"fuerza {self.fuerza} - defensa {self.defensa} - ataque {self.ataque}")
         if self.puntos_vida > 0:
             print(f"{self.nombre} has received an attack hit points = {self.puntos_vida}")
+            input("ENTER to continue...")
             return 1 #live
         else:
             if self.titulo=="Warrior":
@@ -84,6 +85,7 @@ class Personaje:
                 if len(self.lst_protegidos)>0:
                     for protegido in self.lst_protegidos:
                         protegido.lst_protectores.remove(self)
+            input("ENTER to continue...")
             return 0 #death
     
     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA
@@ -103,10 +105,12 @@ class Personaje:
         objetivo.lst_protectores.append(self)
 
     def __str__(self):
-        return (f"{self.titulo}: {self.nombre}\n"
-                f"strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
-                f"Defense: {self.defensa}, attack: {self.ataque}, "
+        return (f"{self.titulo}: {self.nombre} - "
+                f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
+                f"Defense: {self.defensa}, Attack: {self.ataque}, "
                 f"Clan: {self.clan}")
+                # f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+
         
 #***********************************************************************
 
@@ -222,17 +226,17 @@ class Arquero(Personaje):
         print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
         
     def flecha_certera(self, objetivo, ronda):
-        if ronda % 4!=0:
+        if ronda % 1 !=0:
             return 1 #ronda no valida
-        elif self.cant_Flecha_Certera < 1:
+        elif self.count_certera < 1:
             return 2 #no hay flechas certeras disponibles
         else:
-            estadoObjetivo, objetivo = self.realizar_ataque("accurate arrow", objetivo)
+            estadoObjetivo, objetivo = self.realizar_ataque(objetivo, "accurate arrow")
             self.count_certera -= 1
             return estadoObjetivo, objetivo, 0  #estado 0, no se presentaon errores
         
     def crear_flecha_certera(self, ronda):
-        if ronda % 4 != 0:
+        if ronda % 1 != 0:
             return 1 #ronda no valida para la creacion de la flecha certera
         elif self.count_certera >= 1:
             return 2 #Ya tiene una fleha certera
@@ -250,9 +254,9 @@ class Fundador(Mago):
     cont_pociones = 0
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
-        self.fuerza = 40 #100
-        self.puntos_vida = 40 #110
-        self.defensa = 40 #110
+        self.fuerza = 100
+        self.puntos_vida = 110
+        self.defensa = 110
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
