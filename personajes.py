@@ -221,6 +221,7 @@ class Arquero(Personaje):
         if objetivo.puntos_vida < objetivo.vida_original:
             objetivo.puntos_vida += 1
             print(f"{self.nombre} fired a healing antidote at {objetivo.nombre} and restored 1 hit point!")
+            input("Press ENTER to continue.")
         
     def flecha_certera(self, objetivo, ronda):
         if ronda % 1 !=0:
