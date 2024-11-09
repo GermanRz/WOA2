@@ -1,6 +1,5 @@
 import random
-from WOA2 import text_speed
-from WOA2 import lista_personajes
+from resources import *
 import colorama
 from colorama import Fore, Style
 

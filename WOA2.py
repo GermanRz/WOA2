@@ -3,6 +3,7 @@ Se importan las librerias de sys y time para que funcionen con text_speed
 '''
 import random, os
 import threading
+from resources import *
 from personajes import *
 from clanes import *
 
@@ -256,7 +257,19 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 if __name__ == "__main__":
     audio = "Messmer"
     reproducir_musica(audio)
-    cantidadJugadores = int(input("Number of players: "))
+    while True:
+        try:
+            cantidadJugadores = int(input("Number of players: "))
+            if cantidadJugadores <= 1:
+                text_speed("please enter a number valid max 2 players")
+            else:
+                break
+        except ValueError:
+            text_speed ("invalid option, please enter a valid number")
+          
+            
+
+    
     limpiar_consola()
     for i in range(cantidadJugadores):
         if i == 0:
@@ -267,6 +280,7 @@ if __name__ == "__main__":
         else:
             print()
             text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
+            
             
             opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
             if opcionPersonaje == 1:
@@ -304,7 +318,9 @@ if __name__ == "__main__":
                     lista_envenenados.remove(jugadorEnTurno)
 
             cont_turnos += 1
+            rondas += 1
             limpiar_consola()
+            text_speed(f"*** Ronda: {rondas} ***")
             text_speed(f"*** Turn: {cont_turnos} ***")
             text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
             objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorEnTurno)
@@ -382,13 +398,22 @@ if __name__ == "__main__":
             elif jugadorEnTurno.titulo == "Archer":
                 jugadorEnTurno.mostrar_flechas()
                 print()
-                text_speed("1. Attack.")
-                text_speed("2. Poison Arrow")
-                text_speed("3. healing arrow")
-                text_speed("4. create poison arrow")
-                text_speed("5. accurate arrow")
-                text_speed("6. create accurate arrow")
-                opc = int(input("Option: "))
+                text_speed("1 | Attack")
+                text_speed("2 | Poison Arrow")
+                text_speed("3 | healing arrow")
+                text_speed("4 | create poison arrow")
+                text_speed("5 | accurate arrow")
+                text_speed("6 | create accurate arrow")
+                while True:
+                    try:
+                        opc = int(input("Option: "))
+                        if opc < 1 or opc > 6:
+                            text_speed("Invalid option. plase select \n option 1\n option 2\n option 3\n option 4\n option 5 \n or \n option 6")
+                        else:
+                            break
+                    except ValueError:
+                        text_speed("please enter a valid option")
+                
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
@@ -401,13 +426,14 @@ if __name__ == "__main__":
                         lista_envenenados.append(objetivo)
                     else:
                         print(f"You don't have any poison arrow")
-                        input("ENTER to continue...")
+                  
                 elif opc == 3:
                     jugadorEnTurno.flecha_curativa(objetivo)
                     lista_envenenados.remove(objetivo)
                 elif opc == 4:
                     jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
+                   
                 elif opc == 5:
                     estadoObjetivo, objetivo, error = jugadorEnTurno.flecha_certera(objetivo,rondas)
                     if error == 0:
@@ -417,6 +443,7 @@ if __name__ == "__main__":
                         print(f"This battle is invalid for this attack - battle {rondas}")
                     else:
                         print("Your carcaj doesn't have accurate arrows")
+                      
                 elif opc == 6:
                     estado = jugadorEnTurno.crear_flecha_certera(rondas)
                     if estado == 1:
