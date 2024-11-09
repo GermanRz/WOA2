@@ -1,8 +1,8 @@
 import random
 from WOA2 import text_speed
-from WOA2 import lista_personajes
-import colorama
-from colorama import Fore, Style
+#from WOA2 import lista_personajes
+import colorama 
+from colorama import Fore, Style 
 
 colorama.init()#esto es necesario para iniciar la clase colorama
 
