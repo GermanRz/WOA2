@@ -1,4 +1,3 @@
-
 class Clan:
     cantidadMiembros = 0
     def __init__(self, nombre, fundador):

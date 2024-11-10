@@ -171,13 +171,16 @@ def listarTodoElStaff():
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         if pj.titulo == "Warrior":
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Sorcerer":
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Archer":
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
         else:
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
+        text_speed(f"Strength: {pj.fuerza}, Life Points: {pj.puntos_vida}, Defense: {pj.defensa}, Attack: {pj.ataque}")
+        text_speed(pj.mostrar_barra_mana())
+        text_speed("---------------------------")
     text_speed("--***---***--***---***--***---***", 0)
     # time.sleep(2)
     input("ENTER to continue...")
