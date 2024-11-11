@@ -380,12 +380,6 @@ class Fundador(Mago):
         text_speed(f"I have randomly attacked a number of {cantidad_aleatoria_objetivo}")
         self._reducir_atributos()
 
-
-    
-    def _atacar_todos_los_personajes(self, lst_personajes):
-        pass
-    
-    
     def _reducir_atributos(self):
         self.estado_ataque_final = True
         self.fuerza = self.fuerza_original // 2
