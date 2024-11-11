@@ -299,13 +299,14 @@ class Fundador(Mago):
             except ValueError:
                 text_speed("Please, enter a valid option...")
     
-    def fundador_ataque_desesperado(self, clanes): # Ataque desesperado
+    def fundador_ataque_desesperado(self, clanes,lst_personaje): # Ataque desesperado
         text_speed(f"...Y'all will gonna suffer the fury of our clan {self.clan}, ...{Fore.RED} The fury... of the fallens! {Style.RESET_ALL}")
         text_speed(f"The {self.titulo} {self.nombre} has gonna begin the final attack!")
         text_speed(f"{Fore.RED} {self.ataque_desesperado} {Style.RESET_ALL}\n", 0.07)
         
         # * Método para filtrar el clan del fundador y asi no esté en su lista de clanes objetivos *
         clanes_filtrado = [clan_objetivo for clan_objetivo in clanes if clan_objetivo.nombre != self.clan]
+        lst_personaje_filtrado = [personaje for personaje in lst_personaje if personaje.nombre != self.nombre]
         
         self.fuerza = self.fuerza_original * 0.7
         self.ataque = self.ataque_original * 0.7
@@ -313,7 +314,7 @@ class Fundador(Mago):
         # * Selección del modo de ataque del fundador *
         while True:
             try:
-                text_speed("¿How would you like to attack?\n1. By select.\n2. Attack Randomly a clan.\n3. Attack randomly all of them.")
+                text_speed("¿How would you like to attack?\n1. By select.\n2. Attack Randomly.\n3. Attack Randomly all of them a clan.\n3. Attack randomly all of them.")
                 opc = int(input("Choosing option: "))
                 if opc == 1:
                     self._seleccionar_clan(clanes_filtrado)
@@ -322,7 +323,7 @@ class Fundador(Mago):
                     self._atacar_desesperado_clan_aleatorio(clanes_filtrado)
                     break
                 elif opc == 3:
-                    self._atacar_todos_los_personajes(lista_personajes)
+                    self._seleccionar_personaje_aleatorio(lst_personaje_filtrado)
                     break
                 else:
                     text_speed("That option doesn't even exist...")
@@ -345,8 +346,6 @@ class Fundador(Mago):
                         print()
                         text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n")
                         text_speed(f"-Strenght: {miembro.fuerza}\n-Life Points: {miembro.puntos_vida}\n-Defense: {miembro.defensa}\n-Attack: {miembro.ataque}\n")
-                    
-                    text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
                     self.estado_ataque_final = True # El fundador ya realizó su ataque final
                     self._reducir_atributos()
                     return self.estado_ataque_final
@@ -366,6 +365,22 @@ class Fundador(Mago):
         text_speed(f"I've taken my choice randomly and I decide to attack {Fore.MAGENTA} {clan_random.nombre} {Style.RESET_ALL}")
         text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
         self._reducir_atributos()
+
+    def _seleccionar_personaje_aleatorio(self,lst_personajes):
+        # con esta variable calculo la cantidad de personajer que hay en la lista_personajes
+        cantidad_aleatoria_objetivo = random.randint(1,len(lst_personajes))
+        # toma la cantidad arrojada en el random y lo guarta en la variable cantidad_aleatoria_objetivo
+        objetivos_aleatorio = random.sample(lst_personajes,cantidad_aleatoria_objetivo)
+
+        for objetivo in objetivos_aleatorio:
+            self.realizar_ataque(objetivo,self.ataque_desesperado,1)
+            text_speed(f"\n{objetivo.nombre} of the clan {objetivo.clan} has been attacked with {self.ataque_desesperado} of the {self.titulo} {self.nombre} !\n  ")
+            text_speed(f"-Strenght: {objetivo.fuerza}\n-Life points: {objetivo.puntos_vida}\n-Defense: {objetivo.defensa}\n-Attack: {objetivo.ataque}\n")
+        
+        text_speed(f"I have randomly attacked a number of {cantidad_aleatoria_objetivo}")
+        self._reducir_atributos()
+
+
     
     def _atacar_todos_los_personajes(self, lst_personajes):
         pass
@@ -377,6 +392,7 @@ class Fundador(Mago):
         self.puntos_vida //= 2
         self.defensa //= 2
         self.ataque = self.ataque_original // 2
+        text_speed(f"The {self.titulo} {self.nombre} has casted the definitive attack {self.ataque_desesperado} and now the {self.titulo} is exhausted...")
         text_speed(f"The {self.titulo} {self.nombre} has decreased his/her life by half...")
         text_speed(f"-Strength: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
 #***********************************************************************
