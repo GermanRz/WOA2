@@ -188,9 +188,11 @@ class Arquero(Personaje):
         self.vida_original = self.puntos_vida
         self.count_venenosa = 2
         self.count_certera = 1
+        self.cont_flechas_curativas = 2
         
     def mostrar_flechas(self):
         print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
+        print(f"{self.nombre} have: {self.cont_flechas_curativas} healing arrows.")
         
         
     def crear_flecha_venenosa(self):
@@ -213,10 +215,18 @@ class Arquero(Personaje):
     def flecha_curativa(self, objetivo):        
         curacion = round(self.vida_original * 0.01)  
         objetivo.puntos_vida += curacion
+        self.cont_flechas_curativas -= 1
         # Asegurarnos de que no supere los puntos de vida originales
         if objetivo.puntos_vida > objetivo.vida_original:
             objetivo.puntos_vida = objetivo.vida_original
         print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+        
+    def crear_flecha_curativa(self):
+        if self.cont_flechas_curativas < 2:
+            self.cont_flechas_curativas+= 1
+            print(f"{self.nombre} ah creado una flecha curativa, ahora tienes {self.cont_flechas_curativas} flechas curativas")
+        else:
+            print("solo puedes tener dos flechas  curativas")
         
     def flecha_certera(self, objetivo, ronda):
         if ronda % 1 !=0:

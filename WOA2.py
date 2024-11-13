@@ -388,6 +388,7 @@ if __name__ == "__main__":
                 text_speed("4. create poison arrow")
                 text_speed("5. accurate arrow")
                 text_speed("6. create accurate arrow")
+                text_speed("7. create healing Arrow")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -425,6 +426,10 @@ if __name__ == "__main__":
                         print(f"You already have this arrow in your carcaj")
                     else:
                         print("You spent your turn creating a new accurate arrow.")
+                elif opc ==7:
+                    jugadorEnTurno.crear_flecha_curativa()
+                    print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
+                    input()
             text_speed("ENTER to continue")
                     
                     
