@@ -22,7 +22,7 @@ Función para implementar música en el juego
 NOTA: Se debe de instalar pygame ((ctrl + ñ) y seguidamente ejecutar el comando pip install pygame)
 '''
 # Soundtracks
-def reproducir_musica(audio, time = 1500):
+'''def reproducir_musica(audio, time = 1500):
     pygame.mixer.init() # Inicia la música
     
     diccionario_audios = {
@@ -42,7 +42,7 @@ def reproducir_musica(audio, time = 1500):
             pygame.mixer.music.load(ruta_audio)
             pygame.mixer.music.play()
             
-            
+            '''
 # Visualizaciones
 def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
     """

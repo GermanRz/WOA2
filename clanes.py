@@ -2,15 +2,17 @@
 class Clan:
     cantidadMiembros = 0
     def __init__(self, nombre, fundador):
-        self.miembros = []
         self.nombre = nombre
+        self.miembros = []
         self.fundador = fundador.nombre
         self.miembros.append(fundador)
         self.cantidadMiembros += 1
         
     def agregar_miembro(self, miembro):
-        self.miembros.append(miembro)
-        self.cantidadMiembros += 1
+        if miembro is not None:
+            miembro.asignar_clan(self.nombre)
+            self.miembros.append(miembro)
+            self.cantidadMiembros += 1
         
     def remover_miembro(self, miembro):
         self.miembros.remove(miembro)

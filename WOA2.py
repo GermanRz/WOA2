@@ -185,28 +185,45 @@ def nombrarGanador(fundadores, rondas):
     limpiar_consola()
     text_speed(f"You have conquered the kingdom after {rondas} tough battles, the king in the Python. Long live the king {fundadores[0]}")
     
-def eliminarPersonaje(objetivo, asesino):
-    if objetivo.titulo=="Founder":
-        text_speed(f"⚔️ The Fall of the Founder ⚔️\n\n Today, the kingdom is tinged with shadows with the death of {objetivo.nombre},\n founder of the glorious {objetivo.clan} clan. His days of leadership \n and bravery have come to an end, slain in battle by the {asesino.clan} clan.\n\n        According to the ancient laws of the kingdom, \n the members of the {objetivo.clan} clan\n must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. \nMay your spirit live under a new banner.",0.02)
-        fundadores.remove(objetivo)
-        #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
-        print()
-        input("ENTER to continue...")
-    elif objetivo.titulo=="Archer":
+
+def eliminarPersonaje(objetivo, asesino, eliminar_miembros=True):
+    if hasattr(objetivo.clan, 'nombre'):
+        if objetivo.titulo == "Founder":
+            text_speed(f"⚔️ The Fall of the Founder ⚔️\n\n Today, the kingdom is tinged with shadows with the death of {objetivo.nombre}, founder of the glorious {objetivo.clan.nombre} clan...")
+
+            if eliminar_miembros:
+                decision = input(f"Do you want to eliminate all members of the {objetivo.clan.nombre} clan? (Yes/No): ").strip().lower()
+                if decision == 'yes':
+                    for miembro in objetivo.clan.miembros:
+                        eliminarPersonaje(miembro, asesino, eliminar_miembros=False)
+                elif decision == 'no':
+                    mover_miembros_a_clan(asesino, objetivo)
+
+            # Eliminar al fundador del juego y del clan, verificando si está en fundadores
+            if objetivo in fundadores:
+                fundadores.remove(objetivo)
+            input("ENTER to continue...")
+        else:
+            eliminar_personaje_de_listas(objetivo)
+            for clan in clanes:
+                if clan.nombre == objetivo.clan.nombre:
+                    clan.remover_miembro(objetivo)
+
+def mover_miembros_a_clan(asesino, fundador):
+    if isinstance(asesino.clan, Clan):  # Asegurarse de que asesino.clan es una instancia de Clan
+        for miembro in fundador.clan.miembros:
+            if miembro != fundador:
+                asesino.clan.agregar_miembro(miembro)
+        print(f"All members of {fundador.clan.nombre} have been transferred to the {asesino.clan.nombre} clan.")
+def eliminar_personaje_de_listas(objetivo):
+    if objetivo.titulo == "Archer":
         arqueros.remove(objetivo)
-    elif objetivo.titulo=="Sorcerer":
+    elif objetivo.titulo == "Sorcerer":
         magos.remove(objetivo)
     else:
         guerreros.remove(objetivo)
-        #en este punto se debe inhablitar la defensa de los protegidos por este guerrero
-        
-    #remover de los jugadores activos        
     turnos_ordenados.remove(objetivo)
-    # remover del clan
-    for clan in clanes:
-        if clan.nombre == objetivo.clan:
-            clan.remover_miembro(objetivo)
-            
+
 def informacionClanes():
     opc = 0
     while opc!=3:
@@ -256,13 +273,51 @@ lista_personajes = fundadores + magos + guerreros + arqueros
 #INICIO CÓDIGO PRINCIPAL
 
 if __name__=="__main__":
-    audio = "Messmer"
-    reproducir_musica(audio)
-    limpiar_consola()
-    text_speed(f"{Fore.RED}--    WOA2: ¡War for the glory and our honor!    --{Style.RESET_ALL}\n")
-    text_speed(f"Once again... Rise, forgetful of the eternal night without hope, and reach the longed-for glory of our lady {Fore.LIGHTCYAN_EX}Nyxara... {Style.RESET_ALL}")
+    print("Iniciando prueba con datos ficticios...")
+
+    # Crear personajes de prueba: tres fundadores y dos guerreros
+    fundador1 = Fundador("JUAN")
+    fundador2 = Fundador("ASDASF")
+    fundador3 = Fundador("PEDRO")
+    guerrero1 = Guerrero("GUERRERO1")
+    guerrero2 = Guerrero("GUERRERO2")
+
+    # Asignar colores y títulos
+    fundador1.titulo = "Founder"
+    fundador2.titulo = "Founder"
+    fundador3.titulo = "Founder"
+    guerrero1.titulo = "Warrior"
+    guerrero2.titulo = "Warrior"
+
+    # Crear clanes y asignar fundadores
+    clan1 = Clan("KKK", fundador1)
+    clan2 = Clan("XVCB", fundador2)
+    clan3 = Clan("ABCD", fundador3)
+
+    # Asignar guerreros a los clanes
+    clan1.agregar_miembro(guerrero1)
+    clan2.agregar_miembro(guerrero2)
+
+    # Asignar clanes a los personajes
+    fundador1.asignar_clan(clan1)
+    fundador2.asignar_clan(clan2)
+    fundador3.asignar_clan(clan3)
+    guerrero1.asignar_clan(clan1)
+    guerrero2.asignar_clan(clan2)
+
+    # Añadir a listas de juego
+    fundadores = [fundador1, fundador2, fundador3]
+    guerreros = [guerrero1, guerrero2]
+    clanes = [clan1, clan2, clan3]
+    lista_personajes = fundadores + guerreros
+    turnos_ordenados = organizarTurno(lista_personajes)  # Ordenar aleatoriamente los turnos de los personajes
+    #audio = "Messmer"
+    #reproducir_musica(audio)
+    #limpiar_consola()
+    #text_speed(f"{Fore.RED}--    WOA2: ¡War for the glory and our honor!    --{Style.RESET_ALL}\n")
+    #text_speed(f"Once again... Rise, forgetful of the eternal night without hope, and reach the longed-for glory of our lady {Fore.LIGHTCYAN_EX}Nyxara... {Style.RESET_ALL}")
     
-    while True:
+    '''while True:
         try:
             cantidadJugadores = int(input("Number of players: "))
             if cantidadJugadores < 2 or cantidadJugadores > 20:
@@ -301,12 +356,11 @@ if __name__=="__main__":
             elif opcionPersonaje == 3:
                 arquero = crearArquero("Archer")
                 seleccionarClan(arquero)
-                limpiar_consola()
+                limpiar_consola()'''
 
 
-    listarTodoElStaff()
-    turnos_ordenados = organizarTurno(lista_personajes)
-    limpiar_consola()
+
+    
     #Mientras que existe más de un fundador
     rondas = 1
     # ?Mientras que existe más de un fundador

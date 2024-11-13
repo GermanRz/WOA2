@@ -9,8 +9,8 @@ class Personaje:
         self.clan = clan
         self.lst_protectores = []
 
-    def asignar_clan(self, clan):
-        self.clan = clan
+    def asignar_clan(self, clan_objeto):
+        self.clan = clan_objeto
         
     '''
     se agregan dos parametros acicionales
