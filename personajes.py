@@ -262,7 +262,14 @@ class Fundador(Mago):
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
         self.slot_pociones = []
-        text_speed(f"{self.nombre} has founded a clan.") 
+        self.mana = 50
+        text_speed(f"{self.nombre} has founded a clan.")
+
+ 
+    def mostrar_barra_mana(self):
+        barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
+        return f"Mana: {self.barra_mana}/100 {barra}"    
+
         
     def crear_pociones(self):
         cura_aleatoria = random.randint(10, 25)
@@ -365,9 +372,4 @@ class Fundador(Mago):
 #***********************************************************************
 
 if __name__ == "__main__":
-    # Crear un objeto Fundador para probar
-    fundador = Fundador(nombre="DA", titulo="Founder", clan="AD")
-
-    # Mostrar las estadísticas incluyendo la barra de maná
-    print(f"Nombre: {fundador.nombre}, Título: {fundador.titulo}, Clan: {fundador.clan}")
-    print(f"Mana Bar: {fundador.mostrar_barra_mana()}")
+    pass

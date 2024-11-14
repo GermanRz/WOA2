@@ -165,7 +165,6 @@ def organizarTurno(lst_pjs):
 
 def listarTodoElStaff():
     global lista_personajes
-    #Agregar a lista_personajes todos las clases según se vayan creando
     lista_personajes = fundadores + magos + guerreros + arqueros
     text_speed("List of all the characters present in the game: ")
     text_speed("--***---***--***---***--***---***", 0)
@@ -182,7 +181,6 @@ def listarTodoElStaff():
         text_speed(pj.mostrar_barra_mana())
         text_speed("---------------------------")
     text_speed("--***---***--***---***--***---***", 0)
-    # time.sleep(2)
     input("ENTER to continue...")
     print()
 
