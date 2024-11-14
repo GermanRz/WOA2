@@ -14,6 +14,7 @@ class Personaje:
         self.titulo = titulo
         self.clan = clan
         self.lst_protectores = []
+        self.lst_protegidos = []
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -130,6 +131,8 @@ class Guerrero(Personaje):
 
     def protegido(self, protegido):
         self.lst_protegidos.append(protegido)
+    
+    
         
 #***********************************************************************
 
@@ -195,6 +198,7 @@ class Arquero(Personaje):
         self.count_venenosa = 2
         self.count_certera = 1
         
+        
     def mostrar_flechas(self):
         print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
         
@@ -215,16 +219,17 @@ class Arquero(Personaje):
         else:
             return 1, None
         
+    def estaba_protejido(self, objetivo):
+        if objetivo == objetivo.lst_protegidos:
+            text_speed(f"el objetivo {objetivo.nombre}, está protegido")
+        else:
+            text_speed(f"el objetivo {objetivo.nombre}, no estaba protegido")
+        
     
     def flecha_curativa(self, objetivo):        
-        
         if objetivo.puntos_vida < objetivo.vida_original:
-            objetivo.puntos_vida += 1
-            print(f"{self.nombre} fired a healing antidote at {objetivo.nombre} and restored 1 hit point!")
-        else:
-            ("the target is not poisoned")
-            input()
-                    
+            objetivo.puntos_vida +=1
+        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado 1 punto de vida!")
         
     def flecha_certera(self, objetivo, ronda):
         if ronda % 1 !=0:
