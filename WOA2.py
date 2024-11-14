@@ -416,6 +416,7 @@ if __name__ == "__main__":
                 
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                    jugadorEnTurno.estaba_protejido(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 2:
@@ -436,6 +437,7 @@ if __name__ == "__main__":
                    
                 elif opc == 5:
                     estadoObjetivo, objetivo, error = jugadorEnTurno.flecha_certera(objetivo,rondas)
+                    jugadorEnTurno.estaba_protejido(objetivo)
                     if error == 0:
                         if estadoObjetivo == 0:
                             eliminarPersonaje(objetivo, jugadorEnTurno)
@@ -443,7 +445,7 @@ if __name__ == "__main__":
                         print(f"This battle is invalid for this attack - battle {rondas}")
                     else:
                         print("Your carcaj doesn't have accurate arrows")
-                      
+                   
                 elif opc == 6:
                     estado = jugadorEnTurno.crear_flecha_certera(rondas)
                     if estado == 1:
@@ -452,6 +454,7 @@ if __name__ == "__main__":
                         print(f"You already have this arrow in your carcaj")
                     else:
                         print("You spent your turn creating a new accurate arrow.")
+            input()
             text_speed("ENTER to continue")
                     
                     
