@@ -408,7 +408,14 @@ if __name__ == "__main__":
                     try:
                         opc = int(input("Option: "))
                         if opc < 1 or opc > 6:
-                            text_speed("Invalid option. plase select \n option 1\n option 2\n option 3\n option 4\n option 5 \n or \n option 6")
+                            text_speed("Invalid option. plase select"
+                                        "\n1 | Attack"
+                                        "\n2 | Poison Arrow"
+                                        "\n3 | healing arrow"
+                                        "\n4 | create poison arrow"
+                                        "\n5 | accurate arrow"
+                                        "\n6 | create accurate arrow")
+                                       
                         else:
                             break
                     except ValueError:
@@ -458,9 +465,8 @@ if __name__ == "__main__":
                         print(f"You already have this arrow in your carcaj")
                     else:
                         print("You spent your turn creating a new accurate arrow.")
-            input()
-            text_speed("ENTER to continue")
             
+            text_speed("ENTER to continue")
                     
                     
             
