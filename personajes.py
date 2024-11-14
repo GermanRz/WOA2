@@ -233,10 +233,14 @@ class Arquero(Personaje):
             return 1 #ronda no valida
         elif self.count_certera < 1:
             return 2 #no hay flechas certeras disponibles
+        if  objetivo.lst_protectores:
+            print(f"{objetivo.nombre} estaba protegido")
         else:
+            print(f"{objetivo.nombre} no estaba protegido")
             estadoObjetivo, objetivo = self.realizar_ataque(objetivo, "accurate arrow")
             self.count_certera -= 1
             return estadoObjetivo, objetivo, 0  #estado 0, no se presentaon errores
+        
         
     def crear_flecha_certera(self, ronda):
         if ronda % 1 != 0:
