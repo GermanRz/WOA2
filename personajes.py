@@ -1,6 +1,12 @@
 import random
 from resources import *
-from WOA2 import lista_personajes
+import colorama
+from colorama import Fore, Style
+
+colorama.init()#esto es necesario para iniciar la clase colorama
+
+
+from resources import text_speed
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -8,6 +14,7 @@ class Personaje:
         self.titulo = titulo
         self.clan = clan
         self.lst_protectores = []
+        self.lst_protegidos = []
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -124,6 +131,8 @@ class Guerrero(Personaje):
 
     def protegido(self, protegido):
         self.lst_protegidos.append(protegido)
+    
+    
         
 #***********************************************************************
 
@@ -190,6 +199,7 @@ class Arquero(Personaje):
         self.count_certera = 1
         self.cont_flechas_curativas = 2
         
+        
     def mostrar_flechas(self):
         print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
         print(f"{self.nombre} have: {self.cont_flechas_curativas} healing arrows.")
@@ -211,11 +221,16 @@ class Arquero(Personaje):
         else:
             return 1, None
         
+    def estaba_protejido(self, objetivo):
+        if objetivo == objetivo.lst_protegidos:
+            text_speed(f"el objetivo {objetivo.nombre}, está protegido")
+        else:
+            text_speed(f"el objetivo {objetivo.nombre}, no estaba protegido")
+        
     
     def flecha_curativa(self, objetivo):        
         curacion = round(self.vida_original * 0.01)  
         objetivo.puntos_vida += curacion
-        self.cont_flechas_curativas -= 1
         # Asegurarnos de que no supere los puntos de vida originales
         if objetivo.puntos_vida > objetivo.vida_original:
             objetivo.puntos_vida = objetivo.vida_original
