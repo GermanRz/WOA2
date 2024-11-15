@@ -77,16 +77,19 @@ def seleccionarClan(personaje):
 
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorTurno):
-    text_speed("-- Selection mode --", 0)
-    text_speed("-- Select your goal --", 0)
-    text_speed("1. By clan.", 0)
-    text_speed("2. List all characters.", 0)
-    text_speed("3. Attack by title.", 0)
-    opcion = int(input("Choose an option: "))
     while True:
-            try:
+        try:
+            text_speed("-- Selection mode --", 0)
+            text_speed("-- Select your goal --", 0)
+            text_speed("1. By clan.", 0)
+            text_speed("2. List all characters.", 0)
+            text_speed("3. Attack by title.", 0)
+            opcion = int(input("Choose an option: "))
+    
+            
                 
-                if   opcion < 1 or opcion > 3:
+            if   opcion < 1 or opcion > 3 or opcion != 3:
+                    text_speed("\nplease enter a valid option\n")
                     text_speed("-- Selection mode --", 0)
                     text_speed("-- Select your goal --", 0)
                     text_speed("1. By clan.", 0)
@@ -94,10 +97,10 @@ def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorT
                     text_speed("3. Attack by title.", 0)
                     opcion = int(input("Choose an option: "))
                     
-                else:
-                    break
-            except ValueError:
-                    text_speed("please enter a valid option")
+            else:
+                break
+        except ValueError:
+                    text_speed("\nplease Select a valid option\n")
                     
     
     limpiar_consola()
@@ -283,7 +286,6 @@ if __name__ == "__main__":
                 break
         except ValueError:
             text_speed ("invalid option, please enter a valid number")
-          
             
 
     
@@ -295,28 +297,38 @@ if __name__ == "__main__":
             crearClan(fundador)
             limpiar_consola()
         else:
-            print()
-            text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
-            
-            
-            opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
-            if opcionPersonaje == 1:
-                guerrero = crearGuerrero("Warrior")
-                seleccionarClan(guerrero)
-                limpiar_consola()
-            elif opcionPersonaje == 2:
-                mago = crearMago("Sorcerer")
-                opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
-                if opcionCrearClan == 1:
-                    fundador = crearFundador(mago)
-                    crearClan(fundador)
-                    limpiar_consola()
-                else:
-                    seleccionarClan(mago)
-            elif opcionPersonaje == 3:
-                arquero = crearArquero("Archer")
-                seleccionarClan(arquero)
-                limpiar_consola()
+            while True:
+                try:
+                    print()
+                    text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
+                    
+                    opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
+                    if opcionPersonaje == 1:
+                        guerrero = crearGuerrero("Warrior")
+                        seleccionarClan(guerrero)
+                        limpiar_consola()
+                    elif opcionPersonaje == 2:
+                        mago = crearMago("Sorcerer")
+                        opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                        if opcionCrearClan == 1:
+                            fundador = crearFundador(mago)
+                            crearClan(fundador)
+                            limpiar_consola()
+                        else:
+                            seleccionarClan(mago)
+                    elif opcionPersonaje == 3:
+                        arquero = crearArquero("Archer")
+                        seleccionarClan(arquero)
+                        limpiar_consola()
+                    
+                    if opcionPersonaje < 1 or opcionPersonaje > 3:
+                        text_speed("\nplease enter a valid number\n")
+                        opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
+                    
+                    else:
+                        break
+                except ValueError:
+                    text_speed("\nplease select a valid option")
 
 
     listarTodoElStaff()
@@ -432,7 +444,6 @@ if __name__ == "__main__":
                                         "\n4 | create poison arrow"
                                         "\n5 | accurate arrow"
                                         "\n6 | create accurate arrow")
-                                       
                         else:
                             break
                     except ValueError:
@@ -451,7 +462,6 @@ if __name__ == "__main__":
                         lista_envenenados.append(objetivo)
                     else:
                         print(f"You don't have any poison arrow")
-                  
                 elif opc == 3:
                         if objetivo == lista_envenenados:
                             jugadorEnTurno.flecha_curativa(objetivo)
@@ -484,6 +494,7 @@ if __name__ == "__main__":
                         print("You spent your turn creating a new accurate arrow.")
             
             text_speed("ENTER to continue")
+            input()
                     
                     
             

@@ -228,14 +228,18 @@ class Arquero(Personaje):
             text_speed(f"el objetivo {objetivo.nombre}, no estaba protegido")
         
     
-    def flecha_curativa(self, objetivo):        
-        curacion = round(self.vida_original * 0.01)  
-        objetivo.puntos_vida += curacion
-        # Asegurarnos de que no supere los puntos de vida originales
-        if objetivo.puntos_vida > objetivo.vida_original:
-            objetivo.puntos_vida = objetivo.vida_original
-        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
-        
+    def flecha_curativa(self, objetivo):
+        if self.cont_flechas_curativas > 0:
+            curacion = round(self.vida_original * 0.01)  
+            objetivo.puntos_vida += curacion
+            self.cont_flechas_curativas -=1
+            # Asegurarnos de que no supere los puntos de vida originales
+            if objetivo.puntos_vida > objetivo.vida_original:
+                objetivo.puntos_vida = objetivo.vida_original
+            print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+        else:
+            print("no tienes flechas curativas")
+            
     def crear_flecha_curativa(self):
         if self.cont_flechas_curativas < 2:
             self.cont_flechas_curativas+= 1
