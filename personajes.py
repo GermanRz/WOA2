@@ -247,8 +247,8 @@ class Fundador(Mago):
     def __init__(self, nombre):
         super().__init__(nombre, "Founder")
         self.fuerza = 100
-        self.puntos_vida = 110
-        self.defensa = 110
+        self.puntos_vida = 5
+        self.defensa = 5
         self.ataque = 110
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
