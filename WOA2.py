@@ -370,7 +370,7 @@ if __name__=="__main__":
                 print()
                 text_speed("1. Attack.")
                 text_speed("2. Defend.")
-                text_speed("3. sword dance. (NO IMPLEMENTADO)")
+                text_speed("3. Tornado Attack.")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -380,6 +380,8 @@ if __name__=="__main__":
                 elif opc == 2:
                     jugadorEnTurno.protector(objetivo)  #el jugador en turno entra en la lista del objetivo (lista de protectores)
                     jugadorEnTurno.protegido(objetivo)  #el objetivo entra en la lista del jugador en turno (lista de protegidos)
+                elif opc == 3:
+                    jugadorEnTurno.ataque_tornado(clanes, rondas)
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 jugadorEnTurno.regeneracion_mana()
