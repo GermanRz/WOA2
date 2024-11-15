@@ -160,21 +160,22 @@ def organizarTurno(lst_pjs):
 
 def listarTodoElStaff():
     global lista_personajes
-    #Agregar a lista_personajes todos las clases según se vayan creando
     lista_personajes = fundadores + magos + guerreros + arqueros
     text_speed("List of all the characters present in the game: ")
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         if pj.titulo == "Warrior":
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Sorcerer":
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Archer":
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
         else:
-            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
+        text_speed(f"Strength: {pj.fuerza}, Life Points: {pj.puntos_vida}, Defense: {pj.defensa}, Attack: {pj.ataque}")
+        text_speed(pj.mostrar_barra_mana())
+        text_speed("---------------------------")
     text_speed("--***---***--***---***--***---***", 0)
-    # time.sleep(2)
     input("ENTER to continue...")
     print()
 
@@ -383,7 +384,6 @@ if __name__=="__main__":
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 jugadorEnTurno.regeneracion_mana()
-                input("aqui estoy regenerando")
                 text_speed("1. Attack.")
                 # text_speed("2. cure. (NO IMPLEMENTADO)")
                 text_speed("3. Meteorite storm ☄")

@@ -8,6 +8,11 @@ class Personaje:
         self.titulo = titulo
         self.clan = clan
         self.lst_protectores = []
+        self.barra_mana = None
+
+    def mostrar_barra_mana(self):
+        barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
+        return f"Mana: {self.barra_mana}/100 {barra}"    
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -98,8 +103,8 @@ class Personaje:
         return (f"{self.titulo}: {self.nombre} - "
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
                 f"Defense: {self.defensa}, Attack: {self.ataque}, "
-                f"Clan: {self.clan}")
-                # f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+                f"Clan: {self.clan}\n"
+                f"{self.mostrar_barra_mana()}")
 
         
 #***********************************************************************
@@ -146,15 +151,15 @@ class Mago(Personaje):
         self.barra_mana += regeneracion
         if self.barra_mana > 100:
             self.barra_mana = 100
-        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        print(f"{self.nombre} has regenerated {regeneracion} mana.⭐ Mana bar: {self.barra_mana}.⭐")
         
 
     def usar_hechizo(self, costo_mana):
         if self.barra_mana >= costo_mana:
             self.barra_mana -= costo_mana
-            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+            print(f"{self.nombre} you have used a spell. Cost mana: {costo_mana}.⭐ Mana Bar: {self.barra_mana}.⭐")
         else:
-            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+            print(f"{self.nombre} does not have enough mana to use the spell.❌")
 
 
     def ataque_doble(self, objetivo):
@@ -257,7 +262,14 @@ class Fundador(Mago):
         self.ataque_original = self.ataque
         self.bolsillo_pociones_fundador = []
         self.estado_ataque_final = False
+        self.mana = None
         text_speed(f"{self.nombre} has founded a clan.")
+
+ 
+    def mostrar_barra_mana(self):
+        barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
+        return f"Mana: {self.barra_mana}/100 {barra}"    
+
         
     def crear_pociones(self):
         cura_aleatoria = random.randint(10, 25)
