@@ -362,7 +362,6 @@ if __name__ == "__main__":
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 jugadorEnTurno.regeneracion_mana()
-                input("aqui estoy regenerando")
                 text_speed("1. Attack.")
                 # text_speed("2. cure. (NO IMPLEMENTADO)")
                 text_speed("3. Meteorite storm ☄")
