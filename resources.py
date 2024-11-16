@@ -84,7 +84,3 @@ def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
         # Línea en blanco entre grupos de personajes y reseteo de color
         print(f"{Style.RESET_ALL}")
 
-
-    
-
-     
