@@ -365,7 +365,10 @@ if __name__=="__main__":
                         jugadorEnTurno.crear_pociones()
                         text_speed(f"My potion/s {fundador.cont_pociones_fundador} | {fundador.bolsillo_pociones_fundador}")
                     elif opc == 3:
-                        jugadorEnTurno.entregar_pocion(magos, objetivo)
+                        if jugadorEnTurno.cont_pociones_fundador != 0:
+                            jugadorEnTurno.entregar_pocion(magos, objetivo)
+                        else:
+                            input("Oops! I don´t have any potions to give...")
                     
             elif jugadorEnTurno.titulo == "Warrior":
                 print()

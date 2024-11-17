@@ -249,33 +249,35 @@ class Fundador(Mago):
             input("PREES ENTER to continue")
 
     def entregar_pocion(self, lst_magos, pj_receptor):
-        for index, pj in enumerate(lst_magos):
-            print(f"{index+1} | {pj.titulo} {pj.nombre}")
-        while True:
-            try:
-                opc = int(input(f"Select number that you wanna give the heal potion: ")) - 1
-                if 0 <= opc < len(lst_magos):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
-                    pj_receptor = lst_magos[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
-                    self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
-                    if self.bolsillo_pociones_fundador:
-                        pocion = self.bolsillo_pociones_fundador.pop()#SACA LA POCIÓN DEL BOLSILLO DEL FUNDADOR
-                        self.cont_pociones_fundador -= 1 # Se resta la poción al mago
-                        text_speed(f"The {self.titulo} {self.nombre} has given a potion to the {self.pj_receptor.titulo} {self.pj_receptor.nombre}")
-                        self.pj_receptor.bolsillo_pociones_mago.append(pocion) # Recibe la poción
-                        self.pj_receptor.cont_pociones_mago += 1 # Se suma la poción al mago
-                        text_speed(f"The {self.pj_receptor.titulo} | {self.pj_receptor.nombre} has recieved a healing potion 🥤")
-                        text_speed(f"Potion/s: 🥤 {self.pj_receptor.cont_pociones_mago} | Healing 💗: {list(self.pj_receptor.bolsillo_pociones_mago)} 🧙‍♂️")
-                        input("Press ENTER to continue! ")
-                        return pj_receptor
+        if len(lst_magos) != 0:
+            for index, pj in enumerate(lst_magos):
+                print(f"{index+1} | {pj.titulo} {pj.nombre}")
+            while True:
+                try:
+                    opc = int(input(f"Select number that you wanna give the heal potion: ")) - 1
+                    if 0 <= opc < len(lst_magos):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
+                        pj_receptor = lst_magos[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
+                        self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
+                        if self.bolsillo_pociones_fundador:
+                            pocion = self.bolsillo_pociones_fundador.pop()#SACA LA POCIÓN DEL BOLSILLO DEL FUNDADOR
+                            self.cont_pociones_fundador -= 1 # Se resta la poción al mago
+                            text_speed(f"The {self.titulo} {self.nombre} has given a potion to the {self.pj_receptor.titulo} {self.pj_receptor.nombre}")
+                            self.pj_receptor.bolsillo_pociones_mago.append(pocion) # Recibe la poción
+                            self.pj_receptor.cont_pociones_mago += 1 # Se suma la poción al mago
+                            text_speed(f"The {self.pj_receptor.titulo} | {self.pj_receptor.nombre} has recieved a healing potion 🥤")
+                            text_speed(f"Potion/s: 🥤 {self.pj_receptor.cont_pociones_mago} | Healing 💗: {list(self.pj_receptor.bolsillo_pociones_mago)} 🧙‍♂️")
+                            input("Press ENTER to continue! ")
+                            return pj_receptor
+                        else:
+                            text_speed("No potions available to give!")
+                            input("Press ENTER to continue! ")
                     else:
-                        text_speed("No potions available to give!")
+                        text_speed(f"That character does´nt even exist!")
                         input("Press ENTER to continue! ")
-                else:
-                    text_speed(f"That character does´nt even exist!")
-                    input("Press ENTER to continue! ")
-            except ValueError:
-                input("PLEASE ENTER A VALID OPTION")
-                #return pj_receptor
+                except ValueError:
+                    input("PLEASE ENTER A VALID OPTION")
+        else:
+            input("Well... There are no current living Sorcerers right now...")
         
     def elegir_ataque_desesperado(self):
         text_speed(f"The {self.titulo} {self.nombre} it's the last member standing in the clan!")
