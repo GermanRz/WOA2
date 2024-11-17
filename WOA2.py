@@ -336,7 +336,6 @@ if __name__=="__main__":
                 if clan and len(clan.miembros) <= 1 and not jugadorEnTurno.estado_ataque_final:
                         audio = "Gael"
                         reproducir_musica(audio)
-                        jugadorEnTurno.elegir_ataque_desesperado()# Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
                         jugadorEnTurno.fundador_ataque_desesperado(clanes,lista_personajes)
                         clan.info_miembros(jugadorEnTurno.titulo)
                         input("Press enter to continue")
