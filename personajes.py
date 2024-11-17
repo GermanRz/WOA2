@@ -253,7 +253,7 @@ class Fundador(Mago):
             print(f"{index+1} | {pj.titulo} {pj.nombre}")
         while True:
             try:
-                opc = int(input(f"Select number of the {pj.titulo} that you give the heal potion: ")) - 1
+                opc = int(input(f"Select number that you wanna give the heal potion: ")) - 1
                 if 0 <= opc < len(lst_magos):#VERIFICA QUE LA OPC ESTÉ EN LA LISTA
                     pj_receptor = lst_magos[opc]#EN LA POSICIÓN QUE SE ELIGIÓ EN LA OPC
                     self.pj_receptor = pj_receptor#PJ COMO UN OBJETO
@@ -274,7 +274,7 @@ class Fundador(Mago):
                     text_speed(f"That character does´nt even exist!")
                     input("Press ENTER to continue! ")
             except ValueError:
-                text_speed("PLEASE ENTER A VALID OPTION")
+                input("PLEASE ENTER A VALID OPTION")
                 #return pj_receptor
         
     def elegir_ataque_desesperado(self):
