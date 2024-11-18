@@ -173,6 +173,39 @@ class Mago(Personaje):
                 f"Defense: {self.defensa}, Attack: {self.ataque}, "
                 f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
         
+    def conceder_curacion(self, lst_pjs, pj_receptor):
+        for index, pj in enumerate(lst_pjs):
+            print(f"{index + 1} | {pj.titulo} {pj.nombre}")
+        
+        while True:
+            try:
+                opc = input(f"Select number of the character that you wanna heal with the potion (or type 'exit' to cancel): ")
+                if opc.lower() == 'exit':
+                    print("Operation cancelled.")
+                    return pj_receptor  # Salir de la función si el usuario cancela
+                
+                opc = int(opc) - 1  # Convertir a entero y ajustar el índice
+                if 0 <= opc < len(lst_pjs):  # Verifica que la opción esté en la lista
+                    if self.cont_pociones_mago > 0:
+                        pj_receptor = lst_pjs[opc]  # En la posición que se eligió en la opción
+                        self.pj_receptor = pj_receptor  # PJ como un objeto
+                        curacion = self.bolsillo_pociones_mago.pop()  # Saca la poción del bolsillo
+                        self.cont_pociones_mago -= 1  # Decrementa el contador de pociones
+                        text_speed(f"{self.nombre} has used a healing potion 🥤 on {self.pj_receptor.nombre}")
+                        pj_receptor.fuerza += curacion
+                        pj_receptor.puntos_vida += curacion
+                        pj_receptor.defensa += curacion
+                        pj_receptor.ataque += curacion
+                        input("Press ENTER to continue! ")
+                    else:
+                        text_speed("No more potions left!")
+                    return pj_receptor
+                else:
+                    text_speed("That character doesn't even exist!")
+            except ValueError:
+                text_speed("Invalid option, please enter a number.")
+
+        
 
 #***********************************************************************
 
@@ -428,37 +461,24 @@ class Fundador(Mago):
         text_speed(f"-Strength: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
 #***********************************************************************
 
-if __name__=="__main__":
-    fundador = Fundador("f")
-    arquero1 = Arquero("a1")
-    guerrero1 = Guerrero("g1")
-    guerrero2 = Guerrero("g2")
-    mago1 = Mago("m1")
-    
-    arquero1.flecha_venenosa(guerrero1)
-    print(guerrero1)
-    print()
-    arquero1.realizar_ataque(guerrero2)
-    print(guerrero2)    
-    
-    
-    arquero2 = Arquero("a2")
-    arquero3 = Arquero("a3")
-    arquero4 = Arquero("a4")
-    arquero5 = Arquero("a5")
+if __name__ == "__main__":
+    # Crear instancias de personajes
+    mago = Mago("Gandalf")
+    guerrero = Guerrero("Aragorn")
+    arquero = Arquero("Legolas")
 
-    # arquero1.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero2.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero5.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    pass
+    # Agregar pociones al mago
+    mago.bolsillo_pociones_mago.append(20)  # Agregar una poción de curación de 20 puntos
+    mago.cont_pociones_mago += 1  # Incrementar el contador de pociones
+
+    # Crear una lista de personajes
+    lista_personajes = [guerrero, arquero]
+
+    # Llamar al método conceder_curacion
+    pj_receptor = None  # Inicializar pj_receptor
+    mago.conceder_curacion(lista_personajes, pj_receptor)
+
+    # Imprimir el estado de los personajes después de la curación
+    print(guerrero)
+    print(arquero)
+
