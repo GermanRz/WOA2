@@ -435,8 +435,11 @@ if __name__ == "__main__":
                         print(f"You don't have any poison arrow")
                         input("ENTER to continue...")
                 elif opc == 3:
-                    jugadorEnTurno.flecha_curativa(objetivo)
-                    lista_envenenados.remove(objetivo)
+                    if objetivo in lista_envenenados:
+                        jugadorEnTurno.flecha_curativa(objetivo)
+                        lista_envenenados.remove(objetivo)
+                    else:
+                        print("the target is not poisoned")
                 elif opc == 4:
                     jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
@@ -460,7 +463,7 @@ if __name__ == "__main__":
                 elif opc ==7:
                     jugadorEnTurno.crear_flecha_curativa()
                     print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
-                    input()
+            input()
             text_speed("ENTER to continue")
                     
                     
