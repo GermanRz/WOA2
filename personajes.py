@@ -266,7 +266,7 @@ class Fundador(Mago):
         self.puntos_vida = 110
         self.defensa = 110
         self.ataque = 110
-        self.barra_mana = 50
+        self.barra_mana = None
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
