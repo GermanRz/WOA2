@@ -237,12 +237,12 @@ class Mago(Personaje):
                         pj_receptor.ataque += curacion
                         input("Press ENTER to continue! ")
                     else:
-                        text_speed("No more potions left!")
+                        input("No more potions left!")
                     return pj_receptor
                 else:
-                    text_speed("That character doesn't even exist!")
+                    input("That character doesn't even exist!")
             except ValueError:
-                text_speed("Invalid option, please enter a number.")
+                input("Invalid option, please enter a number.")
 
         
 
