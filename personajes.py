@@ -1,6 +1,8 @@
+
 import random
 from resources import *
 from WOA2 import lista_personajes
+from tqdm import tqdm
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -8,11 +10,6 @@ class Personaje:
         self.titulo = titulo
         self.clan = clan
         self.lst_protectores = []
-        self.barra_mana = None
-
-    def mostrar_barra_mana(self):
-        barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
-        return f"Mana: {self.barra_mana}/100 {barra}"    
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -103,8 +100,8 @@ class Personaje:
         return (f"{self.titulo}: {self.nombre} - "
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
                 f"Defense: {self.defensa}, Attack: {self.ataque}, "
-                f"Clan: {self.clan}\n"
-                f"{self.mostrar_barra_mana()}")
+                f"Clan: {self.clan}")
+                # f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
 
         
 #***********************************************************************
@@ -131,7 +128,7 @@ class Guerrero(Personaje):
 
 class Mago(Personaje):
     cont_pociones_mago = 0
-    def __init__(self, nombre, titulo = "Sorcerer", color = Fore.GREEN):
+    def __init__(self, nombre, titulo="Sorcerer", color=Fore.GREEN):
         super().__init__(nombre, titulo)
         self.fuerza = 80
         self.puntos_vida = 100
@@ -139,20 +136,33 @@ class Mago(Personaje):
         self.ataque = 90
         self.color = color
         self.bolsillo_pociones_mago = []
+        self.barra_mana = 50
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        self.barra_mana = 50
-        
+        # Solo mostrar la barra de mana si es un Mago directamente
+        if type(self) is Mago:
+            print(f"\n{Fore.CYAN}✧ {self.nombre}'s Mana ✧{Style.RESET_ALL}")
+            self.mostrar_barra_mana()
+
+    def mostrar_barra_mana(self):
+        # Solo mostrar si es la clase Mago directamente
+        if type(self) == Mago:
+            with tqdm(total=100, 
+                     bar_format='{desc}{percentage:3.0f}%|{bar}|',
+                     desc=f"{Fore.CYAN}🔮 {Style.RESET_ALL}",
+                     ncols=50,
+                     colour='blue') as pbar:
+                pbar.n = self.barra_mana
+                pbar.refresh()
+    
     def regeneracion_mana(self):
         regeneracion = random.randint(5, 25)
-        self.barra_mana += regeneracion
-        if self.barra_mana > 100:
-            self.barra_mana = 100
-        print(f"{self.nombre} has regenerated {regeneracion} mana.⭐ Mana bar: {self.barra_mana}.⭐")
-        
+        self.barra_mana = min(100, self.barra_mana + regeneracion)
+        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        self.mostrar_barra_mana()
 
     def usar_hechizo(self, costo_mana):
         if self.barra_mana >= costo_mana:
@@ -161,12 +171,13 @@ class Mago(Personaje):
         else:
             print(f"{self.nombre} does not have enough mana to use the spell.❌")
 
-
     def ataque_doble(self, objetivo):
         if self.barra_mana == 100:
             print(f"{self.nombre} launches double attack {objetivo.nombre}!")
             estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
-        
+            self.barra_mana -= 50  # Consumir mana por el ataque doble
+            self.mostrar_barra_mana()
+    
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
@@ -282,13 +293,13 @@ class Arquero(Personaje):
 
 class Fundador(Mago):
     cont_pociones_fundador = 0
-    def __init__(self, nombre):
-        super().__init__(nombre, "Founder")
+    def __init__(self, nombre, color = Fore.BLUE):
+        Personaje.__init__(self, nombre, "Founder")
         self.fuerza = 100
         self.puntos_vida = 110
         self.defensa = 110
         self.ataque = 110
-        # Guardamos los valores máximos/iniciales de cada atributo
+        self.color = color
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
@@ -298,12 +309,6 @@ class Fundador(Mago):
         self.mana = None
         text_speed(f"{self.nombre} has founded a clan.")
 
- 
-    def mostrar_barra_mana(self):
-        barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
-        return f"Mana: {self.barra_mana}/100 {barra}"    
-
-        
     def crear_pociones(self):
         cura_aleatoria = random.randint(10, 25)
         if self.cont_pociones_fundador <= 3:
@@ -461,24 +466,6 @@ class Fundador(Mago):
         text_speed(f"-Strength: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
 #***********************************************************************
 
+
 if __name__ == "__main__":
-    # Crear instancias de personajes
-    mago = Mago("Gandalf")
-    guerrero = Guerrero("Aragorn")
-    arquero = Arquero("Legolas")
-
-    # Agregar pociones al mago
-    mago.bolsillo_pociones_mago.append(20)  # Agregar una poción de curación de 20 puntos
-    mago.cont_pociones_mago += 1  # Incrementar el contador de pociones
-
-    # Crear una lista de personajes
-    lista_personajes = [guerrero, arquero]
-
-    # Llamar al método conceder_curacion
-    pj_receptor = None  # Inicializar pj_receptor
-    mago.conceder_curacion(lista_personajes, pj_receptor)
-
-    # Imprimir el estado de los personajes después de la curación
-    print(guerrero)
-    print(arquero)
-
+ pass
