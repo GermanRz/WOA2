@@ -76,12 +76,21 @@ def seleccionarClan(personaje):
 
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorTurno):
-    text_speed("-- Selection mode --", 0)
-    text_speed("-- Select your goal --", 0)
-    text_speed("1. By clan.", 0)
-    text_speed("2. List all characters.", 0)
-    text_speed("3. Attack by title.", 0)
-    opcion = int(input("Choose an option: "))
+    while True:
+        try:
+            text_speed("-- Selection mode --", 0)
+            text_speed("-- Select your goal --", 0)
+            text_speed("1. By clan.", 0)
+            text_speed("2. List all characters.", 0)
+            text_speed("3. Attack by title.", 0)
+            opcion = int(input("Choose an option: "))
+            if opcion <1 or opcion >3 :
+                text_speed("invalid opcion, plase select")
+            else:
+                 break
+        except ValueError:
+                         text_speed("please enter a valid option ")
+            
     limpiar_consola()
     if opcion == 1:
         text_speed("clan list")
@@ -316,6 +325,7 @@ if __name__ == "__main__":
 
             cont_turnos += 1
             limpiar_consola()
+            text_speed(f"*** Round: {rondas} ***")
             text_speed(f"*** Turn: {cont_turnos} ***")
             text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
             objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorEnTurno)
