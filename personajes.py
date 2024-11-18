@@ -87,9 +87,9 @@ class Personaje:
         if self.puntos_vida != 0:
             self.puntos_vida -= 1
         if self.puntos_vida > 0:
-            print("estas bajo el ataque de flecha venenosa ")
+            print("you are under the attack of a poinsoned arrow")
         if   self.puntos_vida == 0:
-            print(f"{self.nombre} ha muerto")
+            print(f"{self.nombre} is dead")
     
     
     #FIN
@@ -147,15 +147,15 @@ class Mago(Personaje):
         self.barra_mana += regeneracion
         if self.barra_mana > 100:
             self.barra_mana = 100
-        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        print(f"{self.nombre} genereated {regeneracion} of mana. mana's bar: {self.barra_mana}")
         
 
     def usar_hechizo(self, costo_mana):
         if self.barra_mana >= costo_mana:
             self.barra_mana -= costo_mana
-            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+            print(f"{self.nombre} used a spell. Mana cost: {costo_mana}. Mana's bar: {self.barra_mana}")
         else:
-            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+            print(f"{self.nombre} haven't enough mana to use this spell.")
 
 
     def ataque_doble(self, objetivo):
@@ -219,14 +219,14 @@ class Arquero(Personaje):
         # Asegurarnos de que no supere los puntos de vida originales
         if objetivo.puntos_vida > objetivo.vida_original:
             objetivo.puntos_vida = objetivo.vida_original
-        print(f"{self.nombre} ha disparado una flecha curativa a {objetivo.nombre} y le ha restaurado {curacion} punto de vida!")
+        print(f"{self.nombre} shoot a healing arrow to {objetivo.nombre} and restored an amount of {curacion} life points!")
         
     def crear_flecha_curativa(self):
         if self.cont_flechas_curativas < 2:
             self.cont_flechas_curativas+= 1
-            print(f"{self.nombre} ah creado una flecha curativa, ahora tienes {self.cont_flechas_curativas} flechas curativas")
+            print(f"{self.nombre} create a healing arrow, now you have {self.cont_flechas_curativas} healing arrows")
         else:
-            print("solo puedes tener dos flechas  curativas")
+            print("you can only have two healing arrows")
         
     def flecha_certera(self, objetivo, ronda):
         if ronda % 1 !=0:
