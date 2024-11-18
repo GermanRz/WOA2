@@ -1,13 +1,11 @@
 import random
 from WOA2 import text_speed
-from WOA2 import lista_personajes
 import colorama
 from colorama import Fore, Style
+from resources import text_speed, pygame
 
-colorama.init()#esto es necesario para iniciar la clase colorama
 
-
-from resources import text_speed
+colorama.init() # Esto es necesario para iniciar la clase colorama
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -25,11 +23,20 @@ class Personaje:
     intensidadAtaque: valor entero de la intensidad del ataque.   default = 5
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
+        sonidos = {
+            "Founder": pygame.mixer.Sound("Efectos-sonido/ataque-magico-fundador.wav"),
+            "Sorcerer": pygame.mixer.Sound("Efectos-sonido/ataque-magico-mago.wav"),
+            "Warrior": pygame.mixer.Sound("Efectos-sonido/Espadazo.flac"),
+            "Archer": pygame.mixer.Sound("Efectos-sonido/Flechazo.mp3")
+        }
+        
+        if self.titulo in sonidos.keys():
+            sonidos[self.titulo].play()
         # verificar si el objetivo tiene protectores
         if len(objetivo.lst_protectores)>0 and txtAtaque!="flecha certera":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
 
-        print(f"{self.nombre} has carried out an attack!  {txtAtaque}")
+        input(f"{self.nombre} has carried out an attack!  {txtAtaque}")
         # 1. Calculamos el poder del ataque usando solo fuerza y ataque del atacante
         poder_ataque = (self.fuerza + self.ataque)
         
