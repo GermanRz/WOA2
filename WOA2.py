@@ -292,6 +292,7 @@ if __name__ == "__main__":
                         arquero = crearArquero("Archer")
                         seleccionarClan(arquero)
                         limpiar_consola()
+                        break
                     else:
                         break
                 except ValueError:
