@@ -393,14 +393,24 @@ if __name__ == "__main__":
             elif jugadorEnTurno.titulo == "Archer":
                 jugadorEnTurno.mostrar_flechas()
                 print()
-                text_speed("1. Attack.")
-                text_speed("2. Poison Arrow")
-                text_speed("3. healing arrow")
-                text_speed("4. create poison arrow")
-                text_speed("5. accurate arrow")
-                text_speed("6. create accurate arrow")
-                text_speed("7. create healing Arrow")
-                opc = int(input("Option: "))
+                while True:
+                            try:
+                                text_speed("1. Attack.")
+                                text_speed("2. Poison Arrow")
+                                text_speed("3. healing arrow")
+                                text_speed("4. create poison arrow")
+                                text_speed("5. accurate arrow")
+                                text_speed("6. create accurate arrow")
+                                text_speed("7. create healing Arrow")
+                                opc = int(input("Option: "))
+                                if opc<1 or opc >7 :
+                                    text_speed("invalid opcion, plase select")
+                                else:
+                                    break
+                            except ValueError:
+                                text_speed("please enter a valid option ")
+                                                
+                
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
