@@ -282,28 +282,38 @@ if __name__=="__main__":
             limpiar_consola()
         else:
             print()
-            text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
-            
-            opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
-            if opcionPersonaje == 1:
-                guerrero = crearGuerrero("Warrior")
-                seleccionarClan(guerrero)
-                limpiar_consola()
-            elif opcionPersonaje == 2:
-                mago = crearMago("Sorcerer")
-                opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
-                if opcionCrearClan == 1:
-                    fundador = crearFundador(mago)
-                    crearClan(fundador)
+            while True:
+                try:
+                    text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
+                    opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
                     limpiar_consola()
-                else:
-                    seleccionarClan(mago)
+                    if opcionPersonaje <=0 or opcionPersonaje >=4:
+                        text_speed("Invalid option, please enter a correct option")
+                    elif opcionPersonaje == 1:
+                        guerrero = crearGuerrero("Warrior")
+                        seleccionarClan(guerrero)
+                        limpiar_consola()
+                        break
+                    elif opcionPersonaje == 2:
+                        mago = crearMago("Sorcerer")
+                        opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                        if opcionCrearClan == 1:
+                            fundador = crearFundador(mago)
+                            crearClan(fundador)
+                            limpiar_consola()
+                        else:
+                            seleccionarClan(mago)
+                        break
+                    elif opcionPersonaje == 3:
+                        arquero = crearArquero("Archer")
+                        seleccionarClan(arquero)
+                        limpiar_consola()
+                        break
+                    else:
+                        break
+                except ValueError:
                     limpiar_consola()
-            elif opcionPersonaje == 3:
-                arquero = crearArquero("Archer")
-                seleccionarClan(arquero)
-                limpiar_consola()
-
+                    text_speed("Please enter a correct option")
 
     listarTodoElStaff()
     turnos_ordenados = organizarTurno(lista_personajes)
@@ -371,7 +381,7 @@ if __name__=="__main__":
                 print()
                 text_speed("1. Attack.")
                 text_speed("2. Defend.")
-                text_speed("3. sword dance. (NO IMPLEMENTADO)")
+                text_speed("3. Tornado Attack.")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -381,6 +391,8 @@ if __name__=="__main__":
                 elif opc == 2:
                     jugadorEnTurno.protector(objetivo)  #el jugador en turno entra en la lista del objetivo (lista de protectores)
                     jugadorEnTurno.protegido(objetivo)  #el objetivo entra en la lista del jugador en turno (lista de protegidos)
+                elif opc == 3:
+                    jugadorEnTurno.ataque_tornado(clanes, rondas)
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 jugadorEnTurno.regeneracion_mana()
@@ -407,6 +419,7 @@ if __name__=="__main__":
                 text_speed("4. create poison arrow")
                 text_speed("5. accurate arrow")
                 text_speed("6. create accurate arrow")
+                text_speed("7. create healing Arrow")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -444,6 +457,10 @@ if __name__=="__main__":
                         print(f"You already have this arrow in your carcaj")
                     else:
                         print("You spent your turn creating a new accurate arrow.")
+                elif opc ==7:
+                    jugadorEnTurno.crear_flecha_curativa()
+                    print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
+                    input()
             text_speed("ENTER to continue")
                     
                     
