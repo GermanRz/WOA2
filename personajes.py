@@ -260,13 +260,14 @@ class Arquero(Personaje):
 #***********************************************************************
 
 class Fundador(Mago):
-    def __init__(self, nombre):
+    def __init__(self, nombre, color = Fore.BLUE):
         Personaje.__init__(self, nombre, "Founder")
         self.fuerza = 100
         self.puntos_vida = 110
         self.defensa = 110
         self.ataque = 110
         self.barra_mana = None
+        self.color = color
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
