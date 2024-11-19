@@ -18,7 +18,7 @@ def text_speed(text, velocity = 0):
     print()
 
 '''
-Función para implementar música en el juego y que el juego sea mas chimba 🤟
+Función para implementar música en el juego
 NOTA: Se debe de instalar pygame ((ctrl + ñ) y seguidamente ejecutar el comando pip install pygame)
 '''
 # Soundtracks
@@ -84,7 +84,3 @@ def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
         # Línea en blanco entre grupos de personajes y reseteo de color
         print(f"{Style.RESET_ALL}")
 
-
-    
-
-     

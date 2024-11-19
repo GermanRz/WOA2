@@ -6,11 +6,6 @@ import threading
 from personajes import *
 from clanes import *
 
-# * División de bloques del código
-# ! Secciones de error
-# ? No sé si esto funciona pero prefiero no borrarlo
-# TODO: Lo que tú quieras  
-
 from colorama import Fore, Style
 '''LOS FUNDADORES TENDRAN COLOR AZUL
 LOS MAGOS TENDRAN UN COLOR VERDE
@@ -18,7 +13,7 @@ LOS GUERRREROS TENDRAN COLOR ROJO
 LOS ARQUEROS TENDRAN UN COLOR CYAN
 LOS CLANES TENDRÁN UN COLOR MORADO'''
 
-# *--INICIO FUNCIONES--
+#--INICIO FUNCIONES--
 
 def crearGuerrero(titulo, color = Fore.RED):
     nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
@@ -27,7 +22,7 @@ def crearGuerrero(titulo, color = Fore.RED):
     return guerrero
 
 def crearMago(titulo, color = Fore.GREEN):
-    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
+    nombre = input(f"Name of the {color}  {titulo} {Style.RESET_ALL}: ").upper()
     mago = Mago(nombre)
     magos.append(mago)
     return mago
@@ -38,7 +33,7 @@ def crearArquero(titulo,color = Fore.CYAN):
     arqueros.append(arquero)
     return arquero
 
-def crearFundador(mago, color = Fore.BLUE):
+def crearFundador(mago,color = Fore.BLUE):
     text_speed(f"Your destiny is to be a {color} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
     fundador = Fundador(mago.nombre)
     fundadores.append(fundador)
@@ -76,12 +71,21 @@ def seleccionarClan(personaje):
 
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorTurno):
-    text_speed("-- Selection mode --", 0)
-    text_speed("-- Select your goal --", 0)
-    text_speed("1. By clan.", 0)
-    text_speed("2. List all characters.", 0)
-    text_speed("3. Attack by title.", 0)
-    opcion = int(input("Choose an option: "))
+    while True:
+        try:
+            text_speed("-- Selection mode --", 0)
+            text_speed("-- Select your goal --", 0)
+            text_speed("1. By clan.", 0)
+            text_speed("2. List all characters.", 0)
+            text_speed("3. Attack by title.", 0)
+            opcion = int(input("Choose an option: "))
+            if opcion <1 or opcion >3 :
+                text_speed("invalid opcion, plase select")
+            else:
+                 break
+        except ValueError:
+                         text_speed("please enter a valid option ")
+            
     limpiar_consola()
     if opcion == 1:
         text_speed("clan list")
@@ -217,29 +221,36 @@ def informacionClanes():
     opc = 0
     while opc!=3:
         limpiar_consola()
+        print(f"round{rondas}")
         text_speed("After this tough encounter you will find the status of the clans after the battle")
         text_speed("1. All clans.")
         text_speed("2. Specific clan.")
         text_speed("3. Continue with the next battle")
-        opc = int(input("Option: "))
-        if opc == 1:
-            for clan in clanes:
-                clan.listar_miembros()
-                input("ENTER to continue...")
-        if opc == 2:
-            for index, clan in enumerate(clanes):
-                text_speed(f"{index+1} : {clan.nombre}")
-            print()
-            nombreClan = input("Enter the name of the clan -> ").upper()
-            for clan in clanes:
-                if clan.nombre == nombreClan:
+        
+        try:
+            opc = int(input("Option: "))
+            if opc == 1:
+                for clan in clanes:
                     clan.listar_miembros()
                     input("ENTER to continue...")
+            if opc == 2:
+                for index, clan in enumerate(clanes):
+                    text_speed(f"{index+1} : {clan.nombre}")
+                print()
+                nombreClan = input("Enter the name of the clan -> ").upper()
+                for clan in clanes:
+                    if clan.nombre == nombreClan:
+                        clan.listar_miembros()
+                        input("ENTER to continue...")
+            else:
+                text_speed("Invalid option. Please select 1, 2, or 3.")
+        except ValueError:
+            text_speed("Please enter a valid option")
 
 
-# *--FIN PROCEDIMIENTOS--
+#--FIN PROCEDIMIENTOS--
 
-# *--INICIO ARREGLOS--
+#--INICIO ARREGLOS--
 
 guerreros = []
 magos = []
@@ -250,15 +261,28 @@ lista_envenenados = []
 
 lista_personajes = fundadores + magos + guerreros + arqueros
 
-# *--FIN ARREGLOS
+#--FIN ARREGLOS
 
-# * --INICIO CÓDIGO PRINCIPAL
+#INICIO CÓDIGO PRINCIPAL
 
-if __name__ == "__main__":
+if __name__=="__main__":
     audio = "Messmer"
     reproducir_musica(audio)
-    cantidadJugadores = int(input("Number of players: "))
     limpiar_consola()
+    text_speed(f"{Fore.RED}--    WOA2: ¡War for the glory and our honor!    --{Style.RESET_ALL}\n")
+    text_speed(f"Once again... Rise, forgetful of the eternal night without hope, and reach the longed-for glory of our lady {Fore.LIGHTCYAN_EX}Nyxara... {Style.RESET_ALL}")
+    
+    while True:
+        try:
+            cantidadJugadores = int(input("Number of players: "))
+            if cantidadJugadores < 2 or cantidadJugadores > 20:
+                text_speed("Amount entered invalid! Please enter a number between 2 and 20")
+            else:
+                break
+        except ValueError:
+            text_speed("Please enter a number...")
+    limpiar_consola()
+    
     for i in range(cantidadJugadores):
         if i == 0:
             mago = crearMago("Founder")
@@ -267,32 +291,44 @@ if __name__ == "__main__":
             limpiar_consola()
         else:
             print()
-            text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
-            
-            opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
-            if opcionPersonaje == 1:
-                guerrero = crearGuerrero("Warrior")
-                seleccionarClan(guerrero)
-                limpiar_consola()
-            elif opcionPersonaje == 2:
-                mago = crearMago("Sorcerer")
-                opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
-                if opcionCrearClan == 1:
-                    fundador = crearFundador(mago)
-                    crearClan(fundador)
+            while True:
+                try:
+                    text_speed(f"Choosing the player class {i+1}/{cantidadJugadores}: ")
+                    opcionPersonaje = int(input(f"1. {Fore.RED} Warrior {Style.RESET_ALL} \n2. {Fore.GREEN} Sorcerers {Style.RESET_ALL} \n3. {Fore.CYAN} Archer {Style.RESET_ALL} \nOption: "))
                     limpiar_consola()
-                else:
-                    seleccionarClan(mago)
-            elif opcionPersonaje == 3:
-                arquero = crearArquero("Archer")
-                seleccionarClan(arquero)
-                limpiar_consola()
-
+                    if opcionPersonaje <=0 or opcionPersonaje >=4:
+                        text_speed("Invalid option, please enter a correct option")
+                    elif opcionPersonaje == 1:
+                        guerrero = crearGuerrero("Warrior")
+                        seleccionarClan(guerrero)
+                        limpiar_consola()
+                        break
+                    elif opcionPersonaje == 2:
+                        mago = crearMago("Sorcerer")
+                        opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                        if opcionCrearClan == 1:
+                            fundador = crearFundador(mago)
+                            crearClan(fundador)
+                            limpiar_consola()
+                        else:
+                            seleccionarClan(mago)
+                        break
+                    elif opcionPersonaje == 3:
+                        arquero = crearArquero("Archer")
+                        seleccionarClan(arquero)
+                        limpiar_consola()
+                        break
+                    else:
+                        break
+                except ValueError:
+                    limpiar_consola()
+                    text_speed("Please enter a correct option")
 
     listarTodoElStaff()
     turnos_ordenados = organizarTurno(lista_personajes)
     limpiar_consola()
-    rondas = 0
+    #Mientras que existe más de un fundador
+    rondas = 1
     # ?Mientras que existe más de un fundador
     while len(fundadores)>1:
 
@@ -306,50 +342,56 @@ if __name__ == "__main__":
 
             cont_turnos += 1
             limpiar_consola()
+            text_speed(f"*** Round: {rondas} ***")
             text_speed(f"*** Turn: {cont_turnos} ***")
             text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
             objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorEnTurno)
             print()
             text_speed("-- Choose an option --")
             
+            # Filtrar el clan del fundador para verificar si está solo.
+            clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
             
             if jugadorEnTurno.titulo == "Founder":
-                clan = next((clan_personaje for clan_personaje in clanes if clan_personaje.nombre == jugadorEnTurno.clan), None)
-                if clan:
-                    if len(clan.miembros) < 2:
+                if clan and len(clan.miembros) <= 1 and not jugadorEnTurno.estado_ataque_final:
                         audio = "Gael"
                         reproducir_musica(audio)
-                        # ? Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
-                        jugadorEnTurno.elegir_ataque_desesperado()
-                        jugadorEnTurno.fundador_ataque_desesperado(clanes)
+                        jugadorEnTurno.elegir_ataque_desesperado()# Elegir el ataque a gusto por el fundador para hacer sufrir a sus enemigos por la caida de sus hermanos.
+                        jugadorEnTurno.fundador_ataque_desesperado(clanes,lista_personajes)
                         clan.info_miembros(jugadorEnTurno.titulo)
-                        input("ENTER to continue...")
-                
-                text_speed("1. Attack.")
-                text_speed("2. Create potions.")
-                opc = int(input("Option: "))
-                if opc == 1:
-                    # ********************************************************
-                    #CODIGO PAA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
-                    estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
-                    if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
-                    # ********************************************************    
-                if opc == 2:
-                    jugadorEnTurno.crear_pociones()
-                    text_speed("¿Do you wanna conserve your potion?")
-                    opc = int(input("1.Yes.\n2.No.\nOpc: "))
+                        input("Press enter to continue")
+                        limpiar_consola()
+                else:
+                    text_speed("1. Attack.")
+                    text_speed("2. Create potions.")
+                    text_speed("3. Give potions.")
+                    while True:
+                        try:
+                            opc = int(input("Option: "))
+                            if 1 > opc > 3:
+                                text_speed("Invalid option. Please select 1, 2, or 3.")
+                            else:
+                                break
+                        except ValueError:
+                            text_speed("Please enter a valid option")
                     if opc == 1:
-                        text_speed(f"I keep my potion/s {fundador.cont_pociones} | {fundador.slot_pociones}")
-                        input("Press ENTER to continue. ")
+                        # ********************************************************
+                        #CODIGO PArA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
+                        estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                        if estadoObjetivo == 0:
+                            eliminarPersonaje(objetivo, jugadorEnTurno)
+                        # ********************************************************
                     elif opc == 2:
-                        jugadorEnTurno.conceder_curacion(lista_personajes, objetivo)
-        
+                        jugadorEnTurno.crear_pociones()
+                        text_speed(f"My potion/s {fundador.cont_pociones_fundador} | {fundador.bolsillo_pociones_fundador}")
+                    elif opc == 3:
+                        jugadorEnTurno.entregar_pocion(magos, objetivo)
+                    
             elif jugadorEnTurno.titulo == "Warrior":
                 print()
                 text_speed("1. Attack.")
                 text_speed("2. Defend.")
-                text_speed("3. sword dance. (NO IMPLEMENTADO)")
+                text_speed("3. Tornado Attack.")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
@@ -359,6 +401,8 @@ if __name__ == "__main__":
                 elif opc == 2:
                     jugadorEnTurno.protector(objetivo)  #el jugador en turno entra en la lista del objetivo (lista de protectores)
                     jugadorEnTurno.protegido(objetivo)  #el objetivo entra en la lista del jugador en turno (lista de protegidos)
+                elif opc == 3:
+                    jugadorEnTurno.ataque_tornado(clanes, rondas)
             
             elif jugadorEnTurno.titulo == "Sorcerer":
                 jugadorEnTurno.regeneracion_mana()
@@ -382,13 +426,24 @@ if __name__ == "__main__":
             elif jugadorEnTurno.titulo == "Archer":
                 jugadorEnTurno.mostrar_flechas()
                 print()
-                text_speed("1. Attack.")
-                text_speed("2. Poison Arrow")
-                text_speed("3. healing arrow")
-                text_speed("4. create poison arrow")
-                text_speed("5. accurate arrow")
-                text_speed("6. create accurate arrow")
-                opc = int(input("Option: "))
+                while True:
+                            try:
+                                text_speed("1. Attack.")
+                                text_speed("2. Poison Arrow")
+                                text_speed("3. healing arrow")
+                                text_speed("4. create poison arrow")
+                                text_speed("5. accurate arrow")
+                                text_speed("6. create accurate arrow")
+                                text_speed("7. create healing Arrow")
+                                opc = int(input("Option: "))
+                                if opc<1 or opc >7 :
+                                    text_speed("invalid opcion, plase select")
+                                else:
+                                    break
+                            except ValueError:
+                                text_speed("please enter a valid option ")
+                                                
+                
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
@@ -403,8 +458,11 @@ if __name__ == "__main__":
                         print(f"You don't have any poison arrow")
                         input("ENTER to continue...")
                 elif opc == 3:
-                    jugadorEnTurno.flecha_curativa(objetivo)
-                    lista_envenenados.remove(objetivo)
+                    if objetivo in lista_envenenados:
+                        jugadorEnTurno.flecha_curativa(objetivo)
+                        lista_envenenados.remove(objetivo)
+                    else:
+                        print("the target is not poisoned")
                 elif opc == 4:
                     jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
@@ -425,11 +483,15 @@ if __name__ == "__main__":
                         print(f"You already have this arrow in your carcaj")
                     else:
                         print("You spent your turn creating a new accurate arrow.")
+                elif opc ==7:
+                    jugadorEnTurno.crear_flecha_curativa()
+                    print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
+            input()
             text_speed("ENTER to continue")
                     
                     
             
         print(objetivo)
         rondas +=1
-        # ? Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
+        # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
     nombrarGanador(fundadores, rondas)
