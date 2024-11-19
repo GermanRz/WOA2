@@ -218,12 +218,6 @@ class Arquero(Personaje):
         else:
             return 1, None
         
-    def estaba_protejido(self, objetivo):
-        if objetivo == objetivo.lst_protegidos:
-            text_speed(f"el objetivo {objetivo.nombre}, está protegido")
-        else:
-            text_speed(f"el objetivo {objetivo.nombre}, no estaba protegido")
-        
     
     def flecha_curativa(self, objetivo):        
         curacion = round(self.vida_original * 0.01)  
@@ -247,9 +241,9 @@ class Arquero(Personaje):
         elif self.count_certera < 1:
             return 2 #no hay flechas certeras disponibles
         if  objetivo.lst_protectores:
-            print(f"{objetivo.nombre} estaba protegido")
+            print(f"{objetivo.nombre} was protected")
         else:
-            print(f"{objetivo.nombre} no estaba protegido")
+            print(f"{objetivo.nombre} was notprotected")
             estadoObjetivo, objetivo = self.realizar_ataque(objetivo, "accurate arrow")
             self.count_certera -= 1
             return estadoObjetivo, objetivo, 0  #estado 0, no se presentaon errores

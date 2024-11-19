@@ -485,7 +485,7 @@ if __name__=="__main__":
                         print("You spent your turn creating a new accurate arrow.")
                 elif opc ==7:
                     jugadorEnTurno.crear_flecha_curativa()
-                    print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
+                    print(f"{jugadorEnTurno.nombre} now you have {jugadorEnTurno.cont_flechas_curativas} healing arrows")
             input()
             text_speed("ENTER to continue")
                     
