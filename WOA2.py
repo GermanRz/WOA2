@@ -304,7 +304,15 @@ if __name__=="__main__":
                         break
                     elif opcionPersonaje == 2:
                         mago = crearMago("Sorcerer")
-                        opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                        while True:
+                            try:
+                                opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                                if opcionCrearClan <1 or opcionCrearClan >2:
+                                    text_speed("invalid opcion, please select")
+                                else:
+                                    break
+                            except ValueError:
+                                text_speed("please enter a valid option")
                         if opcionCrearClan == 1:
                             fundador = crearFundador(mago)
                             crearClan(fundador)
@@ -488,7 +496,6 @@ if __name__=="__main__":
                     print(f"{jugadorEnTurno.nombre} now you have {jugadorEnTurno.cont_flechas_curativas} healing arrows")
             input()
             text_speed("ENTER to continue")
-                    
                     
             
         print(objetivo)
