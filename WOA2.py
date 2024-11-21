@@ -185,11 +185,24 @@ def nombrarGanador(fundadores, rondas):
     limpiar_consola()
     text_speed(f"You have conquered the kingdom after {rondas} tough battles, the king in the Python. Long live the king {fundadores[0]}")
     
+def reclutarMiembros(clanOrigen, clanDestino):
+    for clan in clanes:
+        if clan.nombre == clanOrigen:
+            clanObjetivo=clan
+        if clan.nombre == clanDestino:
+            clanAsesino=clan
+    victimas = [miembro for miembro in clanObjetivo.miembros]
+    for miembro in victimas:
+        miembro.clan = clanDestino
+        clanObjetivo.remover_miembro(miembro)
+        clanAsesino.agregar_miembro(miembro)
+    
 def eliminarPersonaje(objetivo, asesino):
     if objetivo.titulo=="Founder":
         text_speed(f"⚔️ The Fall of the Founder ⚔️\n\n Today, the kingdom is tinged with shadows with the death of {objetivo.nombre},\n founder of the glorious {objetivo.clan} clan. His days of leadership \n and bravery have come to an end, slain in battle by the {asesino.clan} clan.\n\n        According to the ancient laws of the kingdom, \n the members of the {objetivo.clan} clan\n must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. \nMay your spirit live under a new banner.",0.02)
         fundadores.remove(objetivo)
-        #en este punto se debe implementar ya sea la muerte de los miembros del clan derrotado o el paso de los mismos al clan asesino
+        # funcion para pasar os miembros de un clan a otro
+        reclutarMiembros(objetivo.clan, asesino.clan)
         print()
         input("ENTER to continue...")
     elif objetivo.titulo=="Archer":
@@ -206,6 +219,9 @@ def eliminarPersonaje(objetivo, asesino):
     for clan in clanes:
         if clan.nombre == objetivo.clan:
             clan.remover_miembro(objetivo)
+    if len(fundadores) < 2:
+        return True  #ganador
+    return False #continua la ronda
             
 def informacionClanes():
     opc = 0
@@ -368,7 +384,7 @@ if __name__=="__main__":
                         #CODIGO PArA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
                         estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
                         if estadoObjetivo == 0:
-                            eliminarPersonaje(objetivo, jugadorEnTurno)
+                            ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                         # ********************************************************
                     elif opc == 2:
                         jugadorEnTurno.crear_pociones()
@@ -385,7 +401,7 @@ if __name__=="__main__":
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                        ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                     print()
                 elif opc == 2:
                     jugadorEnTurno.protector(objetivo)  #el jugador en turno entra en la lista del objetivo (lista de protectores)
@@ -404,14 +420,14 @@ if __name__=="__main__":
                 if opc == 1:
                     estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                        ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 3:
                     estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo,"storm meteorite",5)
-                    eliminarPersonaje(objetivo, jugadorEnTurno)
+                    ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 4:
                     estadoObjetivo, objetivo = jugadorEnTurno.ataque_doble(objetivo,"double attack",10)
                     if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                        ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
 
             elif jugadorEnTurno.titulo == "Archer":
                 jugadorEnTurno.mostrar_flechas()
@@ -427,11 +443,11 @@ if __name__=="__main__":
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                        ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 2:
                     estadoObjetivo, objetivo = jugadorEnTurno.flecha_venenosa(objetivo)
                     if estadoObjetivo == 0:
-                        eliminarPersonaje(objetivo, jugadorEnTurno)
+                        ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                     elif estadoObjetivo == 1 and objetivo!=None:
                         lista_envenenados.append(objetivo)
                     else:
@@ -447,7 +463,7 @@ if __name__=="__main__":
                     estadoObjetivo, objetivo, error = jugadorEnTurno.flecha_certera(objetivo,rondas)
                     if error == 0:
                         if estadoObjetivo == 0:
-                            eliminarPersonaje(objetivo, jugadorEnTurno)
+                            ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                     elif error == 1:
                         print(f"This battle is invalid for this attack - battle {rondas}")
                     else:
@@ -465,10 +481,11 @@ if __name__=="__main__":
                     print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
                     input()
             text_speed("ENTER to continue")
-                    
-                    
+            if ganador:
+                nombrarGanador(fundadores, rondas)
+            # Fin del turno jugadorEnTurno 
             
         print(objetivo)
         rondas +=1
         # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
-    nombrarGanador(fundadores, rondas)
+    
