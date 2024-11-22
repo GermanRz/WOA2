@@ -361,7 +361,15 @@ if __name__=="__main__":
                         break
                     elif opcionPersonaje == 2:
                         mago = crearMago("Sorcerer")
-                        opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                        while True:
+                            try:
+                                opcionCrearClan = int(input("Do you want to create your own clan?\n1.YES\n2.NO\nOption: "))
+                                if opcionCrearClan <1 or opcionCrearClan >2:
+                                    text_speed("invalid opcion, please select")
+                                else:
+                                    break
+                            except ValueError:
+                                text_speed("please enter a valid option")
                         if opcionCrearClan == 1:
                             fundador = crearFundador(mago)
                             crearClan(fundador)
@@ -399,6 +407,7 @@ if __name__=="__main__":
 
             cont_turnos += 1
             limpiar_consola()
+            text_speed(f"*** Round: {rondas} ***")
             text_speed(f"*** Turn: {cont_turnos} ***")
             text_speed(f"It's the turn of {jugadorEnTurno.titulo} | {jugadorEnTurno.nombre}")
             objetivo = seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorEnTurno)
@@ -483,14 +492,24 @@ if __name__=="__main__":
             elif jugadorEnTurno.titulo == "Archer":
                 jugadorEnTurno.mostrar_flechas()
                 print()
-                text_speed("1. Attack.")
-                text_speed("2. Poison Arrow")
-                text_speed("3. healing arrow")
-                text_speed("4. create poison arrow")
-                text_speed("5. accurate arrow")
-                text_speed("6. create accurate arrow")
-                text_speed("7. create healing Arrow")
-                opc = int(input("Option: "))
+                while True:
+                            try:
+                                text_speed("1. Attack.")
+                                text_speed("2. Poison Arrow")
+                                text_speed("3. healing arrow")
+                                text_speed("4. create poison arrow")
+                                text_speed("5. accurate arrow")
+                                text_speed("6. create accurate arrow")
+                                text_speed("7. create healing Arrow")
+                                opc = int(input("Option: "))
+                                if opc<1 or opc >7 :
+                                    text_speed("invalid opcion, plase select")
+                                else:
+                                    break
+                            except ValueError:
+                                text_speed("please enter a valid option ")
+                                                
+                
                 if opc == 1:
                     estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
@@ -505,9 +524,11 @@ if __name__=="__main__":
                         print(f"You don't have any poison arrow")
                         input("ENTER to continue...")
                 elif opc == 3:
-                    jugadorEnTurno.flecha_curativa(objetivo)
                     if objetivo in lista_envenenados:
+                        jugadorEnTurno.flecha_curativa(objetivo)
                         lista_envenenados.remove(objetivo)
+                    else:
+                        print("the target is not poisoned")
                 elif opc == 4:
                     jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
@@ -530,8 +551,8 @@ if __name__=="__main__":
                         print("You spent your turn creating a new accurate arrow.")
                 elif opc ==7:
                     jugadorEnTurno.crear_flecha_curativa()
-                    print(f"{jugadorEnTurno.nombre} ahora tiene {jugadorEnTurno.cont_flechas_curativas} flechas curativas")
-                    input()
+                    print(f"{jugadorEnTurno.nombre} now you have {jugadorEnTurno.cont_flechas_curativas} healing arrows")
+            input()
             text_speed("ENTER to continue")
             if ganador:
                 nombrarGanador(fundadores, rondas)
