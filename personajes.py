@@ -68,13 +68,22 @@ class Personaje:
             else:
                 print(f"The {Fore.BLUE} {self.titulo} {Style.RESET_ALL} {self.nombre} has died")
 
-            print(f"The {self.titulo} {self.nombre} has died")
             #si el titulo del objetivo fallecido es un guerrero se debe verificar su lista de protegidos para eliminarse de cada uno de ellos como protector
             if self.titulo == "Warrior":
                 if len(self.lst_protegidos)>0:
                     for protegido in self.lst_protegidos:
-                        protegido.lst_protectores.remove(self)
+                        if protegido in self.lst_protectores:
+                            protegido.lst_protectores.remove(self)
             input("ENTER to continue...")
+            
+            '''
+            si matan a un personaje que tiene protectores se debe eliminar el personaje de la lista de proteguidos de cada uno de sus protectores
+            '''
+            if self.lst_protectores:
+                for protector in self.lst_protectores:
+                    if protector in protector.lst_protegidos:
+                        protector.lst_protegidos.remove(self)
+                    
             return 0 #death
     
     # APLICANDO EFECTO DEL VENENO AL OBJETIVO QUITANDO DE A 1 PUNTO DE VIDA

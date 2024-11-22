@@ -13,8 +13,9 @@ class Clan:
         self.cantidadMiembros += 1
         
     def remover_miembro(self, miembro):
-        self.miembros.remove(miembro)
-        self.cantidadMiembros -= 1
+        if miembro in self.miembros:
+            self.miembros.remove(miembro)
+            self.cantidadMiembros -= 1
         
         
     #metodo para calcular la fuerza de los miembros por categoria

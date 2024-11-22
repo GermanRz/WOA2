@@ -44,7 +44,7 @@ def reproducir_musica(audio, time = 1500):
             
             
 # Visualizaciones
-def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
+def imprimirTodosPersonajes(personajes, num_columnas=3, ancho_columna=50):
     """
     Imprime personajes en columnas, con la información de cada personaje en múltiples líneas.
     
@@ -59,27 +59,26 @@ def imprimirTodosPersonajes(personajes, num_columnas=2, ancho_columna=40):
     for fila_inicio in range(0, num_personajes, num_columnas):
         # Obtener el grupo de personajes para esta fila
         grupo_actual = personajes[fila_inicio:fila_inicio + num_columnas]
-        
+                
         # Primera línea: Título y nombre
         for personaje in grupo_actual:
-            print(f"{personaje.color}{personaje.titulo}: {personaje.nombre}           ".ljust(ancho_columna), end="")
+            print(f"{personaje.color}{personaje.titulo}: {personaje.nombre}{Style.RESET_ALL}".ljust(ancho_columna), end="")
         print()
         
         # Segunda línea: Fuerza y puntos de vida
         for personaje in grupo_actual:
-            print(f"Strength: {personaje.fuerza}, Life Points: {personaje.puntos_vida},".ljust(ancho_columna), end="")
+            print(f"{personaje.color}Strength: {personaje.fuerza}, Life Points: {personaje.puntos_vida},{Style.RESET_ALL}".ljust(ancho_columna), end="")
         print()
         
         # Tercera línea: Defensa, ataque y clan
         for personaje in grupo_actual:
-            print(f"Defense: {personaje.defensa}, Attack: {personaje.ataque}, Clan: {personaje.clan}".ljust(ancho_columna), end="")
+            print(f"{personaje.color}Defense: {personaje.defensa}, Attack: {personaje.ataque}, Clan: {personaje.clan}{Style.RESET_ALL}".ljust(ancho_columna), end="")
         print()
         
         # Cuarta línea: Maná
         # for personaje in grupo_actual:
         #     print(f"Defense: {personaje.mana}".ljust(ancho_columna), end="")
-        # print()
-        
+        # print()       
         
         # Línea en blanco entre grupos de personajes y reseteo de color
         print(f"{Style.RESET_ALL}")

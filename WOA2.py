@@ -52,11 +52,12 @@ def buscarClan(clanes, jugador):
             return clan_personaje 
     
 
-def seleccionarClan(personaje):
+def seleccionarClan(personaje, nombreClan = None):
     asignado = False
     while not asignado:
         for index, clan in enumerate(clanes):
-            text_speed(f"{index+1} : {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL}")
+            if clan.nombre!=nombreClan:
+                text_speed(f"{index+1} : {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL}")
         print()
         nombreClan = input("Enter the name of the clan -> ").upper()
         for clan in clanes:
@@ -71,66 +72,68 @@ def seleccionarClan(personaje):
 
 
 def seleccionarObjetivo(clanes, fundadores, magos, guerreros, arqueros, jugadorTurno):
-    text_speed("-- Selection mode --", 0)
-    text_speed("-- Select your goal --", 0)
-    text_speed("1. By clan.", 0)
-    text_speed("2. List all characters.", 0)
-    text_speed("3. Attack by title.", 0)
-    opcion = int(input("Choose an option: "))
-    limpiar_consola()
-    if opcion == 1:
-        text_speed("clan list")
-        for index, clan in enumerate(clanes):
-            print(f"{index+1} {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL}")
-        indexClan = int(input("Select clan number: ")) - 1
-        if 0 <= indexClan < len(clanes):# es igual que indexClan >= 0 or indexClan < len(clanes)
-            clan = clanes[indexClan]
-            text_speed(f"clan's members {clan.nombre}")
-            clan.listar_miembros()
-            nombreObjetivo = input("Enter the name of your target : ").upper()
-            for miembro in clan.miembros:
-                if nombreObjetivo == miembro.nombre:
-                    return miembro
+    while True:
+        text_speed("-- Selection mode --", 0)
+        text_speed("-- Select your goal --", 0)
+        text_speed("1. By clan.", 0)
+        text_speed("2. List all characters.", 0)
+        text_speed("3. Attack by title.", 0)
+        try:
+            opcion = int(input("Choose an option: "))
+            limpiar_consola()
+            if opcion == 1:
+                text_speed("clan list")
+                for index, clan in enumerate(clanes):
+                    print(f"{index+1} {Fore.MAGENTA} {clan.nombre} {Style.RESET_ALL}")
+                indexClan = int(input("Select clan number: ")) - 1
+                if 0 <= indexClan < len(clanes):# es igual que indexClan >= 0 or indexClan < len(clanes)
+                    clan = clanes[indexClan]
+                    text_speed(f"clan's members {clan.nombre}")
+                    clan.listar_miembros()
+                    nombreObjetivo = input("Enter the name of your target : ").upper()
+                    for miembro in clan.miembros:
+                        if nombreObjetivo == miembro.nombre:
+                            return miembro
+                    return None
+                else:
+                    print("Invalid clan")
+
+            if opcion == 2:
+                listaPersonajes = fundadores + magos + guerreros + arqueros
+                text_speed("list of all characters")
+                text_speed(f"player turn : {jugadorTurno.nombre}")
+                imprimirTodosPersonajes(listaPersonajes)
+                nombreObjetivo = input("Enter the name of your target: ").upper()
+                for miembro in listaPersonajes:
+                    if nombreObjetivo == miembro.nombre:
+                        return miembro
+                return None
+
+            if opcion == 3:
+                text_speed("Title to list", 0)
+                text_speed(Fore.BLUE + "1. Founders", 0)
+                text_speed(Fore.GREEN + "2. Sorcerers", 0)
+                text_speed(Fore.RED + "3. warriors", 0)
+                text_speed(Fore.CYAN + f"4. Archers {Style.RESET_ALL}", 0)
+                tipo = int(input("Enter your option: "))
+                if tipo == 1:
+                    listaObjetivos = fundadores
+                elif tipo == 2:
+                    listaObjetivos = magos
+                elif tipo == 3:
+                    listaObjetivos = guerreros
+                elif tipo == 4:
+                    listaObjetivos = arqueros
+                text_speed("Characters:")
+                imprimirTodosPersonajes(listaObjetivos)
+                nombreObjetivo = input("Enter the name of your target: ").upper()
+                for miembro in listaObjetivos:
+                    if nombreObjetivo == miembro.nombre:
+                        return miembro
+                return None
+        except:
+            text_speed("Invalid option, next turn")
             return None
-        else:
-            print("Invalid clan")
-
-    if opcion == 2:
-        listaPersonajes = fundadores + magos + guerreros + arqueros
-        text_speed("list of all characters")
-        text_speed(f"player turn : {jugadorTurno.nombre}")
-        imprimirTodosPersonajes(listaPersonajes)
-        nombreObjetivo = input("Enter the name of your target: ").upper()
-        for miembro in listaPersonajes:
-            if nombreObjetivo == miembro.nombre:
-                return miembro
-        return None
-
-    if opcion == 3:
-        text_speed("Title to list", 0)
-        text_speed(Fore.BLUE + "1. Founders", 0)
-        text_speed(Fore.GREEN + "2. Sorcerers", 0)
-        text_speed(Fore.RED + "3. warriors", 0)
-        text_speed(Fore.CYAN + f"4. Archers {Style.RESET_ALL}", 0)
-        tipo = int(input("Enter your option: "))
-        if tipo == 1:
-            listaObjetivos = fundadores
-        elif tipo == 2:
-            listaObjetivos = magos
-        elif tipo == 3:
-            listaObjetivos = guerreros
-        elif tipo == 4:
-            listaObjetivos = arqueros
-        text_speed("Characters:")
-        imprimirTodosPersonajes(listaObjetivos)
-        nombreObjetivo = input("Enter the name of your target: ").upper()
-        for miembro in listaObjetivos:
-            if nombreObjetivo == miembro.nombre:
-                return miembro
-        return None
-
-    text_speed("Invalid option")
-    return None
 
 
 def organizarTurno(lst_pjs):
@@ -194,31 +197,78 @@ def reclutarMiembros(clanOrigen, clanDestino):
     victimas = [miembro for miembro in clanObjetivo.miembros]
     for miembro in victimas:
         miembro.clan = clanDestino
-        clanObjetivo.remover_miembro(miembro)
-        clanAsesino.agregar_miembro(miembro)
+        if miembro in clanObjetivo.miembros:
+            if miembro.titulo != "Founder":
+                clanObjetivo.remover_miembro(miembro)
+                clanAsesino.agregar_miembro(miembro)
+                text_speed(f"el miembro {miembro} ha sido reclutado por {clanAsesino.nombre}\n")
     
 def eliminarPersonaje(objetivo, asesino):
     if objetivo.titulo=="Founder":
         text_speed(f"⚔️ The Fall of the Founder ⚔️\n\n Today, the kingdom is tinged with shadows with the death of {objetivo.nombre},\n founder of the glorious {objetivo.clan} clan. His days of leadership \n and bravery have come to an end, slain in battle by the {asesino.clan} clan.\n\n        According to the ancient laws of the kingdom, \n the members of the {objetivo.clan} clan\n must now bow to their new destiny, becoming part of the victorious {asesino.clan} clan. \nMay your spirit live under a new banner.",0.02)
-        fundadores.remove(objetivo)
-        # funcion para pasar os miembros de un clan a otro
-        reclutarMiembros(objetivo.clan, asesino.clan)
+        if objetivo in fundadores:
+            fundadores.remove(objetivo)
+        # funcion para pasar los miembros de un clan a otro
+        if objetivo.clan != asesino.clan:
+            reclutarMiembros(objetivo.clan, asesino.clan)
+        else:
+            #Remover todos los miembros del clan menos al asesino el debe escoger un clan de destino
+            for clan in clanes:
+                if clan.nombre == objetivo.clan:
+                    clanObjetivo = clan
+                    break
+            for miembro in clanObjetivo.miembros:
+                if miembro.nombre != asesino.nombre:
+                    if miembro in clanObjetivo.miembros:
+                        clanObjetivo.remover_miembro(miembro)
+                        # eliminar de todas las listas
+                        if miembro in guerreros:
+                            guerreros.remove(miembro)
+                        if miembro in magos:
+                            magos.remove(miembro)
+                        if miembro in arqueros:
+                            arqueros.remove(miembro)
+                        if miembro in lista_personajes:
+                            lista_personajes.remove(miembro)                         
+                            
+            seleccionarClan(asesino, asesino.clan)
         print()
         input("ENTER to continue...")
+        
     elif objetivo.titulo=="Archer":
-        arqueros.remove(objetivo)
+        if objetivo in arqueros:
+            arqueros.remove(objetivo)
+        else:
+            print("Objetivo no ha sido removido")
+            
     elif objetivo.titulo=="Sorcerer":
-        magos.remove(objetivo)
+        if objetivo in magos:
+            magos.remove(objetivo)
+        else:
+            print("Objetivo no ha sido removido")
+                    
     else:
-        guerreros.remove(objetivo)
+        if objetivo in guerreros:
+            guerreros.remove(objetivo)
+        else:
+            print("Objetivo no ha sido removido")            
         #en este punto se debe inhablitar la defensa de los protegidos por este guerrero
         
-    #remover de los jugadores activos        
-    turnos_ordenados.remove(objetivo)
-    # remover del clan
+    #remover de los jugadores activos
+    if objetivo in turnos_ordenados:      
+        turnos_ordenados.remove(objetivo)
+        
+    # remover de la lista de clanes 
     for clan in clanes:
         if clan.nombre == objetivo.clan:
-            clan.remover_miembro(objetivo)
+            if objetivo in clan.miembros:
+                clan.remover_miembro(objetivo)
+                break
+                
+    # remover de ala lista de jugadores
+    if objetivo in lista_personajes:
+        lista_personajes.remove(objetivo)
+        
     if len(fundadores) < 2:
         return True  #ganador
     return False #continua la ronda
@@ -336,6 +386,7 @@ if __name__=="__main__":
     #Mientras que existe más de un fundador
     rondas = 1
     # ?Mientras que existe más de un fundador
+    ganador = False
     while len(fundadores)>1:
 
         informacionClanes()
@@ -455,7 +506,8 @@ if __name__=="__main__":
                         input("ENTER to continue...")
                 elif opc == 3:
                     jugadorEnTurno.flecha_curativa(objetivo)
-                    lista_envenenados.remove(objetivo)
+                    if objetivo in lista_envenenados:
+                        lista_envenenados.remove(objetivo)
                 elif opc == 4:
                     jugadorEnTurno.crear_flecha_venenosa()
                     print("You spent your turn creating a new poision arrow.")
@@ -483,9 +535,11 @@ if __name__=="__main__":
             text_speed("ENTER to continue")
             if ganador:
                 nombrarGanador(fundadores, rondas)
-            # Fin del turno jugadorEnTurno 
+                break
+            # Fin del turno jugadorEnTurno
             
         print(objetivo)
         rondas +=1
         # Fin de la ronda (for jugadorEnTurno in turnos_ordenados:)
+    imprimirTodosPersonajes(lista_personajes)
     
