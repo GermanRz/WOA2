@@ -1,6 +1,12 @@
 import random
 from resources import *
-from WOA2 import lista_personajes
+import colorama
+from colorama import Fore, Style
+
+colorama.init()#esto es necesario para iniciar la clase colorama
+
+
+from resources import text_speed
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -8,6 +14,7 @@ class Personaje:
         self.titulo = titulo
         self.clan = clan
         self.lst_protectores = []
+        self.lst_protegidos = []
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -121,34 +128,7 @@ class Guerrero(Personaje):
 
     def protegido(self, protegido):
         self.lst_protegidos.append(protegido)
-    
-    def ataque_tornado(self, clanes, rondas):
-        if self.puntos_vida >= 100 and rondas % 2 == 0:
-            clan_filtrado = [clan for clan in clanes if clan.nombre != self.clan]
-            
-            for index, clan in enumerate(clan_filtrado):
-                text_speed(f"{index+1} | {clan.nombre}")
-
-            while True:
-                try:
-                    opc = int(input("Select your choice: ")) - 1
-                    if 0 <= opc < len(clanes):
-                        clan = clanes[opc] #Se elige el clan a atacar
-                        miembros_clan = clan.miembros # Se instancian los miembros
-                        text_speed(f"¡The warrior({self.nombre}) shed blood from each member of the clan: {clan.nombre}🩸⚔️\n")
-                                
-                        for miembro in miembros_clan:
-                            self.realizar_ataque(miembro, "Tornado attack! 🌪️", 2)
-                            text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked by Tornado attack! 🌪️ of the Warrior {self.nombre} !\n")
-                            print()
-                        return miembro
-                    else:
-                        text_speed(f"That clan doesn't even exist")
-                except ValueError:
-                    text_speed("INVALID OPTION, PLEASE TRY AGAIN")
-        else:
-            print("I can´t cast the tornado attack in this time...")
-            input("press ENTER to continue")
+        
 #***********************************************************************
 
 class Mago(Personaje):
@@ -216,6 +196,7 @@ class Arquero(Personaje):
         self.count_certera = 1
         self.cont_flechas_curativas = 2
         
+        
     def mostrar_flechas(self):
         print(f"{self.nombre} have: {self.count_venenosa} poison arrows.")
         print(f"{self.nombre} have: {self.cont_flechas_curativas} healing arrows.")
@@ -239,6 +220,8 @@ class Arquero(Personaje):
         
     
     def flecha_curativa(self, objetivo):        
+        curacion = round(self.vida_original * 0.01)  
+        objetivo.puntos_vida += curacion
         self.cont_flechas_curativas -= 1
         # Asegurarnos de que no supere los puntos de vida originales
         if objetivo.puntos_vida < objetivo.vida_original:
@@ -257,10 +240,14 @@ class Arquero(Personaje):
             return 1 #ronda no valida
         elif self.count_certera < 1:
             return 2 #no hay flechas certeras disponibles
+        if  objetivo.lst_protectores:
+            print(f"{objetivo.nombre} was protected")
         else:
+            print(f"{objetivo.nombre} was notprotected")
             estadoObjetivo, objetivo = self.realizar_ataque(objetivo, "accurate arrow")
             self.count_certera -= 1
             return estadoObjetivo, objetivo, 0  #estado 0, no se presentaon errores
+        
         
     def crear_flecha_certera(self, ronda):
         if ronda % 1 != 0:
