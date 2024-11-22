@@ -1,3 +1,4 @@
+
 '''
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
@@ -169,22 +170,21 @@ def organizarTurno(lst_pjs):
 
 def listarTodoElStaff():
     global lista_personajes
+    #Agregar a lista_personajes todos las clases según se vayan creando
     lista_personajes = fundadores + magos + guerreros + arqueros
     text_speed("List of all the characters present in the game: ")
     text_speed("--***---***--***---***--***---***", 0)
     for pj in lista_personajes:
         if pj.titulo == "Warrior":
-            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Sorcerer":
-            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         elif pj.titulo == "Archer":
-            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
         else:
-            text_speed(f"Title: {pj.color}{pj.titulo}{Style.RESET_ALL} | Name: {pj.nombre}")
-        text_speed(f"Strength: {pj.fuerza}, Life Points: {pj.puntos_vida}, Defense: {pj.defensa}, Attack: {pj.ataque}")
-        text_speed(pj.mostrar_barra_mana())
-        text_speed("---------------------------")
+            text_speed(f"Title: {pj.color} {pj.titulo} {Style.RESET_ALL} | Name: {pj.nombre}")
     text_speed("--***---***--***---***--***---***", 0)
+    # time.sleep(2)
     input("ENTER to continue...")
     print()
 
@@ -407,22 +407,19 @@ if __name__=="__main__":
             elif jugadorEnTurno.titulo == "Sorcerer":
                 jugadorEnTurno.regeneracion_mana()
                 text_speed("1. Attack.")
-                # text_speed("2. cure. (NO IMPLEMENTADO)")
-                text_speed("3. Meteorite storm ☄")
-                text_speed("4. Double attack")
+                text_speed("2. cure. ")
+                text_speed("3. Double attack")
                 opc = int(input("Option: "))
                 if opc == 1:
                     estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
+                elif opc == 2:
+                        jugadorEnTurno.conceder_curacion(lista_personajes,objetivo)
                 elif opc == 3:
-                    estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo,"storm meteorite",5)
-                    eliminarPersonaje(objetivo, jugadorEnTurno)
-                elif opc == 4:
-                    estadoObjetivo, objetivo = jugadorEnTurno.ataque_doble(objetivo,"double attack",10)
+                    estadoObjetivo, objetivo = jugadorEnTurno.ataque_doble(objetivo)
                     if estadoObjetivo == 0:
                         eliminarPersonaje(objetivo, jugadorEnTurno)
-
             elif jugadorEnTurno.titulo == "Archer":
                 jugadorEnTurno.mostrar_flechas()
                 print()

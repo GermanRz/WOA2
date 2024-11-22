@@ -1,6 +1,8 @@
+
 import random
 from resources import *
 from WOA2 import lista_personajes
+from tqdm import tqdm
 
 class Personaje:
     def __init__(self, nombre, titulo, clan = None):
@@ -8,11 +10,6 @@ class Personaje:
         self.titulo = titulo
         self.clan = clan
         self.lst_protectores = []
-        self.barra_mana = 50
-
-    def mostrar_barra_mana(self):
-        barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
-        return f"Mana: {self.barra_mana}/100 {barra}"    
 
     def asignar_clan(self, clan):
         self.clan = clan
@@ -103,8 +100,8 @@ class Personaje:
         return (f"{self.titulo}: {self.nombre} - "
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
                 f"Defense: {self.defensa}, Attack: {self.ataque}, "
-                f"Clan: {self.clan}\n"
-                f"{self.mostrar_barra_mana()}")
+                f"Clan: {self.clan}")
+                # f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
 
         
 #***********************************************************************
@@ -158,7 +155,7 @@ class Guerrero(Personaje):
 
 class Mago(Personaje):
     cont_pociones_mago = 0
-    def __init__(self, nombre, titulo = "Sorcerer", color = Fore.GREEN):
+    def __init__(self, nombre, titulo="Sorcerer", color=Fore.GREEN):
         super().__init__(nombre, titulo)
         self.fuerza = 80
         self.puntos_vida = 100
@@ -166,27 +163,42 @@ class Mago(Personaje):
         self.ataque = 90
         self.color = color
         self.bolsillo_pociones_mago = []
+        self.barra_mana = 50
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        self.barra_mana = 50
-        
+        # Solo mostrar la barra de mana si es un Mago directamente
+        if type(self) is Mago:
+            print(f"\n{Fore.CYAN}✧ {self.nombre}'s Mana ✧{Style.RESET_ALL}")
+            self.mostrar_barra_mana()
+
+    def mostrar_barra_mana(self):
+        # Solo mostrar si es la clase Mago directamente
+        if type(self) == Mago:
+            with tqdm(total=100, 
+                     bar_format='{desc}{percentage:3.0f}%|{bar}|',
+                     desc=f"{Fore.CYAN}🔮 {Style.RESET_ALL}",
+                     ncols=50,
+                     colour='blue') as pbar:
+                pbar.n = self.barra_mana
+                pbar.refresh()
+    
     def regeneracion_mana(self):
         regeneracion = random.randint(5, 25)
         self.barra_mana += regeneracion
         if self.barra_mana > 100:
             self.barra_mana = 100
-        print(f"{self.nombre} ha regenerado {regeneracion} de mana. Barra de mana: {self.barra_mana}")
+        print(f"{self.nombre} genereated {regeneracion} of mana. mana's bar: {self.barra_mana}")
         
 
     def usar_hechizo(self, costo_mana):
         if self.barra_mana >= costo_mana:
             self.barra_mana -= costo_mana
-            print(f"{self.nombre} ha usado un hechizo. Costo de mana: {costo_mana}. Barra de mana: {self.barra_mana}")
+            print(f"{self.nombre} used a spell. Mana cost: {costo_mana}. Mana's bar: {self.barra_mana}")
         else:
-            print(f"{self.nombre} no tiene suficiente mana para usar el hechizo.")
+            print(f"{self.nombre} haven't enough mana to use this spell.")
 
 
     def ataque_doble(self, objetivo):
@@ -199,6 +211,39 @@ class Mago(Personaje):
                 f"Strength: {self.fuerza}, Life Points: {self.puntos_vida}, "
                 f"Defense: {self.defensa}, Attack: {self.ataque}, "
                 f"Clan: {self.clan}, Mana Bar: {self.barra_mana}")
+        
+    def conceder_curacion(self, lst_pjs, pj_receptor):
+        for index, pj in enumerate(lst_pjs):
+            print(f"{index + 1} | {pj.titulo} {pj.nombre}")
+        
+        while True:
+            try:
+                opc = input(f"Select number of the character that you wanna heal with the potion (or type 'exit' to cancel): ")
+                if opc.lower() == 'exit':
+                    print("Operation cancelled.")
+                    return pj_receptor  # Salir de la función si el usuario cancela
+                
+                opc = int(opc) - 1  # Convertir a entero y ajustar el índice
+                if 0 <= opc < len(lst_pjs):  # Verifica que la opción esté en la lista
+                    if self.cont_pociones_mago > 0:
+                        pj_receptor = lst_pjs[opc]  # En la posición que se eligió en la opción
+                        self.pj_receptor = pj_receptor  # PJ como un objeto
+                        curacion = self.bolsillo_pociones_mago.pop()  # Saca la poción del bolsillo
+                        self.cont_pociones_mago -= 1  # Decrementa el contador de pociones
+                        text_speed(f"{self.nombre} has used a healing potion 🥤 on {self.pj_receptor.nombre}")
+                        pj_receptor.fuerza += curacion
+                        pj_receptor.puntos_vida += curacion
+                        pj_receptor.defensa += curacion
+                        pj_receptor.ataque += curacion
+                        input("Press ENTER to continue! ")
+                    else:
+                        input("No more potions left!")
+                    return pj_receptor
+                else:
+                    input("That character doesn't even exist!")
+            except ValueError:
+                input("Invalid option, please enter a number.")
+
         
 
 #***********************************************************************
@@ -284,21 +329,23 @@ class Arquero(Personaje):
 
 class Fundador(Mago):
     cont_pociones_fundador = 0
-    def __init__(self, nombre):
-        super().__init__(nombre, "Founder")
+    def __init__(self, nombre, color = Fore.BLUE):
+        Personaje.__init__(self, nombre, "Founder")
         self.fuerza = 100
         self.puntos_vida = 110
         self.defensa = 110
         self.ataque = 110
-        # Guardamos los valores máximos/iniciales de cada atributo
+        self.color = color
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
         self.defensa_original = self.defensa
         self.ataque_original = self.ataque
-        self.slot_pociones = []
+        self.bolsillo_pociones_fundador = []
+        self.estado_ataque_final = False
+        self.mana = None
         text_speed(f"{self.nombre} has founded a clan.")
 
-
+ 
     def mostrar_barra_mana(self):
         barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
         return f"Mana: {self.barra_mana}/100 {barra}"    
@@ -463,37 +510,6 @@ class Fundador(Mago):
         text_speed(f"-Strength: {self.fuerza}\n-Life Points: {self.puntos_vida}\n-Defense: {self.defensa}\n-Attack: {self.ataque}")
 #***********************************************************************
 
-if __name__=="__main__":
-    fundador = Fundador("f")
-    arquero1 = Arquero("a1")
-    guerrero1 = Guerrero("g1")
-    guerrero2 = Guerrero("g2")
-    mago1 = Mago("m1")
-    
-    arquero1.flecha_venenosa(guerrero1)
-    print(guerrero1)
-    print()
-    arquero1.realizar_ataque(guerrero2)
-    print(guerrero2)    
-    
-    
-    arquero2 = Arquero("a2")
-    arquero3 = Arquero("a3")
-    arquero4 = Arquero("a4")
-    arquero5 = Arquero("a5")
 
-    # arquero1.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero2.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero5.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(arquero5)
-    # print(arquero5)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    # arquero4.flecha_venenosa(fundador)
-    # print(fundador)
-    pass
+if __name__ == "__main__":
+ pass

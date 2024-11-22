@@ -37,7 +37,6 @@ class Clan:
         print(f"The clan {self.nombre} has {self.cantidadMiembros} members")
         for miembro in self.miembros:
             print(miembro)
-            print(f"Mana Bar: {miembro.mostrar_barra_mana()}")
             fuerzaClan += miembro.fuerza
             vidaClan += miembro.puntos_vida
             defensaClan += miembro.defensa
