@@ -52,9 +52,7 @@ class Clan:
         cantidad, fuerza, vida, defensa, ataque = self.info_miembros("Founder")
         print(f"Clan {self.nombre} statistics") 
         print(f"Founder {self.fundador} | Strength({fuerzaClan}), Life({vidaClan}) Defense({defensaClan}) strike force({ataqueClan})")
-      
             
-
 #***********************************************************************
 
 if __name__=="__main__":

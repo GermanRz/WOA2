@@ -298,7 +298,7 @@ class Fundador(Mago):
         self.slot_pociones = []
         text_speed(f"{self.nombre} has founded a clan.")
 
- 
+
     def mostrar_barra_mana(self):
         barra = '|' + '█' * (self.barra_mana // 5) + '░' * ((100 - self.barra_mana) // 5) + '|'
         return f"Mana: {self.barra_mana}/100 {barra}"    
