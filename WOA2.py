@@ -442,7 +442,7 @@ if __name__=="__main__":
                     if opc == 1:
                         # ********************************************************
                         #CODIGO PArA VERIFICAR LA MUERTE DEL OBJETIVO  IMPORTANTE DESPUES DE CADA ATAQUE
-                        estadoObjetivo=jugadorEnTurno.realizar_ataque(objetivo)
+                        estadoObjetivo, objetivo=jugadorEnTurno.realizar_ataque(objetivo)
                         if estadoObjetivo == 0:
                             ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                         # ********************************************************
@@ -483,7 +483,8 @@ if __name__=="__main__":
                         ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 3:
                     estadoObjetivo, objetivo = jugadorEnTurno.realizar_ataque(objetivo,"storm meteorite",5)
-                    ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
+                    if estadoObjetivo == 0:
+                        ganador = eliminarPersonaje(objetivo, jugadorEnTurno)
                 elif opc == 4:
                     estadoObjetivo, objetivo = jugadorEnTurno.ataque_doble(objetivo,"double attack",10)
                     if estadoObjetivo == 0:

@@ -246,9 +246,9 @@ class Arquero(Personaje):
         
     def flecha_certera(self, objetivo, ronda):
         if ronda % 1 !=0:
-            return 1 #ronda no valida
+            return 1, objetivo, 1 #ronda no valida
         elif self.count_certera < 1:
-            return 2 #no hay flechas certeras disponibles
+            return 1, objetivo, 2 #no hay flechas certeras disponibles
         if  objetivo.lst_protectores:
             print(f"{objetivo.nombre} was protected")
         else:
