@@ -224,6 +224,14 @@ class Mago(Personaje):
                         pj_receptor.puntos_vida += curacion
                         pj_receptor.defensa += curacion
                         pj_receptor.ataque += curacion
+                        if pj_receptor.fuerza > pj_receptor.fuerza_original:
+                            pj_receptor.fuerza = pj_receptor.fuerza_original
+                        if pj_receptor.puntos_vida > pj_receptor.vida_original:
+                            pj_receptor.puntos_vida = pj_receptor.vida_original
+                        if pj_receptor.defensa > pj_receptor.defensa_original:
+                            pj_receptor.defensa = pj_receptor.defensa_original
+                        if pj_receptor.ataque > pj_receptor.ataque_original:
+                            pj_receptor.ataque = pj_receptor.ataque_original 
                         input("Press ENTER to continue! ")
                     else:
                         input("No more potions left!")
