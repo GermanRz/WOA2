@@ -342,7 +342,7 @@ class Fundador(Mago):
         self.ataque_original = self.ataque
         self.bolsillo_pociones_fundador = []
         self.estado_ataque_final = False
-        self.mana = None
+        self.barra_mana = None
         text_speed(f"{self.nombre} has founded a clan.")
 
     def crear_pociones(self):
