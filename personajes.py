@@ -33,6 +33,10 @@ class Personaje:
             "Warrior": pygame.mixer.Sound("Efectos-sonido/Espadazo.flac"),
             "Archer": pygame.mixer.Sound("Efectos-sonido/Flechazo.mp3")
         }
+        
+        if self.titulo in sonidos.keys():
+            sonidos[self.titulo].play()
+        
         # verificar si el objetivo tiene protectores
         if len(objetivo.lst_protectores)>0 and txtAtaque!="accurate arrow":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
