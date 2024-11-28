@@ -110,7 +110,23 @@ class Personaje:
     #FIN
 
     def protector(self, objetivo):
-        objetivo.lst_protectores.append(self)
+        if self in objetivo.lst_protectores:
+            print(f"¡{self.nombre} is already protecting {objetivo.nombre}!")
+        else:
+            objetivo.lst_protectores.append(self)
+            if objetivo == self:
+                print(f"{self.nombre} is now protecting itself!")
+            else:
+                print(f"{self.nombre} pass out from protecting itself, and now is protecting {objetivo.nombre}!")
+                
+    def protegido(self, protegido):
+        # Verifica si el personaje se está protegiendo a sí mismo
+        if protegido == self:
+            print(f"{self.nombre} is now protecting itself!")
+        else:
+            print(f"{self.nombre} is now protecting {protegido.nombre}!")
+
+        self.lst_protegidos.append(protegido)
 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre} - "
@@ -139,6 +155,11 @@ class Guerrero(Personaje):
 
     def protegido(self, protegido):
         self.lst_protegidos.append(protegido)
+        
+    def protegerse(self):
+        print(f"¡{self.nombre} is starting to protect itself!")
+        self.protector(self)
+        self.protegido(self)
         
 #***********************************************************************
 
