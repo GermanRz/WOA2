@@ -3,7 +3,6 @@
 Se importan las librerias de sys y time para que funcionen con text_speed
 '''
 import random, os
-import threading
 from personajes import *
 from clanes import *
 

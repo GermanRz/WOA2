@@ -3,9 +3,14 @@ Archivo para recursos generales de WOA2
 '''
 import sys, time, pygame
 import colorama
-from colorama import Fore, Style
+from colorama import Style
 
-colorama.init()#esto es necesario para iniciar la clase colorama
+#INICIAR LOS EFECTOS DE SONIDO Y LA MÚSICA
+pygame.mixer.init() # Inicia la música
+
+# * INICIAR EL COLORAMA *
+colorama.init() # Esto es necesario para iniciar la clase colorama
+
 '''Función para mostrar el texto de manera incremental.
 text: Es el texto a mostrar
 velocity: La velocidad en la que se va mostrar (por defecto es de 0.05)

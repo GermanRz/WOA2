@@ -27,6 +27,16 @@ class Personaje:
     intensidadAtaque: valor entero de la intensidad del ataque.   default = 5
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
+        sonidos = {
+            "Founder": pygame.mixer.Sound("Efectos-sonidos/ataque-magico-fundador.wav"),
+            "Sorcerer": pygame.mixer.Sound("Efectos-sonidos/ataque-magico-mago.wav"),
+            "Warrior": pygame.mixer.Sound("Efectos-sonidos/Espadazo.flac"),
+            "Archer": pygame.mixer.Sound("Efectos-sonidos/Flechazo.mp3")
+        }
+        
+        if self.titulo in sonidos.keys():
+            sonidos[self.titulo].play()
+        
         # verificar si el objetivo tiene protectores
         if len(objetivo.lst_protectores)>0 and txtAtaque!="accurate arrow":
             objetivo = objetivo.lst_protectores.pop(0)  #el nuevo objetivo es el primer protector
