@@ -28,10 +28,10 @@ class Personaje:
     '''
     def realizar_ataque(self, objetivo, txtAtaque=" ", intensidadAtaque=5):
         sonidos = {
-            "Founder": pygame.mixer.Sound("Efectos-sonido/ataque-magico-fundador.wav"),
-            "Sorcerer": pygame.mixer.Sound("Efectos-sonido/ataque-magico-mago.wav"),
-            "Warrior": pygame.mixer.Sound("Efectos-sonido/Espadazo.flac"),
-            "Archer": pygame.mixer.Sound("Efectos-sonido/Flechazo.mp3")
+            "Founder": pygame.mixer.Sound("Efectos-sonidos/ataque-magico-fundador.wav"),
+            "Sorcerer": pygame.mixer.Sound("Efectos-sonidos/ataque-magico-mago.wav"),
+            "Warrior": pygame.mixer.Sound("Efectos-sonidos/Espadazo.flac"),
+            "Archer": pygame.mixer.Sound("Efectos-sonidos/Flechazo.mp3")
         }
         
         if self.titulo in sonidos.keys():
