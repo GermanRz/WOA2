@@ -49,7 +49,7 @@ def reproducir_musica(audio, time = 1500):
             
             
 # Visualizaciones
-def imprimirTodosPersonajes(personajes, num_columnas=3, ancho_columna=50):
+def imprimirTodosPersonajes(personajes, num_columnas=3, ancho_columna=55):
     """
     Imprime personajes en columnas, con la información de cada personaje en múltiples líneas.
     

@@ -171,6 +171,34 @@ class Guerrero(Personaje):
         self.protector(self)
         self.protegido(self)
         
+    def ataque_tornado(self, clanes, rondas):
+        if self.puntos_vida >= 100 and rondas % 2 == 0:
+            clan_filtrado = [clan for clan in clanes if clan.nombre != self.clan]
+
+            for index, clan in enumerate(clan_filtrado):
+                text_speed(f"{index+1} | {clan.nombre}")
+
+            while True:
+                try:
+                    opc = int(input("Select your choice: ")) - 1
+                    if 0 <= opc < len(clanes):
+                        clan = clanes[opc] #Se elige el clan a atacar
+                        miembros_clan = clan.miembros # Se instancian los miembros
+                        text_speed(f"¡The warrior({self.nombre}) shed blood from each member of the clan: {clan.nombre}🩸⚔️\n")
+
+                        for miembro in miembros_clan:
+                            self.realizar_ataque(miembro, "Tornado attack! 🌪️", 2)
+                            text_speed(f"{miembro.nombre} of the clan {clan.nombre} has been attacked by Tornado attack! 🌪️ of the Warrior {self.nombre} !\n")
+                            print()
+                        return miembro
+                    else:
+                        text_speed(f"That clan doesn't even exist")
+                except ValueError:
+                    text_speed("INVALID OPTION, PLEASE TRY AGAIN")
+        else:
+            print("I can´t cast the tornado attack in this time...")
+            input("press ENTER to continue")        
+        
 #***********************************************************************
 
 class Mago(Personaje):
@@ -183,7 +211,7 @@ class Mago(Personaje):
         self.ataque = 90
         self.color = color
         self.bolsillo_pociones_mago = []
-        self.barra_mana = 50
+        self.barra_mana = 100 #50
         # Guardamos los valores máximos/iniciales de cada atributo
         self.fuerza_original = self.fuerza
         self.vida_original = self.puntos_vida        
@@ -225,6 +253,7 @@ class Mago(Personaje):
         if self.barra_mana == 100:
             print(f"{self.nombre} launches double attack {objetivo.nombre}!")
             estado_objetivo = self.realizar_ataque(objetivo,"double attack",10)
+            return estado_objetivo, objetivo
 
     def __str__(self):
         return (f"{self.titulo}: {self.nombre}\n"
@@ -334,7 +363,7 @@ class Arquero(Personaje):
             print("you can only have two healing arrows")
         
     def flecha_certera(self, objetivo, ronda):
-        if ronda % 1 !=0:
+        if ronda % 4 !=0:
             return 1, objetivo, 1 #ronda no valida
         elif self.count_certera < 1:
             return 1, objetivo, 2 #no hay flechas certeras disponibles
